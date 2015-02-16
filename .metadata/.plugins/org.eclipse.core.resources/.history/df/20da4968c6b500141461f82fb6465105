@@ -1,0 +1,10 @@
+package com.epam.junit.unittest;
+
+import org.junit.Test;
+
+public class BasicJUnitExampleTest {
+	@Test
+	public void testUltimateAnswerShouldTellEverythingAboutTheUniverse() {
+		
+	}
+}

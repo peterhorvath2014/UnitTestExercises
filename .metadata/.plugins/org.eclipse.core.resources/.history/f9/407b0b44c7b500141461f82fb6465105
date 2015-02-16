@@ -1,0 +1,33 @@
+package com.epam.junit;
+
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Before;
+import org.junit.Test;
+
+public class BasicJUnitExampleTest {
+	private BasicJUnitExample basicJUnitExample;
+	
+	@Before
+	public void setUp() {
+		basicJUnitExample = new BasicJUnitExample();
+	}
+	
+	@Test
+	public void testUltimateAnswerShouldTellEverythingAboutTheUniverse() {
+		//GIVEN in setUp()
+		//WHEN
+		Integer result = basicJUnitExample.ultimateAnswer();
+		//THEN
+		assertEquals(new Integer(42), result);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testBadAnswerShouldThrowAnExceptionWhenInputIs42() {
+		//GIVEN in setUp()
+		//WHEN
+		Integer input = 42;
+		//THEN
+		basicJUnitExample.badAnswer(input);
+	}
+}

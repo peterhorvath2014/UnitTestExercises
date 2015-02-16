@@ -1,0 +1,15 @@
+package com.epam.junit;
+
+import org.junit.Test;
+
+public class BasicJUnitExampleTest {
+	@Test
+	public void testUltimateAnswerShouldTellEverythingAboutTheUniverse() {
+		//GIVEN
+		BasicJUnitExample basicJUnitExample = new BasicJUnitExample();
+		//WHEN
+		Integer result = basicJUnitExample.ultimateAnswer();
+		//THEN
+		assertEquals(new Integer(42), result);
+	}
+}

@@ -1,0 +1,13 @@
+package com.epam.junit.unittest;
+
+import org.junit.Test;
+
+import com.epam.junit.BasicJUnitExample;
+
+public class BasicJUnitExampleTest {
+	@Test
+	public void testUltimateAnswerShouldTellEverythingAboutTheUniverse() {
+		//GIVEN
+		BasicJUnitExample basicJUnitExample = new BasicJUnitExample();
+	}
+}

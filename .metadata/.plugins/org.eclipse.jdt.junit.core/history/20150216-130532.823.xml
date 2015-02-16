@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="BasicJUnitExampleTest" project="basicExample" tests="7" started="7" failures="0" errors="0" ignored="0">
+  <testsuite name="com.epam.junit.BasicJUnitExampleTest" time="0.001">
+    <testcase name="testBadAnswerShouldGiveBackInputIfLessThanTheUltimateAnswer" classname="com.epam.junit.BasicJUnitExampleTest" time="0.0"/>
+    <testcase name="testIsTheUltimateAnswerShouldBeFalseIfInputIsMoreThanTheUltimateAnswer" classname="com.epam.junit.BasicJUnitExampleTest" time="0.0"/>
+    <testcase name="testBadAnswerShouldThrowAnExceptionWhenInputIsTheUltimateAnswer" classname="com.epam.junit.BasicJUnitExampleTest" time="0.0"/>
+    <testcase name="testIsTheUltimateAnswerShouldBeFalseIfInputIsLessThanTheUltimateAnswer" classname="com.epam.junit.BasicJUnitExampleTest" time="0.001"/>
+    <testcase name="testUltimateAnswerShouldTellEverythingAboutTheUniverse" classname="com.epam.junit.BasicJUnitExampleTest" time="0.0"/>
+    <testcase name="testisTheUltimateAnswerShouldBeTrueIfInputIsTheUltimateAnswer" classname="com.epam.junit.BasicJUnitExampleTest" time="0.0"/>
+    <testcase name="testBadAnswerShouldGiveBackInputIfMoreThanTheUltimateAnswer" classname="com.epam.junit.BasicJUnitExampleTest" time="0.0"/>
+  </testsuite>
+</testrun>
