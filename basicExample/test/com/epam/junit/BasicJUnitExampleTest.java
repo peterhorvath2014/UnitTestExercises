@@ -1,26 +1,28 @@
 package com.epam.junit;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class BasicJUnitExampleTest {
-	private BasicJUnitExample basicJUnitExample;
+	private static BasicJUnitExample underTest;
 	private final static Integer LESS_THAN_ULTIMATE = 41;
 	private final static Integer ULTIMATE = 42;
 	private final static Integer MORE_THAN_ULTIMATE = 43;
 	
-	@Before
-	public void setUp() {
-		basicJUnitExample = new BasicJUnitExample();
+	@BeforeClass
+	public static void setUp() {
+		underTest = new BasicJUnitExample();
 	}
 	
 	@Test
 	public void testUltimateAnswerShouldTellEverythingAboutTheUniverse() {
 		//GIVEN in setUp()
 		//WHEN
-		Integer result = basicJUnitExample.ultimateAnswer();
+		Integer result = underTest.ultimateAnswer();
 		//THEN
 		assertEquals(ULTIMATE, result);
 	}
@@ -29,7 +31,7 @@ public class BasicJUnitExampleTest {
 	public void testBadAnswerShouldThrowAnExceptionWhenInputIsTheUltimateAnswer() {
 		//GIVEN in setUp()
 		//WHEN
-		basicJUnitExample.badAnswer(ULTIMATE);
+		underTest.badAnswer(ULTIMATE);
 		//THEN Exception thrown
 	}
 	
@@ -39,7 +41,7 @@ public class BasicJUnitExampleTest {
 		//WHEN
 		Integer input = LESS_THAN_ULTIMATE;
 		//THEN
-		assertEquals(input, basicJUnitExample.badAnswer(input));
+		assertEquals(input, underTest.badAnswer(input));
 	}
 	
 	@Test
@@ -48,16 +50,16 @@ public class BasicJUnitExampleTest {
 		//WHEN
 		Integer input = MORE_THAN_ULTIMATE;
 		//THEN
-		assertEquals(input, basicJUnitExample.badAnswer(input));
+		assertEquals(input, underTest.badAnswer(input));
 	}
 	
 	@Test
-	public void testisTheUltimateAnswerShouldBeTrueIfInputIsTheUltimateAnswer() {
+	public void testIsTheUltimateAnswerShouldBeTrueIfInputIsTheUltimateAnswer() {
 		//GIVEN in setUp()
 		//WHEN
 		Integer input = ULTIMATE;
 		//THEN
-		assertEquals(true, basicJUnitExample.isTheUltimateAnswer(input));
+		assertTrue(underTest.isTheUltimateAnswer(input));
 	}
 	
 	@Test
@@ -66,16 +68,16 @@ public class BasicJUnitExampleTest {
 		//WHEN
 		Integer input = LESS_THAN_ULTIMATE;
 		//THEN
-		assertEquals(false, basicJUnitExample.isTheUltimateAnswer(input));
+		assertFalse(underTest.isTheUltimateAnswer(input));
 	}
 	
 	@Test
-	public void testIsTheUltimateAnswerShouldBeFalseIfInputIsMoreThanTheUltimateAnswer() {
+	public void testIsTheUltimateAnswerShouldBeFalseIfInputIsNull() {
 		//GIVEN in setUp()
 		//WHEN
-		Integer input = MORE_THAN_ULTIMATE;
+		Integer input = null;
 		//THEN
-		assertEquals(false, basicJUnitExample.isTheUltimateAnswer(input));
+		assertFalse(underTest.isTheUltimateAnswer(input));
 	}
 	
 	
