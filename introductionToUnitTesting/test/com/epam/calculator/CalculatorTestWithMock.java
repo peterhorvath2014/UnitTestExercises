@@ -7,16 +7,6 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-class LoggerStub extends Logger {
-	public void logInfo(String msg) {}
-}
-
-class SumStub extends Sum {
-	public Integer calculate(String result, String number) {
-		return Integer.valueOf(0);
-	}
-}
-
 public class CalculatorTestWithMock {
 	private static Calculator underTest;
 	private static Logger logger;
