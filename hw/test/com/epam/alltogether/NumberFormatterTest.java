@@ -1,6 +1,7 @@
 package com.epam.alltogether;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class NumberFormatterTest {
@@ -15,5 +16,17 @@ public class NumberFormatterTest {
 		
 		// THEN
 		Assert.assertEquals("[2]" , result);
+	}
+	
+	@Ignore
+	public void testFormatShouldGiveNull() {
+		// GIVEN
+		NumberFormatter numberFormatter = new NumberFormatter();
+		
+		// WHEN
+		String result = numberFormatter.format(null);
+		
+		// THEN
+		Assert.assertEquals("[null]" , result);
 	}
 }
