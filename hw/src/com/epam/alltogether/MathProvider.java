@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class MathProvider {
-    private static final Logger log = Logger.getLogger(MathProvider.class
+    private static final Logger log = Logger.getLogger(MathProviderTest.class
             .getName());
     private AbstractCalculator calc;
 
