@@ -15,6 +15,7 @@ public class ClientTest {
     private Client underTest;
 
     private Service service;
+    
     private ContentFormat format;
 
     @Before
