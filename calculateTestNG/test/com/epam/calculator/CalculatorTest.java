@@ -1,31 +1,25 @@
 package com.epam.calculator;
 
+import org.mockito.BDDMockito;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.Assert;
 import org.testng.AssertJUnit;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class CalculatorTest {
 	private static Calculator underTest;
-	private static SumStub sum;
+	
+	@Mock
+	private static Sum sum;
 
 	@Mock
 	private static Logger logger;
 
-	class SumStub extends Sum {
-		public Integer calculate(String result, String number) {
-			return Integer.valueOf(0);
-		}
-	}
-
 	@BeforeMethod
-	@BeforeClass
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
-		sum = new SumStub();
 		underTest = new Calculator();
 		underTest.setLog(logger);
 		underTest.setSum(sum);
@@ -34,12 +28,15 @@ public class CalculatorTest {
 	@Test
 	public void testSumShouldBeValid() {
 		// GIVEN in setup
+		BDDMockito.given(sum.calculate(BDDMockito.anyString(), BDDMockito.anyString())).willReturn(Integer.valueOf(5));
 		String input = "85,56";
 		String separator = ",";
 		// WHEN
 		Integer result = underTest.sum(input, separator);
 		// THEN
-		Assert.assertEquals(Integer.valueOf(0), result);
+		BDDMockito.verify(sum).calculate("0", "85");
+		BDDMockito.verify(sum).calculate("5", "56");
+		Assert.assertEquals(Integer.valueOf(5), result);
 	}
 
 	@Test(enabled = false)
@@ -55,12 +52,14 @@ public class CalculatorTest {
 	@Test
 	public void testSumShouldGiveBackTheInputIfItContainsOnlyOneNumber() {
 		// GIVEN in setup
+		BDDMockito.given(sum.calculate(BDDMockito.anyString(), BDDMockito.anyString())).willReturn(Integer.valueOf(5));
 		String input = "8556";
 		String separator = ",";
 		// WHEN
 		Integer result = underTest.sum(input, separator);
 		// THEN
-		AssertJUnit.assertEquals(Integer.valueOf(0), result);
+		BDDMockito.verify(sum).calculate("0", "8556");
+		AssertJUnit.assertEquals(Integer.valueOf(5), result);
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
