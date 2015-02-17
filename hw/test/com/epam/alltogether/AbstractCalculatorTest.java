@@ -21,7 +21,7 @@ public class AbstractCalculatorTest {
 	public void testCalculateShouldCallDoCalculate() {
 		// GIVEN in setup
         // WHEN
-        Integer result = underTest.calculate(Integer.valueOf(1), Integer.valueOf(1));
+        Integer result = underTest.calculate(Integer.valueOf(15), Integer.valueOf(8));
         // THEN
         Assert.assertEquals(Integer.valueOf(2), result);
 	}

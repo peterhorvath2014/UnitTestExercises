@@ -23,19 +23,17 @@ private static MathProvider underTest;
 		Sum sum = EasyMock.createMock(Sum.class);
 		EasyMock.expect(sum.calculate(Integer.valueOf(0), Integer.valueOf(1))).andReturn(Integer.valueOf(1));
 		EasyMock.expect(sum.calculate(Integer.valueOf(1), Integer.valueOf(1))).andReturn(Integer.valueOf(2));
-		NumberFormatter formatter = EasyMock.createMock(NumberFormatter.class);
-		EasyMock.expect(formatter.format(Integer.valueOf(2))).andReturn("[2]");
 		underTest.setCalc(sum);
 		List<Integer> numbers = new ArrayList<Integer>();
 		numbers.add(1);
 		numbers.add(1);
-		EasyMock.replay(sum, formatter);
+		EasyMock.replay(sum);
 		
 		// WHEN
         String result = underTest.sum(numbers);
 
         // THEN
-        //EasyMock.verify(sum, formatter); //Ez nem jó, a formatter miatt, miért?
+        EasyMock.verify(sum); //Ez nem jó, a formatter miatt, miért?
         Assert.assertEquals("[2]" , result);
 	}
 	
