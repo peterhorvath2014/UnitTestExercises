@@ -2,46 +2,66 @@
 <testng-results skipped="0" failed="0" total="7" passed="7">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="62" started-at="2015-02-18T10:54:51Z" finished-at="2015-02-18T10:54:51Z">
+  <suite name="Default suite" duration-ms="55" started-at="2015-02-18T12:23:59Z" finished-at="2015-02-18T12:23:59Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="62" started-at="2015-02-18T10:54:51Z" finished-at="2015-02-18T10:54:51Z">
-      <class name="com.epam.exercise2.StringHelperTest">
-        <test-method status="PASS" signature="setUp()[pri:0, instance:com.epam.exercise2.StringHelperTest@6ba6895c]" name="setUp" is-config="true" duration-ms="8" started-at="2015-02-18T11:54:51Z" finished-at="2015-02-18T11:54:51Z">
+    <test name="Default test" duration-ms="55" started-at="2015-02-18T12:23:59Z" finished-at="2015-02-18T12:23:59Z">
+      <class name="com.epam.exercise3.IntegerStackTest">
+        <test-method status="PASS" signature="setUp()[pri:0, instance:com.epam.exercise3.IntegerStackTest@60cb7d7c]" name="setUp" is-config="true" duration-ms="8" started-at="2015-02-18T13:23:59Z" finished-at="2015-02-18T13:23:59Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUp -->
-        <test-method status="PASS" signature="testSwapLast2CharsWhenEmptyThenReturnEmpty()[pri:0, instance:com.epam.exercise2.StringHelperTest@6ba6895c]" name="testSwapLast2CharsWhenEmptyThenReturnEmpty" duration-ms="8" started-at="2015-02-18T11:54:51Z" finished-at="2015-02-18T11:54:51Z">
+        <test-method status="PASS" signature="testCountWhenEmptyThenZero()[pri:0, instance:com.epam.exercise3.IntegerStackTest@60cb7d7c]" name="testCountWhenEmptyThenZero" duration-ms="8" started-at="2015-02-18T13:23:59Z" finished-at="2015-02-18T13:23:59Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- testSwapLast2CharsWhenEmptyThenReturnEmpty -->
-        <test-method status="PASS" signature="testSwapLast2CharsWhenMultipleLettersThenReturnSwappedLast2()[pri:0, instance:com.epam.exercise2.StringHelperTest@6ba6895c]" name="testSwapLast2CharsWhenMultipleLettersThenReturnSwappedLast2" duration-ms="8" started-at="2015-02-18T11:54:51Z" finished-at="2015-02-18T11:54:51Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- testSwapLast2CharsWhenMultipleLettersThenReturnSwappedLast2 -->
-        <test-method status="PASS" signature="setUp()[pri:0, instance:com.epam.exercise2.StringHelperTest@6ba6895c]" name="setUp" is-config="true" duration-ms="0" started-at="2015-02-18T11:54:51Z" finished-at="2015-02-18T11:54:51Z">
+        </test-method> <!-- testCountWhenEmptyThenZero -->
+        <test-method status="PASS" signature="setUp()[pri:0, instance:com.epam.exercise3.IntegerStackTest@60cb7d7c]" name="setUp" is-config="true" duration-ms="0" started-at="2015-02-18T13:23:59Z" finished-at="2015-02-18T13:23:59Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUp -->
-        <test-method status="PASS" signature="setUp()[pri:0, instance:com.epam.exercise2.StringHelperTest@6ba6895c]" name="setUp" is-config="true" duration-ms="0" started-at="2015-02-18T11:54:51Z" finished-at="2015-02-18T11:54:51Z">
+        <test-method status="PASS" signature="testCountWhenMorePushedPopedThenCorrect()[pri:0, instance:com.epam.exercise3.IntegerStackTest@60cb7d7c]" name="testCountWhenMorePushedPopedThenCorrect" duration-ms="0" started-at="2015-02-18T13:23:59Z" finished-at="2015-02-18T13:23:59Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testCountWhenMorePushedPopedThenCorrect -->
+        <test-method status="PASS" signature="setUp()[pri:0, instance:com.epam.exercise3.IntegerStackTest@60cb7d7c]" name="setUp" is-config="true" duration-ms="0" started-at="2015-02-18T13:23:59Z" finished-at="2015-02-18T13:23:59Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUp -->
-        <test-method status="PASS" signature="setUp()[pri:0, instance:com.epam.exercise2.StringHelperTest@6ba6895c]" name="setUp" is-config="true" duration-ms="0" started-at="2015-02-18T11:54:51Z" finished-at="2015-02-18T11:54:51Z">
+        <test-method status="PASS" signature="testCountWhenMorePushedThenMore()[pri:0, instance:com.epam.exercise3.IntegerStackTest@60cb7d7c]" name="testCountWhenMorePushedThenMore" duration-ms="0" started-at="2015-02-18T13:23:59Z" finished-at="2015-02-18T13:23:59Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testCountWhenMorePushedThenMore -->
+        <test-method status="PASS" signature="setUp()[pri:0, instance:com.epam.exercise3.IntegerStackTest@60cb7d7c]" name="setUp" is-config="true" duration-ms="0" started-at="2015-02-18T13:23:59Z" finished-at="2015-02-18T13:23:59Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUp -->
-        <test-method status="PASS" signature="testSwapLast2CharsWhenOneLetterThenReturnTheSame()[pri:0, instance:com.epam.exercise2.StringHelperTest@6ba6895c]" name="testSwapLast2CharsWhenOneLetterThenReturnTheSame" duration-ms="8" started-at="2015-02-18T11:54:51Z" finished-at="2015-02-18T11:54:51Z">
+        <test-method status="PASS" signature="testCountWhenOnePushedThenOne()[pri:0, instance:com.epam.exercise3.IntegerStackTest@60cb7d7c]" name="testCountWhenOnePushedThenOne" duration-ms="0" started-at="2015-02-18T13:23:59Z" finished-at="2015-02-18T13:23:59Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- testSwapLast2CharsWhenOneLetterThenReturnTheSame -->
-        <test-method status="PASS" signature="testSwapLast2CharsWhenNullThenException()[pri:0, instance:com.epam.exercise2.StringHelperTest@6ba6895c]" name="testSwapLast2CharsWhenNullThenException" duration-ms="0" started-at="2015-02-18T11:54:51Z" finished-at="2015-02-18T11:54:51Z">
+        </test-method> <!-- testCountWhenOnePushedThenOne -->
+        <test-method status="PASS" signature="testPushPopWhenNonEmptyAndPushValidThenPopTheSame()[pri:0, instance:com.epam.exercise3.IntegerStackTest@60cb7d7c]" name="testPushPopWhenNonEmptyAndPushValidThenPopTheSame" duration-ms="0" started-at="2015-02-18T13:23:59Z" finished-at="2015-02-18T13:23:59Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testPushPopWhenNonEmptyAndPushValidThenPopTheSame -->
+        <test-method status="PASS" signature="setUp()[pri:0, instance:com.epam.exercise3.IntegerStackTest@60cb7d7c]" name="setUp" is-config="true" duration-ms="0" started-at="2015-02-18T13:23:59Z" finished-at="2015-02-18T13:23:59Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method status="PASS" signature="setUp()[pri:0, instance:com.epam.exercise3.IntegerStackTest@60cb7d7c]" name="setUp" is-config="true" duration-ms="0" started-at="2015-02-18T13:23:59Z" finished-at="2015-02-18T13:23:59Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method status="PASS" signature="testPushPopWhenValidThenPopTheSame()[pri:0, instance:com.epam.exercise3.IntegerStackTest@60cb7d7c]" name="testPushPopWhenValidThenPopTheSame" duration-ms="0" started-at="2015-02-18T13:23:59Z" finished-at="2015-02-18T13:23:59Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testPushPopWhenValidThenPopTheSame -->
+        <test-method status="PASS" signature="testPushWhenNullThenException()[pri:0, instance:com.epam.exercise3.IntegerStackTest@60cb7d7c]" name="testPushWhenNullThenException" duration-ms="0" started-at="2015-02-18T13:23:59Z" finished-at="2015-02-18T13:23:59Z">
           <exception class="java.lang.IllegalArgumentException">
             <full-stacktrace>
               <![CDATA[java.lang.IllegalArgumentException
-	at com.epam.exercise2.StringHelper.validateNotNull(StringHelper.java:33)
-	at com.epam.exercise2.StringHelper.swapLast2Chars(StringHelper.java:6)
-	at com.epam.exercise2.StringHelperTest.testSwapLast2CharsWhenNullThenException(StringHelperTest.java:19)
+	at com.epam.exercise3.IntegerStack.validateNotNull(IntegerStack.java:23)
+	at com.epam.exercise3.IntegerStack.push(IntegerStack.java:7)
+	at com.epam.exercise3.IntegerStackTest.testPushWhenNullThenException(IntegerStackTest.java:21)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
@@ -71,32 +91,12 @@
           </exception> <!-- java.lang.IllegalArgumentException -->
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- testSwapLast2CharsWhenNullThenException -->
-        <test-method status="PASS" signature="setUp()[pri:0, instance:com.epam.exercise2.StringHelperTest@6ba6895c]" name="setUp" is-config="true" duration-ms="0" started-at="2015-02-18T11:54:51Z" finished-at="2015-02-18T11:54:51Z">
+        </test-method> <!-- testPushWhenNullThenException -->
+        <test-method status="PASS" signature="setUp()[pri:0, instance:com.epam.exercise3.IntegerStackTest@60cb7d7c]" name="setUp" is-config="true" duration-ms="0" started-at="2015-02-18T13:23:59Z" finished-at="2015-02-18T13:23:59Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUp -->
-        <test-method status="PASS" signature="testSwapLast2CharsWhenTwoLettersThenReturnSwapped1()[pri:0, instance:com.epam.exercise2.StringHelperTest@6ba6895c]" name="testSwapLast2CharsWhenTwoLettersThenReturnSwapped1" duration-ms="8" started-at="2015-02-18T11:54:51Z" finished-at="2015-02-18T11:54:51Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- testSwapLast2CharsWhenTwoLettersThenReturnSwapped1 -->
-        <test-method status="PASS" signature="testSwapLast2CharsWhenThreeLettersThenReturnSwappedLast2()[pri:0, instance:com.epam.exercise2.StringHelperTest@6ba6895c]" name="testSwapLast2CharsWhenThreeLettersThenReturnSwappedLast2" duration-ms="0" started-at="2015-02-18T11:54:51Z" finished-at="2015-02-18T11:54:51Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- testSwapLast2CharsWhenThreeLettersThenReturnSwappedLast2 -->
-        <test-method status="PASS" signature="setUp()[pri:0, instance:com.epam.exercise2.StringHelperTest@6ba6895c]" name="setUp" is-config="true" duration-ms="0" started-at="2015-02-18T11:54:51Z" finished-at="2015-02-18T11:54:51Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- setUp -->
-        <test-method status="PASS" signature="setUp()[pri:0, instance:com.epam.exercise2.StringHelperTest@6ba6895c]" name="setUp" is-config="true" duration-ms="0" started-at="2015-02-18T11:54:51Z" finished-at="2015-02-18T11:54:51Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- setUp -->
-        <test-method status="PASS" signature="testSwapLast2CharsWhenTwoLettersThenReturnSwapped2()[pri:0, instance:com.epam.exercise2.StringHelperTest@6ba6895c]" name="testSwapLast2CharsWhenTwoLettersThenReturnSwapped2" duration-ms="0" started-at="2015-02-18T11:54:51Z" finished-at="2015-02-18T11:54:51Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- testSwapLast2CharsWhenTwoLettersThenReturnSwapped2 -->
-      </class> <!-- com.epam.exercise2.StringHelperTest -->
+      </class> <!-- com.epam.exercise3.IntegerStackTest -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>
