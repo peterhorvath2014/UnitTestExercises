@@ -22,6 +22,14 @@ private IntegerStack integerStack;
 		// THEN throws IllegalArgumentException
 	}
 	
+	@Test(expectedExceptions = IllegalStateException.class)
+	public void testPopWhenEmptyThenException() {
+		// GIVEN in setup
+		// WHEN
+		integerStack.pop();
+		// THEN throws IllegalStateException
+	}
+	
 	@Test
 	public void testPushPopWhenValidThenPopTheSame() {
 		// GIVEN in setup

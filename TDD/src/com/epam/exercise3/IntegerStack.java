@@ -25,6 +25,7 @@ public class IntegerStack {
 	}
 
 	public Integer pop() {
+		checkStackIfEmpty();
 		final int lastItemPos = stack.length - 1;
 		final int newStackLength = stack.length - 1;
 		
@@ -36,6 +37,16 @@ public class IntegerStack {
 		}
 		stack = newStack;
 		return result;
+	}
+
+	private void checkStackIfEmpty() {
+		if (isEmpty()) {
+			throw new IllegalStateException();
+		}
+	}
+
+	public boolean isEmpty() {
+		return stack.length == 0;
 	}
 
 	public int count() {
