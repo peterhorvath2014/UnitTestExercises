@@ -1,12 +1,11 @@
 package basics;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.BDDMockito;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 public class ClientTestMockito {
 
@@ -20,10 +19,9 @@ public class ClientTestMockito {
 	@Mock
 	private Service service;
 
-	@Before
+	@BeforeMethod
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
-
 		underTest = new Client(service);
 	}
 
@@ -39,30 +37,30 @@ public class ClientTestMockito {
 	@Test
 	public void testGetServiceNameShouldReturnServiceName() {
 		// GIVEN
-		BDDMockito.given(service.getName()).willReturn(TEST_SERVICE_NAME);
+		Mockito.when(service.getName()).thenReturn(TEST_SERVICE_NAME);
 		// WHEN
 		String result = underTest.getServiceName();
 		// THEN
-		BDDMockito.verify(service).getName();
+		Mockito.verify(service).getName();
 		Assert.assertEquals(TEST_SERVICE_NAME, result);
 	}
 
 	@Test
 	public void testGetStartupShouldReturnStartupTime() {
 		// GIVEN
-		BDDMockito.given(service.getTimestamp(Mockito.anyString())).willReturn(
+		Mockito.when(service.getTimestamp(Mockito.anyString())).thenReturn(
 				TEST_TIMESTAMP);
 		// WHEN
 		String result = underTest.getStartup(TEST_DATE_FORMAT);
 		// THEN
-		BDDMockito.verify(service).getTimestamp(TEST_DATE_FORMAT);
+		Mockito.verify(service).getTimestamp(TEST_DATE_FORMAT);
 		Assert.assertEquals(TEST_TIMESTAMP, result);
 	}
 
-	@Test(expected = RuntimeException.class)
+	@Test(expectedExceptions = RuntimeException.class)
 	public void testGetStartupShouldThrowExceptionWhenServiceNotConnected() {
 		// GIVEN
-		BDDMockito.given(service.getTimestamp(Mockito.anyString())).willThrow(
+		Mockito.when(service.getTimestamp(Mockito.anyString())).thenThrow(
 				new RuntimeException());
 		// WHEN
 		underTest.getStartup(TEST_DATE_FORMAT);
@@ -73,15 +71,15 @@ public class ClientTestMockito {
 	public void testGetContentShouldReturnContentProperly() {
 		// GIVEN
 		Long ident = 12L;
-		BDDMockito.given(service.getContent(Mockito.anyLong())).willReturn(
+		Mockito.when(service.getContent(Mockito.anyLong())).thenReturn(
 				TEST_CONTENT);
 		// WHEN
 		String result = underTest.getContent(ident);
 		// THEN
-		BDDMockito.verify(service).getContent(ident);
-		BDDMockito.verify(service).connect();
+		Mockito.verify(service).getContent(ident);
+		Mockito.verify(service).connect();
 
-		BDDMockito.verify(service).release();
+		Mockito.verify(service).release();
 
 		Assert.assertEquals(TEST_CONTENT, result);
 	}
