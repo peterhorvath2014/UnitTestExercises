@@ -32,20 +32,10 @@ public class AutoPlayTest {
 		// THEN throws Exception 
 	}
 	
-	@Test(expectedExceptions = IllegalArgumentException.class)
-	public void testFireAllWhenEnemyMatrixIsNotFilledThenThorwsException() {
-		// GIVEN in setup
-		BDDMockito.given(enemyMatrix.isFound(BDDMockito.any(FieldCoordinate.class))).willReturn(true);
-		// WHEN
-		underTest.fireAll(enemyMatrix);
-		// THEN throws Exception 
-	}
-	
 	@Test
 	public void testFireAllWhenSuccessfulThenCountIsTheSame() {
 		// GIVEN in setup
 		BDDMockito.given(enemyMatrix.isFound(BDDMockito.any(FieldCoordinate.class))).willReturn(true);
-		BDDMockito.given(enemyMatrix.countLiveShips()).willReturn(10);
 		// WHEN
 		boolean result = underTest.fireAll(enemyMatrix);
 		// THEN 

@@ -5,20 +5,20 @@ import com.epam.torpedo.field.BattleField;
 import com.epam.torpedo.field.FieldCoordinate;
 
 public class AutoPlay {
-	private static final int NUMBER_OF_LIVE_SHIPS = 10;
-	private BattleField guessedMatrix;
+	private BattleField guessedBattleField;
 	
 	public boolean fireAll(BattleField enemyMatrix) {
 		checkParameter(enemyMatrix);
-		guessedMatrix = new DefaultBattleField();
+		guessedBattleField = new DefaultBattleField();
 		boolean won = false;
 		
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
 				evaluatePoint(enemyMatrix, new FieldCoordinate(i, j));
-				if (guessedMatrix.countLiveShips() == NUMBER_OF_LIVE_SHIPS) {
+				//TODO: check if won
+				//if (guessedBattleField.countLiveShips() == NUMBER_OF_LIVE_SHIPS) {
 					won = true;
-				}
+				//}
 			}
 		}
 		
@@ -27,13 +27,6 @@ public class AutoPlay {
 
 	private void checkParameter(BattleField enemyMatrix) {
 		isMatrixNull(enemyMatrix);
-		isNumberOfLiveShipsCorrect(enemyMatrix);
-	}
-
-	private void isNumberOfLiveShipsCorrect(BattleField enemyMatrix) {
-		if (enemyMatrix.countLiveShips() != NUMBER_OF_LIVE_SHIPS) {
-			throw new IllegalArgumentException("enemyMatrix parameter should contain 10 live ships");
-		}
 	}
 
 	private void isMatrixNull(BattleField enemyMatrix) {
@@ -44,7 +37,7 @@ public class AutoPlay {
 
 	private void evaluatePoint(BattleField enemyMatrix, FieldCoordinate nextPoint) {
 		if (enemyMatrix.isFound(nextPoint)) {
-			this.guessedMatrix.foundShip(nextPoint);
+			this.guessedBattleField.foundShip(nextPoint);
 		}
 	}
 }
