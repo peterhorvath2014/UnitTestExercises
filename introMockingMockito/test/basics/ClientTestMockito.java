@@ -19,13 +19,13 @@ public class ClientTestMockito {
 	@Mock
 	private Service service;
 
-	@BeforeMethod
+	@BeforeMethod(groups = {"basic"} )
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 		underTest = new Client(service);
 	}
 
-	@Test
+	@Test(groups = {"basic"} )
 	public void testReleaseShouldReleaseService() {
 		// GIVEN in setup
 		// WHEN
@@ -34,7 +34,7 @@ public class ClientTestMockito {
 		Mockito.verify(service).release();
 	}
 
-	@Test
+	@Test(groups = {"basic"} )
 	public void testGetServiceNameShouldReturnServiceName() {
 		// GIVEN
 		Mockito.when(service.getName()).thenReturn(TEST_SERVICE_NAME);
@@ -43,6 +43,15 @@ public class ClientTestMockito {
 		// THEN
 		Mockito.verify(service).getName();
 		Assert.assertEquals(TEST_SERVICE_NAME, result);
+	}
+	
+	@Test(groups = {"basic"} )
+	public void testVoidMethod() {
+		// GIVEN in setup
+		// WHEN
+		underTest.release();
+		// THEN
+		Mockito.verify(service).release();
 	}
 
 	@Test

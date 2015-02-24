@@ -1,5 +1,6 @@
 package basics;
 
+import org.mockito.ArgumentCaptor;
 import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -19,27 +20,29 @@ public class ClientInOrderMockitoTest {
 	@Mock
 	private ContentFormat format;
 
-	@BeforeMethod
+	@BeforeMethod(groups = {"basic"} )
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 		underTest = new Client(service, format);
 	}
 
-	@Test
+	@Test(groups = {"basic"} )
 	public void testGetContentFormattedShouldReturnContentProperly() {
 		// GIVEN
 		Long ident = 12L;
 		Mockito.when(service.getContent(ident)).thenReturn(TEST_CONTENT);
 		Mockito.when(format.format(Mockito.anyString())).thenReturn(
 				TEST_CONTENT_FORMATTED);
+		ArgumentCaptor<Long> captor = ArgumentCaptor.forClass(Long.class);
 		// WHEN
 		String result = underTest.getContentFormatted(ident);
 		// THEN
 		InOrder inorder = Mockito.inOrder(service, format);
 		inorder.verify(service).connect();
-		inorder.verify(service).getContent(ident);
+		inorder.verify(service).getContent(captor.capture());
 		inorder.verify(service).release();
 		inorder.verify(format).format(TEST_CONTENT);
 		Assert.assertEquals(TEST_CONTENT_FORMATTED, result);
+		Assert.assertEquals(ident, captor.getValue());
 	}
 }
