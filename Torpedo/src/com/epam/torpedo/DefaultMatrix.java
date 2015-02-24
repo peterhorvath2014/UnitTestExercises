@@ -35,6 +35,16 @@ public class DefaultMatrix implements Matrix {
 		return count;
 	}
 
+	@Override
+	public boolean isFound(Point point) {
+		return matrix[point.getX()][point.getY()];
+	}
+	
+	@Override
+	public void foundShip(Point point) {
+		matrix[point.getX()][point.getY()] = true;
+	}
+
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < 10; i++) {

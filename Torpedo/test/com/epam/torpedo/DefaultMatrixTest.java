@@ -15,5 +15,4 @@ public class DefaultMatrixTest {
 		Assert.assertEquals(underTest.countLiveShips(), 10);
 		System.out.println(underTest);
 	}
-	
 }
