@@ -1,13 +1,13 @@
-package com.epam.torpedo;
+package com.epam.torpedo.field;
 
 import java.util.Random;
 
-public class DefaultMatrix implements Matrix {
+public class DefaultBattleField implements BattleField {
 	private Boolean[][] matrix;
 	private static Random random = new Random();
 	private static final int DEFAULT_NUMBER_OF_LIVE_SHIPS = 10;
 
-	public DefaultMatrix() {
+	public DefaultBattleField() {
 		matrix = new Boolean[10][10];
 		fillMatrix();
 	}
@@ -15,9 +15,9 @@ public class DefaultMatrix implements Matrix {
 	@Override
 	public void fillRandomShips() {
 		for (int i = 0; i < DEFAULT_NUMBER_OF_LIVE_SHIPS; i++) {
-			Point point;
+			FieldCoordinate point;
 			do {
-				point = new Point(random.nextInt(10), random.nextInt(10));
+				point = new FieldCoordinate(random.nextInt(10), random.nextInt(10));
 			} while (isShipExists(point));
 			createShip(point);
 		}
@@ -37,12 +37,12 @@ public class DefaultMatrix implements Matrix {
 	}
 
 	@Override
-	public boolean isFound(Point point) {
+	public boolean isFound(FieldCoordinate point) {
 		return matrix[point.getX()][point.getY()];
 	}
 
 	@Override
-	public void foundShip(Point point) {
+	public void foundShip(FieldCoordinate point) {
 		matrix[point.getX()][point.getY()] = true;
 	}
 
@@ -69,11 +69,11 @@ public class DefaultMatrix implements Matrix {
 		}
 	}
 
-	private void createShip(Point point) {
+	private void createShip(FieldCoordinate point) {
 		matrix[point.getX()][point.getY()] = true;
 	}
 
-	private boolean isShipExists(Point point) {
+	private boolean isShipExists(FieldCoordinate point) {
 		return matrix[point.getX()][point.getY()];
 	}
 

@@ -1,6 +1,6 @@
 package com.epam.torpedo.ship;
 
-import com.epam.torpedo.FieldType;
+import com.epam.torpedo.field.FieldType;
 
 public abstract class Ship {
 	protected FieldType[][] matrix;

@@ -1,10 +1,10 @@
-package com.epam.torpedo;
+package com.epam.torpedo.field;
 
-public class Point {
+public class FieldCoordinate {
 	private int x;
 	private int y;
 
-	public Point(int x, int y) {
+	public FieldCoordinate(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}

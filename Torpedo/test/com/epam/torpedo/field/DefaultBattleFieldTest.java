@@ -1,14 +1,16 @@
-package com.epam.torpedo;
+package com.epam.torpedo.field;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class DefaultMatrixTest {
+import com.epam.torpedo.field.DefaultBattleField;
+
+public class DefaultBattleFieldTest {
 	
 	@Test
 	public void testCountLiveShipsWhenNotCallingFillThenZero() {
 		// GIVEN
-		DefaultMatrix underTest = new DefaultMatrix();
+		DefaultBattleField underTest = new DefaultBattleField();
 		// WHEN
 		int result = underTest.countLiveShips();
 		// THEN
@@ -18,7 +20,7 @@ public class DefaultMatrixTest {
 	@Test
 	public void testFillRandomShipsWhenCallFillThenCountIsTen() {
 		// GIVEN
-		DefaultMatrix underTest = new DefaultMatrix();
+		DefaultBattleField underTest = new DefaultBattleField();
 		// WHEN
 		underTest.fillRandomShips();
 		int numberOfLiveShips = underTest.countLiveShips();

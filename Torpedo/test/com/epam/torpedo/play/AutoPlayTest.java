@@ -1,4 +1,4 @@
-package com.epam.torpedo;
+package com.epam.torpedo.play;
 
 import org.mockito.BDDMockito;
 import org.mockito.Mock;
@@ -7,12 +7,16 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import com.epam.torpedo.field.BattleField;
+import com.epam.torpedo.field.FieldCoordinate;
+import com.epam.torpedo.play.AutoPlay;
+
 public class AutoPlayTest {
 	
 	private AutoPlay underTest;
 	
 	@Mock
-	private Matrix enemyMatrix;
+	private BattleField enemyMatrix;
 	
 	@BeforeMethod
 	public void setUp() {
@@ -31,7 +35,7 @@ public class AutoPlayTest {
 	@Test(expectedExceptions = IllegalArgumentException.class)
 	public void testFireAllWhenEnemyMatrixIsNotFilledThenThorwsException() {
 		// GIVEN in setup
-		BDDMockito.given(enemyMatrix.isFound(BDDMockito.any(Point.class))).willReturn(true);
+		BDDMockito.given(enemyMatrix.isFound(BDDMockito.any(FieldCoordinate.class))).willReturn(true);
 		// WHEN
 		underTest.fireAll(enemyMatrix);
 		// THEN throws Exception 
@@ -40,7 +44,7 @@ public class AutoPlayTest {
 	@Test
 	public void testFireAllWhenSuccessfulThenCountIsTheSame() {
 		// GIVEN in setup
-		BDDMockito.given(enemyMatrix.isFound(BDDMockito.any(Point.class))).willReturn(true);
+		BDDMockito.given(enemyMatrix.isFound(BDDMockito.any(FieldCoordinate.class))).willReturn(true);
 		BDDMockito.given(enemyMatrix.countLiveShips()).willReturn(10);
 		// WHEN
 		boolean result = underTest.fireAll(enemyMatrix);
