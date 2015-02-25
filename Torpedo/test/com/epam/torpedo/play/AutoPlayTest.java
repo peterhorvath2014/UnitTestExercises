@@ -35,7 +35,7 @@ public class AutoPlayTest {
 	@Test
 	public void testFireAllWhenSuccessfulThenCountIsTheSame() {
 		// GIVEN in setup
-		BDDMockito.given(enemyMatrix.isFound(BDDMockito.any(FieldCoordinate.class))).willReturn(true);
+		BDDMockito.given(enemyMatrix.isShipPart(BDDMockito.any(FieldCoordinate.class))).willReturn(true);
 		// WHEN
 		boolean result = underTest.fireAll(enemyMatrix);
 		// THEN 
