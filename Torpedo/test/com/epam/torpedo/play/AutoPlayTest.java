@@ -8,6 +8,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.epam.torpedo.field.Coordinate;
+import com.epam.torpedo.field.GuessedBattleField;
 import com.epam.torpedo.field.OwnedBattleField;
 import com.epam.torpedo.gameapi.EnemyAPI;
 
@@ -44,14 +45,27 @@ public class AutoPlayTest {
 	}
 
 	@Test
-	public void testFireAllWhenSuccessfulThenReturnsTrue() {
+	public void testFireAllWhenSuccessfulThenGameStateChanges() {
 		// GIVEN in setup
 		BDDMockito.given(
 				enemyAPI.isShipPart(BDDMockito.any(Coordinate.class)))
-				.willReturn(true);
+				.willReturn(false, false, true);
+		GuessedBattleField guessedBattleField = new GuessedBattleField();
+		guessedBattleField.foundShipPart(new Coordinate(0,2));
+		guessedBattleField.foundShipPart(new Coordinate(0,3));
+		guessedBattleField.foundShipPart(new Coordinate(0,4));
+		guessedBattleField.foundShipPart(new Coordinate(0,5));
+		guessedBattleField.foundShipPart(new Coordinate(0,6));
+		guessedBattleField.foundShipPart(new Coordinate(0,7));
+		guessedBattleField.foundShipPart(new Coordinate(0,8));
+		guessedBattleField.foundShipPart(new Coordinate(0,9));
+		guessedBattleField.foundShipPart(new Coordinate(1,0));
+		guessedBattleField.foundShipPart(new Coordinate(1,1));
 		// WHEN
 		GameState result = underTest.fireAll();
 		// THEN
 		Assert.assertTrue(result.isWon());
+		Assert.assertEquals(result.getAttackCount(), 12);
+		Assert.assertEquals(result.getGuessedBattleField(), guessedBattleField);
 	}
 }
