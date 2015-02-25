@@ -2,8 +2,8 @@ package com.epam.torpedo.play;
 
 import com.epam.torpedo.field.Coordinate;
 import com.epam.torpedo.field.FieldType;
-import com.epam.torpedo.field.GuessedBattleField;
-import com.epam.torpedo.field.OwnedBattleField;
+import com.epam.torpedo.field.battlefield.GuessedBattleField;
+import com.epam.torpedo.field.battlefield.OwnedBattleField;
 import com.epam.torpedo.util.Utility;
 
 public class GameState {
@@ -75,7 +75,7 @@ public class GameState {
 	}
 
 	public void foundShipPart(Coordinate coordinate) {
-		guessedBattleField.foundShipPart(coordinate);
+		guessedBattleField.setCellFieldType(coordinate, FieldType.HIT);
 	}
 
 	public FieldType getGuessedCellFieldType(Coordinate coordinate) {

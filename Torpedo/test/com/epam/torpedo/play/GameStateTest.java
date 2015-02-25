@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 import com.epam.torpedo.field.Coordinate;
 import com.epam.torpedo.field.FieldType;
-import com.epam.torpedo.field.OwnedBattleField;
+import com.epam.torpedo.field.battlefield.OwnedBattleField;
 import com.epam.torpedo.gameapi.EnemyAPI;
 
 public class GameStateTest {

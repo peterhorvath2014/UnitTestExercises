@@ -1,11 +1,12 @@
 package com.epam.torpedo.field;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
-public abstract class AbstractBattleField {
+public abstract class AbstractField {
 
-	protected FieldType[][] battleField;
+	protected List<List<FieldType>> field;
 
 	protected static Random random = new Random();
 
@@ -15,24 +16,26 @@ public abstract class AbstractBattleField {
 	protected int numberOfLiveShipParts;
 	protected int sideLength;
 
-	public AbstractBattleField() {
+	public AbstractField() {
 		this(DEFAULT_SIDE_LENGTH, DEFAULT_NUMBER_OF_LIVE_SHIP_PARTS);
 	}
 
-	public AbstractBattleField(int sideLength, int numberOfLiveShipParts) {
+	public AbstractField(int sideLength, int numberOfLiveShipParts) {
 		this.sideLength = sideLength;
 		this.numberOfLiveShipParts = numberOfLiveShipParts;
-		battleField = new FieldType[sideLength][sideLength];
-		fillBattleField();
+		field = new ArrayList<List<FieldType>>();
+		fillField();
 	}
 
-	protected abstract void fillBattleField();
+	protected abstract void fillField();
 
-	protected void fillBattleField(FieldType type) {
+	protected void fillField(FieldType type) {
 		for (int i = 0; i < 10; i++) {
+			List<FieldType> row = new ArrayList<FieldType>();
 			for (int j = 0; j < 10; j++) {
-				battleField[i][j] = type;
+				row.add(type);
 			}
+			field.add(row);
 		}
 	}
 
@@ -47,26 +50,21 @@ public abstract class AbstractBattleField {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("\n");
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
-				char toPrint = '.';
-				if ((battleField[i][j] == FieldType.SHIP_PART) || (battleField[i][j] == FieldType.HIT)) {
-					toPrint = 'x';
-				} else if ((battleField[i][j] == FieldType.DENIED) || (battleField[i][j] == FieldType.MISSED)) {
-					toPrint = '+';
-				}
-				sb.append(toPrint + " ");
+		for (List<FieldType> row : field) {
+			for (FieldType element: row) {
+				sb.append(element.getReadable() + " ");
 			}
 			sb.append("\n");
 		}
 		return sb.toString();
 	}
 
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Arrays.hashCode(battleField);
+		result = prime * result + ((field == null) ? 0 : field.hashCode());
 		result = prime * result + numberOfLiveShipParts;
 		result = prime * result + sideLength;
 		return result;
@@ -80,8 +78,11 @@ public abstract class AbstractBattleField {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AbstractBattleField other = (AbstractBattleField) obj;
-		if (!Arrays.deepEquals(battleField, other.battleField))
+		AbstractField other = (AbstractField) obj;
+		if (field == null) {
+			if (other.field != null)
+				return false;
+		} else if (!field.equals(other.field))
 			return false;
 		if (numberOfLiveShipParts != other.numberOfLiveShipParts)
 			return false;
@@ -90,20 +91,27 @@ public abstract class AbstractBattleField {
 		return true;
 	}
 
-	protected int countHitShipParts() {
+	protected int count(FieldType type) {
 		int count = 0;
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
-				if (battleField[i][j] == FieldType.HIT) {
+		for (List<FieldType> row : field) {
+			for (FieldType element: row) {
+				if (element == type) {
 					count++;
 				}
 			}
 		}
 		return count;
 	}
-	
+
 	public FieldType getCellFieldType(Coordinate coordinate) {
-		return battleField[coordinate.getX()][coordinate.getY()];
+		return field.get(coordinate.getX()).get(coordinate.getY());
+	}
+	
+	public void setCellFieldType(Coordinate coordinate, FieldType type) {
+		field.get(coordinate.getX()).set(coordinate.getY(), type);
 	}
 
+	public boolean isDone() {
+		return count(FieldType.HIT) == numberOfLiveShipParts;
+	}
 }
