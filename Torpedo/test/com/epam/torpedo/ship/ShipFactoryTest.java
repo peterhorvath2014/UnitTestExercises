@@ -1,5 +1,7 @@
 package com.epam.torpedo.ship;
 
+import java.util.ArrayList;
+
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -59,6 +61,15 @@ public class ShipFactoryTest {
 		Ship result = underTest.createTetrisShip();
 		// THEN
 		Assert.assertTrue(result instanceof TetrisShip);
+	}
+	
+	@Test
+	public void testCreateShipsFromFileShouldCreateShipsFromCorrectFile() {
+		// GIVEN in setup
+		// WHEN
+		ArrayList<Ship> ships = underTest.createShipsFromFile("ships.txt");
+		// THEN
+		// TODO ships
 	}
 	
 	
