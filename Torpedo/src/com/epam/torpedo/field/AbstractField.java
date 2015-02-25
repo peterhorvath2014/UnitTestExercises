@@ -38,10 +38,13 @@ public abstract class AbstractField {
 	}
 	
 	public int getSideLengthX() {
+		if (field.get(0).isEmpty()) {
+			
+		}
 		return field.size();
 	}
 	public int getSideLengthY() {
-		return sideLengthY;
+		return field.size();
 	}
 
 	public String toString() {
