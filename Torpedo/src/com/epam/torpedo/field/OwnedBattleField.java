@@ -9,20 +9,20 @@ public class OwnedBattleField extends AbstractBattleField {
 
 	private void fillRandomShips() {
 		for (int i = 0; i < numberOfLiveShipParts; i++) {
-			FieldCoordinate point;
+			Coordinate point;
 			do {
-				point = new FieldCoordinate(random.nextInt(sideLength),
+				point = new Coordinate(random.nextInt(sideLength),
 						random.nextInt(sideLength));
 			} while (isShipPart(point));
 			createShip(point);
 		}
 	}
 
-	private void createShip(FieldCoordinate point) {
+	private void createShip(Coordinate point) {
 		battleField[point.getX()][point.getY()] = FieldType.SHIP_PART;
 	}
 
-	public boolean isShipPart(FieldCoordinate point) {
+	public boolean isShipPart(Coordinate point) {
 		return battleField[point.getX()][point.getY()] == FieldType.SHIP_PART;
 	}
 

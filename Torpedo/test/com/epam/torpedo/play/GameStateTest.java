@@ -1,6 +1,5 @@
 package com.epam.torpedo.play;
 
-import org.mockito.BDDMockito;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.Assert;
@@ -8,12 +7,12 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.epam.torpedo.field.Coordinate;
+import com.epam.torpedo.field.FieldType;
 import com.epam.torpedo.field.OwnedBattleField;
 import com.epam.torpedo.gameapi.EnemyAPI;
 
-public class AutoPlayTest {
-
-	private AutoPlay underTest;
+public class GameStateTest {
+	private GameState underTest;
 
 	@Mock
 	private EnemyAPI enemyAPI;
@@ -24,34 +23,33 @@ public class AutoPlayTest {
 	@BeforeMethod
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
-		underTest = new AutoPlay(enemyAPI, ownedBattleField);
+		underTest = new GameState(ownedBattleField);
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
-	public void testAutoPlayCreationWhenEnemyAPIParameterIsNullThenThorwsException() {
+	public void testGameStateCreationWhenParameterIsNullThenThorwsException() {
 		// GIVEN in setup
 		// WHEN
-		new AutoPlay(null, ownedBattleField);
+		 new GameState(null);
 		// THEN throws Exception
 	}
 	
-	@Test(expectedExceptions = IllegalArgumentException.class)
-	public void testAutoPlayCreationWhenOwnedBattleFieldParameterIsNullThenThorwsException() {
-		// GIVEN in setup
-		// WHEN
-		new AutoPlay(enemyAPI, null);
-		// THEN throws Exception
-	}
-
 	@Test
-	public void testFireAllWhenSuccessfulThenReturnsTrue() {
+	public void testFoundShipPartWhenCallThenCallsGuessedFoundShipPart() {
 		// GIVEN in setup
-		BDDMockito.given(
-				enemyAPI.isShipPart(BDDMockito.any(Coordinate.class)))
-				.willReturn(true);
+		Coordinate coordinate = new Coordinate(0,0);
 		// WHEN
-		GameState result = underTest.fireAll();
-		// THEN
-		Assert.assertTrue(result.isWon());
+		underTest.foundShipPart(coordinate);
+		// THEN throws Exception
+		Assert.assertEquals(underTest.getGuessedCellFieldType(coordinate), FieldType.HIT);
+	}
+	
+	@Test
+	public void testGuessedBattleFieldWhenCreateThenUnknown() {
+		// GIVEN in setup
+		Coordinate coordinate = new Coordinate(0,0);
+		// WHEN
+		// THEN throws Exception
+		Assert.assertEquals(underTest.getGuessedCellFieldType(coordinate), FieldType.UNKNOWN);
 	}
 }

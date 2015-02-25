@@ -1,43 +1,48 @@
 package com.epam.torpedo.play;
 
-import com.epam.torpedo.field.AbstractBattleField;
-import com.epam.torpedo.field.BattleField;
-import com.epam.torpedo.field.FieldCoordinate;
+import com.epam.torpedo.field.Coordinate;
+import com.epam.torpedo.field.OwnedBattleField;
+import com.epam.torpedo.gameapi.EnemyAPI;
+import com.epam.torpedo.util.Utility;
 
 public class AutoPlay {
-	private BattleField guessedBattleField;
+	private GameState gameState;
+	private EnemyAPI enemyAPI;
 	
-	public boolean fireAll(BattleField enemyMatrix) {
-		checkParameter(enemyMatrix);
-		guessedBattleField = new AbstractBattleField();
-		boolean won = false;
+	public AutoPlay(EnemyAPI enemyAPI, OwnedBattleField ownedBattleField) {
+		Utility.validateParameters(enemyAPI, ownedBattleField);
+		this.gameState = new GameState(ownedBattleField);
+		this.enemyAPI = enemyAPI;
 		
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
-				evaluatePoint(enemyMatrix, new FieldCoordinate(i, j));
-				//TODO: check if won
-				//if (guessedBattleField.countLiveShips() == NUMBER_OF_LIVE_SHIPS) {
-					won = true;
-				//}
+	}
+
+	public GameState fireAll() {
+		int x = 0;
+		while (isIterationStillValid(x)) {
+			int y = 0;
+			while (isIterationStillValid(y)) {
+				evaluatePoint(enemyAPI, new Coordinate(x, y));
+				gameState.increaseAttackCount();
+				if (gameState.getGuessedBattleField().isDone()) {
+					gameState.setWon(true);
+				}
+				y++;
 			}
+			x++;
 		}
 		
-		return won;
-	}		
-
-	private void checkParameter(BattleField enemyMatrix) {
-		isMatrixNull(enemyMatrix);
+		System.out.println(gameState);
+		
+		return gameState;
 	}
 
-	private void isMatrixNull(BattleField enemyMatrix) {
-		if (enemyMatrix == null) {
-			throw new IllegalArgumentException("enemyMatrix parameter should not be null");
-		}
+	private boolean isIterationStillValid(int x) {
+		return !gameState.isWon() && x < gameState.getSideLength();
 	}
 
-	private void evaluatePoint(BattleField enemyMatrix, FieldCoordinate nextPoint) {
-		if (enemyMatrix.isShipPart(nextPoint)) {
-			this.guessedBattleField.foundShip(nextPoint);
+	private void evaluatePoint(EnemyAPI enemyAPI, Coordinate coordinate) {
+		if (enemyAPI.isShipPart(coordinate)) {
+			gameState.foundShipPart(coordinate);
 		}
 	}
 }
