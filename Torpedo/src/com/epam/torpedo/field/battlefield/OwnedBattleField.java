@@ -3,11 +3,12 @@ package com.epam.torpedo.field.battlefield;
 import com.epam.torpedo.field.AbstractField;
 import com.epam.torpedo.field.Coordinate;
 import com.epam.torpedo.field.FieldType;
+import com.epam.torpedo.field.config.GameConfiguration;
 
 public class OwnedBattleField extends AbstractField {
 	
 	protected void fillField() {
-		fillField(FieldType.EMPTY);
+		fillField(FieldType.EMPTY, GameConfiguration.DEFAULT_BATTLE_FIELD_SIDE_LENGTH);
 		fillRandomShips();
 	}
 

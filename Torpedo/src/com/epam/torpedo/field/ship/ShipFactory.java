@@ -9,12 +9,13 @@ public class ShipFactory {
 	public void createShipsFromFile() {
 		FileHandler fileHandler = new FileHandler();
 		ArrayList<String> fileLines = fileHandler.retrieveFileLines();
-		for (String fileLine: fileLines) {
-			System.out.println(fileLine);
-			if (fileLine.matches("^\\d+")) {
+		Ship ship = new Ship();
+		for (String line: fileLines) {
+			System.out.println(line);
+			if (line.matches("^\\d+")) {
 				
 			} else {
-				
+				ship.addLine(line.trim().split(" "));
 			}
 		}
 	}

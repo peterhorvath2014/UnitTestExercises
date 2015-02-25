@@ -10,18 +10,12 @@ public abstract class AbstractField {
 
 	protected static Random random = new Random();
 
-	protected static final int DEFAULT_NUMBER_OF_LIVE_SHIP_PARTS = 10;
-	protected static final int DEFAULT_SIDE_LENGTH = 10;
-
 	protected int numberOfLiveShipParts;
-	protected int sideLength;
 
 	public AbstractField() {
-		this(DEFAULT_SIDE_LENGTH, DEFAULT_NUMBER_OF_LIVE_SHIP_PARTS);
 	}
 
-	public AbstractField(int sideLength, int numberOfLiveShipParts) {
-		this.sideLength = sideLength;
+	public AbstractField(int numberOfLiveShipParts) {
 		this.numberOfLiveShipParts = numberOfLiveShipParts;
 		field = new ArrayList<List<FieldType>>();
 		fillField();
@@ -29,10 +23,10 @@ public abstract class AbstractField {
 
 	protected abstract void fillField();
 
-	protected void fillField(FieldType type) {
-		for (int i = 0; i < 10; i++) {
+	protected void fillField(FieldType type, int sideLength) {
+		for (int i = 0; i < sideLength; i++) {
 			List<FieldType> row = new ArrayList<FieldType>();
-			for (int j = 0; j < 10; j++) {
+			for (int j = 0; j < sideLength; j++) {
 				row.add(type);
 			}
 			field.add(row);
@@ -42,9 +36,12 @@ public abstract class AbstractField {
 	public int getNumberOfLiveShipParts() {
 		return numberOfLiveShipParts;
 	}
-
-	public int getSideLength() {
-		return sideLength;
+	
+	public int getSideLengthX() {
+		return field.size();
+	}
+	public int getSideLengthY() {
+		return sideLengthY;
 	}
 
 	public String toString() {
