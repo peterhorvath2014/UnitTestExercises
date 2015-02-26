@@ -14,8 +14,8 @@ public class GameState {
 	private GameState(boolean won, int attackCount,
 			GuessedBattleField guessedBattleField,
 			OwnedBattleField ownedBattleField) {
-		Utility.isNull(guessedBattleField);
-		Utility.isNull(ownedBattleField);
+		Utility.isParameterNull(guessedBattleField);
+		Utility.isParameterNull(ownedBattleField);
 		this.won = won;
 		this.attackCount = attackCount;
 		this.guessedBattleField = guessedBattleField;
@@ -70,8 +70,11 @@ public class GameState {
 				+ ", ownedBattleField=" + ownedBattleField + "]";
 	}
 
-	public int getSideLength() {
-		return guessedBattleField.getSideLength();
+	public int getSideLengthX() {
+		return guessedBattleField.getSideLengthX();
+	}
+	public int getSideLengthY() {
+		return guessedBattleField.getSideLengthX();
 	}
 
 	public void foundShipPart(Coordinate coordinate) {

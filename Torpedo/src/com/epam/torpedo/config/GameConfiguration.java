@@ -1,4 +1,4 @@
-package com.epam.torpedo.field.config;
+package com.epam.torpedo.config;
 
 public class GameConfiguration {
 

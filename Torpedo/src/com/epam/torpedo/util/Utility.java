@@ -6,7 +6,7 @@ public class Utility {
 	
 	public static final Random RANDOM = new Random();
 
-	public static void isNull(Object object) {
+	public static void isParameterNull(Object object) {
 		if (object == null) {
 			throw new IllegalArgumentException("Parameter should not be null!!");
 		}
@@ -14,7 +14,7 @@ public class Utility {
 	
 	public static void validateParameters(Object... parameters) {
 		for (Object parameter : parameters) {
-			Utility.isNull(parameter);
+			Utility.isParameterNull(parameter);
 		}
 	}
 }

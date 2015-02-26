@@ -13,11 +13,12 @@ public abstract class AbstractField {
 	protected int numberOfLiveShipParts;
 
 	public AbstractField() {
+		field = new ArrayList<List<FieldType>>();
 	}
 
 	public AbstractField(int numberOfLiveShipParts) {
+		this();
 		this.numberOfLiveShipParts = numberOfLiveShipParts;
-		field = new ArrayList<List<FieldType>>();
 		fillField();
 	}
 
@@ -66,7 +67,6 @@ public abstract class AbstractField {
 		int result = 1;
 		result = prime * result + ((field == null) ? 0 : field.hashCode());
 		result = prime * result + numberOfLiveShipParts;
-		result = prime * result + sideLength;
 		return result;
 	}
 
@@ -85,8 +85,6 @@ public abstract class AbstractField {
 		} else if (!field.equals(other.field))
 			return false;
 		if (numberOfLiveShipParts != other.numberOfLiveShipParts)
-			return false;
-		if (sideLength != other.sideLength)
 			return false;
 		return true;
 	}
@@ -108,7 +106,19 @@ public abstract class AbstractField {
 	}
 	
 	public void setCellFieldType(Coordinate coordinate, FieldType type) {
+		System.out.println(field);
+		setUninitializedCells(coordinate);
+		System.out.println(field);
 		field.get(coordinate.getX()).set(coordinate.getY(), type);
+	}
+
+	private void setUninitializedCells(Coordinate coordinate) {
+		while (field.size() <= coordinate.getX()) {
+			field.add(new ArrayList<FieldType>());
+			while (field.get(field.size() - 1).size() <= coordinate.getY()) {
+				field.get(field.size() - 1).add(FieldType.EMPTY);
+			}
+		}
 	}
 
 	public boolean isDone() {

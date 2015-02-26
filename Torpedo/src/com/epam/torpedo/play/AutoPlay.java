@@ -18,9 +18,9 @@ public class AutoPlay {
 
 	public GameState fireAll() {
 		int x = 0;
-		while (isIterationStillValid(x)) {
+		while (isIterationStillValidX(x)) {
 			int y = 0;
-			while (isIterationStillValid(y)) {
+			while (isIterationStillValidY(y)) {
 				evaluatePoint(enemyAPI, new Coordinate(x, y));
 				gameState.increaseAttackCount();
 				if (gameState.getGuessedBattleField().isDone()) {
@@ -36,8 +36,11 @@ public class AutoPlay {
 		return gameState;
 	}
 
-	private boolean isIterationStillValid(int x) {
-		return !gameState.isWon() && x < gameState.getSideLength();
+	private boolean isIterationStillValidX(int x) {
+		return !gameState.isWon() && x < gameState.getSideLengthX();
+	}
+	private boolean isIterationStillValidY(int x) {
+		return !gameState.isWon() && x < gameState.getSideLengthY();
 	}
 
 	private void evaluatePoint(EnemyAPI enemyAPI, Coordinate coordinate) {

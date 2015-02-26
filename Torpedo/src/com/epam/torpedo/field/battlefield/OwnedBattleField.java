@@ -1,9 +1,9 @@
 package com.epam.torpedo.field.battlefield;
 
+import com.epam.torpedo.config.GameConfiguration;
 import com.epam.torpedo.field.AbstractField;
 import com.epam.torpedo.field.Coordinate;
 import com.epam.torpedo.field.FieldType;
-import com.epam.torpedo.field.config.GameConfiguration;
 
 public class OwnedBattleField extends AbstractField {
 	
@@ -16,8 +16,8 @@ public class OwnedBattleField extends AbstractField {
 		for (int i = 0; i < numberOfLiveShipParts; i++) {
 			Coordinate point;
 			do {
-				point = new Coordinate(random.nextInt(sideLength),
-						random.nextInt(sideLength));
+				point = new Coordinate(random.nextInt(getSideLengthX()),
+						random.nextInt(getSideLengthY()));
 			} while (isShipPart(point));
 			createShipPart(point);
 		}
