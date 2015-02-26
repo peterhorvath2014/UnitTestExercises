@@ -4,7 +4,7 @@ public class Coordinate {
 	private int x;
 	private int y;
 
-	public Coordinate(int x, int y) {
+	public Coordinate(int y, int x) {
 		this.x = x;
 		this.y = y;
 	}
@@ -15,6 +15,11 @@ public class Coordinate {
 
 	public int getY() {
 		return y;
+	}
+
+	@Override
+	public String toString() {
+		return "Coordinate [y=" + y + ", x=" + x + "]";
 	}
 
 }

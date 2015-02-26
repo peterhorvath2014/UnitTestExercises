@@ -1,7 +1,9 @@
 package com.epam.torpedo.field.ship;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import com.epam.torpedo.field.AbstractField;
 import com.epam.torpedo.file.FileHandler;
 
 public class ShipFactory {
@@ -9,11 +11,14 @@ public class ShipFactory {
 	public void createShipsFromFile() {
 		FileHandler fileHandler = new FileHandler();
 		ArrayList<String> fileLines = fileHandler.retrieveFileLines();
-		Ship ship = new Ship();
+		List<Ship> ships = new ArrayList<Ship>();
+		AbstractField ship = new Ship();
 		for (String line: fileLines) {
-			System.out.println(line);
 			if (line.matches("^\\d+")) {
-				
+				for (int i = 0; i < Integer.valueOf(line); i++) {
+					ships.add(ship.generateDeniedFields());
+				}
+				ship = new Ship();
 			} else {
 				ship.addLine(line.trim().split(" "));
 			}

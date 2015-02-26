@@ -30,5 +30,10 @@ public class OwnedBattleField extends AbstractField {
 	public boolean isShipPart(Coordinate coordinate) {
 		return getCellFieldType(coordinate) == FieldType.SHIP_PART;
 	}
+	
+	@Override
+	protected FieldType getDefaultFillingType() {
+		return FieldType.EMPTY;
+	}
 
 }

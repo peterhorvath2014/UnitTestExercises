@@ -44,12 +44,4 @@ public class GameStateTest {
 		Assert.assertEquals(underTest.getGuessedCellFieldType(coordinate), FieldType.HIT);
 	}
 	
-	@Test
-	public void testGuessedBattleFieldWhenCreateThenUnknown() {
-		// GIVEN in setup
-		Coordinate coordinate = new Coordinate(0,0);
-		// WHEN
-		// THEN throws Exception
-		Assert.assertEquals(underTest.getGuessedCellFieldType(coordinate), FieldType.UNKNOWN);
-	}
 }

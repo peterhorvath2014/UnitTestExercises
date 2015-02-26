@@ -11,4 +11,9 @@ public class GuessedBattleField extends AbstractField {
 		fillField(FieldType.UNKNOWN, GameConfiguration.DEFAULT_BATTLE_FIELD_SIDE_LENGTH);
 	}
 
+	@Override
+	protected FieldType getDefaultFillingType() {
+		return FieldType.UNKNOWN;
+	}
+
 }

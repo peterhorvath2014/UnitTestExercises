@@ -62,11 +62,14 @@ public class AutoPlayTest {
 		guessedBattleField.setCellFieldType(new Coordinate(0,9), FieldType.HIT);
 		guessedBattleField.setCellFieldType(new Coordinate(1,0), FieldType.HIT);
 		guessedBattleField.setCellFieldType(new Coordinate(1,1), FieldType.HIT);
+		System.out.println(guessedBattleField);
 		// WHEN
 		GameState result = underTest.fireAll();
 		// THEN
 		Assert.assertTrue(result.isWon());
 		Assert.assertEquals(result.getAttackCount(), 12);
+		
+		System.out.println(result.getGuessedBattleField());
 		Assert.assertEquals(result.getGuessedBattleField(), guessedBattleField);
 	}
 }

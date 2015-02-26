@@ -1,9 +1,7 @@
-package com.epam.torpedo.ship;
+package com.epam.torpedo.field.ship;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import com.epam.torpedo.field.ship.ShipFactory;
 
 public class ShipFactoryTest {
 	private ShipFactory underTest;
