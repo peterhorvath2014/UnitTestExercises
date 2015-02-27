@@ -1,11 +1,11 @@
 package com.epam.torpedo.field;
 
-public enum FieldType {
+public enum Cell {
 	EMPTY("."), SHIP_PART("x"), DENIED("-"), UNKNOWN("U"), HIT("H"), MISSED("M");
 
 	private final String readable;
 
-	FieldType(String readable) {
+	Cell(String readable) {
 		this.readable = readable;
 	}
 
@@ -13,7 +13,7 @@ public enum FieldType {
 		return readable;
 	}
 
-	public static FieldType getFieldTypeByReadable(String readable) {
+	public static Cell getFieldTypeByReadable(String readable) {
 		switch (readable) {
 		case ".":
 			return EMPTY;

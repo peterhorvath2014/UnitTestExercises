@@ -3,12 +3,12 @@ package com.epam.torpedo.field.battlefield;
 import com.epam.torpedo.config.GameConfiguration;
 import com.epam.torpedo.field.Coordinate;
 import com.epam.torpedo.field.Field;
-import com.epam.torpedo.field.FieldType;
+import com.epam.torpedo.field.Cell;
 
 public class OwnedBattleField extends Field {
 	
 	protected void fillField() {
-		fillField(FieldType.EMPTY, GameConfiguration.DEFAULT_BATTLE_FIELD_SIDE_LENGTH);
+		fillField(Cell.EMPTY, GameConfiguration.DEFAULT_BATTLE_FIELD_SIDE_LENGTH);
 		fillRandomShips();
 	}
 
@@ -24,16 +24,16 @@ public class OwnedBattleField extends Field {
 	}
 
 	private void createShipPart(Coordinate coordinate) {
-		setCellFieldType(coordinate, FieldType.SHIP_PART);
+		setCellFieldType(coordinate, Cell.SHIP_PART);
 	}
 
 	public boolean isShipPart(Coordinate coordinate) {
-		return getCellFieldType(coordinate) == FieldType.SHIP_PART;
+		return getCellFieldType(coordinate) == Cell.SHIP_PART;
 	}
 	
 	@Override
-	protected FieldType getDefaultFillingType() {
-		return FieldType.EMPTY;
+	protected Cell getDefaultFillingType() {
+		return Cell.EMPTY;
 	}
 
 }

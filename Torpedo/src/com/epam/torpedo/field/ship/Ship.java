@@ -1,7 +1,7 @@
 package com.epam.torpedo.field.ship;
 
 import com.epam.torpedo.field.Field;
-import com.epam.torpedo.field.FieldType;
+import com.epam.torpedo.field.Cell;
 
 public class Ship extends Field {
 
@@ -12,8 +12,8 @@ public class Ship extends Field {
 	}
 
 	@Override
-	protected FieldType getDefaultFillingType() {
-		return FieldType.EMPTY;
+	protected Cell getDefaultFillingType() {
+		return Cell.EMPTY;
 	}
 
 }

@@ -7,7 +7,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.epam.torpedo.field.Coordinate;
-import com.epam.torpedo.field.FieldType;
+import com.epam.torpedo.field.Cell;
 import com.epam.torpedo.field.battlefield.OwnedBattleField;
 import com.epam.torpedo.gameapi.EnemyAPI;
 
@@ -41,7 +41,7 @@ public class GameStateTest {
 		// WHEN
 		underTest.foundShipPart(coordinate);
 		// THEN throws Exception
-		Assert.assertEquals(underTest.getGuessedCellFieldType(coordinate), FieldType.HIT);
+		Assert.assertEquals(underTest.getGuessedCellFieldType(coordinate), Cell.HIT);
 	}
 	
 }

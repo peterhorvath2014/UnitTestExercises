@@ -6,7 +6,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.epam.torpedo.field.Coordinate;
-import com.epam.torpedo.field.FieldType;
+import com.epam.torpedo.field.Cell;
 
 public class GuessedBattleFieldTest {
 	
@@ -22,21 +22,21 @@ public class GuessedBattleFieldTest {
 	public void testGuessedBattleFieldWhenSetUnknownToZeroCoordinateThenGetUnknown() {
 		// GIVEN in setup
 		Coordinate coordinate = new Coordinate(0,0);
-		underTest.setCellFieldType(coordinate, FieldType.UNKNOWN);
+		underTest.setCellFieldType(coordinate, Cell.UNKNOWN);
 		// WHEN
-		FieldType result = underTest.getCellFieldType(coordinate);
+		Cell result = underTest.getCellFieldType(coordinate);
 		// THEN throws Exception
-		Assert.assertEquals(result, FieldType.UNKNOWN);
+		Assert.assertEquals(result, Cell.UNKNOWN);
 	}
 	
 	@Test
 	public void testGuessedBattleFieldWhenSetUnknownToDifferentCoordinateThenGetUnknown() {
 		// GIVEN in setup
 		Coordinate coordinate = new Coordinate(3,4);
-		underTest.setCellFieldType(coordinate, FieldType.UNKNOWN);
+		underTest.setCellFieldType(coordinate, Cell.UNKNOWN);
 		// WHEN
-		FieldType result = underTest.getCellFieldType(coordinate);
+		Cell result = underTest.getCellFieldType(coordinate);
 		// THEN throws Exception
-		Assert.assertEquals(result, FieldType.UNKNOWN);
+		Assert.assertEquals(result, Cell.UNKNOWN);
 	}
 }

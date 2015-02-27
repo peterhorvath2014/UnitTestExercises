@@ -14,7 +14,7 @@ public class ShipFactory {
 		Ship ship = new Ship();
 		for (String line: fileLines) {
 			if (line.matches("^\\d+")) {
-				ship.generateDeniedFields();
+				ship.generateDeniedCells();
 				for (int i = 0; i < Integer.valueOf(line); i++) {
 					ships.add(ship);
 				}

@@ -8,14 +8,14 @@ import com.epam.torpedo.field.ship.Ship;
 
 public abstract class Field {
 
-	protected List<List<FieldType>> field;
+	protected List<List<Cell>> field;
 
 	protected static Random random = new Random();
 
 	protected int numberOfLiveShipParts;
 
 	public Field() {
-		field = new ArrayList<List<FieldType>>();
+		field = new ArrayList<List<Cell>>();
 	}
 
 	public Field(int numberOfLiveShipParts) {
@@ -26,9 +26,9 @@ public abstract class Field {
 
 	protected abstract void fillField();
 
-	protected void fillField(FieldType type, int sideLength) {
+	protected void fillField(Cell type, int sideLength) {
 		for (int i = 0; i < sideLength; i++) {
-			List<FieldType> row = new ArrayList<FieldType>();
+			List<Cell> row = new ArrayList<Cell>();
 			for (int j = 0; j < sideLength; j++) {
 				row.add(type);
 			}
@@ -57,8 +57,8 @@ public abstract class Field {
 		if (field.size() == 0) {
 			sb.append("Empty field!");
 		} else {
-			for (List<FieldType> row : field) {
-				for (FieldType element : row) {
+			for (List<Cell> row : field) {
+				for (Cell element : row) {
 					sb.append(element.getReadable() + " ");
 				}
 				sb.append("\n");
@@ -96,10 +96,10 @@ public abstract class Field {
 		return true;
 	}
 
-	protected int count(FieldType type) {
+	protected int count(Cell type) {
 		int count = 0;
-		for (List<FieldType> row : field) {
-			for (FieldType element : row) {
+		for (List<Cell> row : field) {
+			for (Cell element : row) {
 				if (element == type) {
 					count++;
 				}
@@ -108,30 +108,31 @@ public abstract class Field {
 		return count;
 	}
 
-	public FieldType getCellFieldType(Coordinate coordinate) {
+	public Cell getCellFieldType(Coordinate coordinate) {
 		if ((field.size() < 1)
 				|| (coordinate.getY() > getFieldMaxYCoordinate())
-				|| (coordinate.getX() > getFieldMaxXCoordinate() - 1)) {
-			throw new IllegalArgumentException("Coordinate is out of bounds");
+				|| (coordinate.getX() > getFieldMaxXCoordinate())) {
+			throw new IllegalArgumentException("Coordinate is out of bounds: (" + coordinate.getY() + "," + coordinate.getX() + 
+					"). Max: (" + getFieldMaxYCoordinate() + "," + getFieldMaxXCoordinate() + ")");
 		}
 		return field.get(coordinate.getY()).get(coordinate.getX());
 	}
 
-	public void setCellFieldType(Coordinate coordinate, FieldType type) {
+	public void setCellFieldType(Coordinate coordinate, Cell type) {
 		setUninitializedCells(coordinate, getDefaultFillingType());
 		field.get(coordinate.getY()).set(coordinate.getX(), type);
 	}
 
-	protected abstract FieldType getDefaultFillingType();
+	protected abstract Cell getDefaultFillingType();
 
 	public void setUninitializedCells(Coordinate coordinate,
-			FieldType defaultFillingFieldType) {
+			Cell defaultFillingFieldType) {
 		// the field size is dynamic, so if we want to set a cell, which is out
 		// of bounds, then we increasing the size of the field, and fill it with
 		// the default FieldType
 		for (int i = 0; i <= coordinate.getY(); i++) {
 			if (isFieldHasThisRowIndex(coordinate)) {
-				field.add(new ArrayList<FieldType>());
+				field.add(new ArrayList<Cell>());
 			}
 			while (isRowHasThisColumnIndex(i, coordinate)) {
 				field.get(i).add(defaultFillingFieldType);
@@ -159,16 +160,15 @@ public abstract class Field {
 	}
 
 	public boolean isDone() {
-		return count(FieldType.HIT) == numberOfLiveShipParts;
+		return count(Cell.HIT) == numberOfLiveShipParts;
 	}
 
-	public void addFieldToPosition(List<List<FieldType>> field,
-			Coordinate coordinate) {
+	public void addFieldToPosition(List<List<Cell>> field, Coordinate coordinate) {
 		int x = coordinate.getX();
 		int y = coordinate.getY();
 
-		for (List<FieldType> row : field) {
-			for (FieldType cell : row) {
+		for (List<Cell> row : field) {
+			for (Cell cell : row) {
 				this.setCellFieldType(new Coordinate(y, x), cell);
 				x++;
 			}
@@ -178,15 +178,32 @@ public abstract class Field {
 	}
 
 	public void addLine(String[] cells) {
-		List<FieldType> row = new ArrayList<FieldType>();
+		List<Cell> row = new ArrayList<Cell>();
 		for (String cell : cells) {
-			row.add(FieldType.getFieldTypeByReadable(cell));
+			row.add(Cell.getFieldTypeByReadable(cell));
 		}
 		field.add(row);
 	}
 
-	public void generateDeniedFields() {
+	public void generateDeniedCells() {
 		this.autoAddEmptyBorder();
+		for (int i = 1; i < getFieldMaxYCoordinate(); i++) {
+			for (int j = 1; j < getFieldMaxXCoordinate(); j++) {
+				if (getCellFieldType(new Coordinate(i, j)) == Cell.SHIP_PART) {
+					setDeniedCell(i - 1, j);
+					setDeniedCell(i + 1, j);
+					setDeniedCell(i, j - 1);
+					setDeniedCell(i, j + 1);
+				}
+			}
+		}
+	}
+
+	private void setDeniedCell(int i, int j) {
+		Coordinate shouldBeDeniedCell = new Coordinate(i, j);
+		if (getCellFieldType(shouldBeDeniedCell) != Cell.SHIP_PART) {
+			setCellFieldType(shouldBeDeniedCell, Cell.DENIED);
+		}
 	}
 
 	public void autoAddEmptyBorder() {
@@ -208,23 +225,22 @@ public abstract class Field {
 
 	private void addEmptyBottomLine() {
 		this.setUninitializedCells(new Coordinate(getFieldMaxYCoordinate() + 1,
-				getFieldMaxXCoordinate()), FieldType.EMPTY);
+				getFieldMaxXCoordinate()), Cell.EMPTY);
 	}
 
 	private boolean isBottomLineEmpty() {
-		return !field.get(getFieldMaxYCoordinate()).contains(
-				FieldType.SHIP_PART);
+		return !field.get(getFieldMaxYCoordinate()).contains(Cell.SHIP_PART);
 	}
 
 	private void addEmptyRightLine() {
 		this.setUninitializedCells(new Coordinate(getFieldMaxYCoordinate(),
-				getFieldMaxXCoordinate() + 1), FieldType.EMPTY);
+				getFieldMaxXCoordinate() + 1), Cell.EMPTY);
 	}
 
 	private boolean isRightLineEmpty() {
 		boolean result = true;
-		for (List<FieldType> row : field) {
-			if (row.get(this.getFieldMaxXCoordinate()) == FieldType.SHIP_PART) {
+		for (List<Cell> row : field) {
+			if (row.get(this.getFieldMaxXCoordinate()) == Cell.SHIP_PART) {
 				result = false;
 			}
 		}
@@ -234,15 +250,15 @@ public abstract class Field {
 	private void addEmptyLeftLine() {
 		Ship newShip = new Ship();
 		newShip.setUninitializedCells(new Coordinate(getFieldMaxYCoordinate(),
-				0), FieldType.EMPTY);
+				0), Cell.EMPTY);
 		newShip.addFieldToPosition(field, new Coordinate(0, 1));
 		field = newShip.getField();
 	}
 
 	private boolean isLeftLineEmpty() {
 		boolean result = true;
-		for (List<FieldType> row : field) {
-			if (row.get(0) == FieldType.SHIP_PART) {
+		for (List<Cell> row : field) {
+			if (row.get(0) == Cell.SHIP_PART) {
 				result = false;
 			}
 		}
@@ -252,16 +268,16 @@ public abstract class Field {
 	private void addEmptyTopLine() {
 		Ship newShip = new Ship();
 		newShip.setUninitializedCells(new Coordinate(0,
-				getFieldMaxXCoordinate()), FieldType.EMPTY);
+				getFieldMaxXCoordinate()), Cell.EMPTY);
 		newShip.addFieldToPosition(field, new Coordinate(1, 0));
 		field = newShip.getField();
 	}
 
 	private boolean isTopLineEmpty() {
-		return !field.get(0).contains(FieldType.SHIP_PART);
+		return !field.get(0).contains(Cell.SHIP_PART);
 	}
 
-	public List<List<FieldType>> getField() {
+	public List<List<Cell>> getField() {
 		return field;
 	}
 }
