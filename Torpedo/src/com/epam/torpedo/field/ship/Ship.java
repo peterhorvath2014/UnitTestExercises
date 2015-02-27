@@ -1,9 +1,9 @@
 package com.epam.torpedo.field.ship;
 
-import com.epam.torpedo.field.AbstractField;
+import com.epam.torpedo.field.Field;
 import com.epam.torpedo.field.FieldType;
 
-public class Ship extends AbstractField {
+public class Ship extends Field {
 
 	@Override
 	protected void fillField() {

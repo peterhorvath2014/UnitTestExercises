@@ -3,7 +3,6 @@ package com.epam.torpedo.field.ship;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.epam.torpedo.field.AbstractField;
 import com.epam.torpedo.file.FileHandler;
 
 public class ShipFactory {
@@ -12,17 +11,19 @@ public class ShipFactory {
 		FileHandler fileHandler = new FileHandler();
 		ArrayList<String> fileLines = fileHandler.retrieveFileLines();
 		List<Ship> ships = new ArrayList<Ship>();
-		AbstractField ship = new Ship();
+		Ship ship = new Ship();
 		for (String line: fileLines) {
 			if (line.matches("^\\d+")) {
+				ship.generateDeniedFields();
 				for (int i = 0; i < Integer.valueOf(line); i++) {
-					ships.add(ship.generateDeniedFields());
+					ships.add(ship);
 				}
 				ship = new Ship();
 			} else {
 				ship.addLine(line.trim().split(" "));
 			}
 		}
+		System.out.println(ships);
 	}
 	
 	

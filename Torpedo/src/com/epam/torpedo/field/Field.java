@@ -6,7 +6,7 @@ import java.util.Random;
 
 import com.epam.torpedo.field.ship.Ship;
 
-public abstract class AbstractField {
+public abstract class Field {
 
 	protected List<List<FieldType>> field;
 
@@ -14,11 +14,11 @@ public abstract class AbstractField {
 
 	protected int numberOfLiveShipParts;
 
-	public AbstractField() {
+	public Field() {
 		field = new ArrayList<List<FieldType>>();
 	}
 
-	public AbstractField(int numberOfLiveShipParts) {
+	public Field(int numberOfLiveShipParts) {
 		this();
 		this.numberOfLiveShipParts = numberOfLiveShipParts;
 		fillField();
@@ -85,7 +85,7 @@ public abstract class AbstractField {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AbstractField other = (AbstractField) obj;
+		Field other = (Field) obj;
 		if (field == null) {
 			if (other.field != null)
 				return false;
@@ -109,7 +109,8 @@ public abstract class AbstractField {
 	}
 
 	public FieldType getCellFieldType(Coordinate coordinate) {
-		if ((field.size() < 1) || (coordinate.getY() > getFieldMaxYCoordinate())
+		if ((field.size() < 1)
+				|| (coordinate.getY() > getFieldMaxYCoordinate())
 				|| (coordinate.getX() > getFieldMaxXCoordinate() - 1)) {
 			throw new IllegalArgumentException("Coordinate is out of bounds");
 		}
@@ -123,7 +124,8 @@ public abstract class AbstractField {
 
 	protected abstract FieldType getDefaultFillingType();
 
-	public void setUninitializedCells(Coordinate coordinate, FieldType defaultFillingFieldType) {
+	public void setUninitializedCells(Coordinate coordinate,
+			FieldType defaultFillingFieldType) {
 		// the field size is dynamic, so if we want to set a cell, which is out
 		// of bounds, then we increasing the size of the field, and fill it with
 		// the default FieldType
@@ -160,7 +162,8 @@ public abstract class AbstractField {
 		return count(FieldType.HIT) == numberOfLiveShipParts;
 	}
 
-	public void addFieldToPosition(List<List<FieldType>> field, Coordinate coordinate) {
+	public void addFieldToPosition(List<List<FieldType>> field,
+			Coordinate coordinate) {
 		int x = coordinate.getX();
 		int y = coordinate.getY();
 
@@ -182,9 +185,8 @@ public abstract class AbstractField {
 		field.add(row);
 	}
 
-	public Ship generateDeniedFields() {
+	public void generateDeniedFields() {
 		this.autoAddEmptyBorder();
-		return null;
 	}
 
 	public void autoAddEmptyBorder() {
@@ -195,12 +197,44 @@ public abstract class AbstractField {
 			if (!isLeftLineEmpty()) {
 				addEmptyLeftLine();
 			}
+			if (!isRightLineEmpty()) {
+				addEmptyRightLine();
+			}
+			if (!isBottomLineEmpty()) {
+				addEmptyBottomLine();
+			}
 		}
 	}
 
+	private void addEmptyBottomLine() {
+		this.setUninitializedCells(new Coordinate(getFieldMaxYCoordinate() + 1,
+				getFieldMaxXCoordinate()), FieldType.EMPTY);
+	}
+
+	private boolean isBottomLineEmpty() {
+		return !field.get(getFieldMaxYCoordinate()).contains(
+				FieldType.SHIP_PART);
+	}
+
+	private void addEmptyRightLine() {
+		this.setUninitializedCells(new Coordinate(getFieldMaxYCoordinate(),
+				getFieldMaxXCoordinate() + 1), FieldType.EMPTY);
+	}
+
+	private boolean isRightLineEmpty() {
+		boolean result = true;
+		for (List<FieldType> row : field) {
+			if (row.get(this.getFieldMaxXCoordinate()) == FieldType.SHIP_PART) {
+				result = false;
+			}
+		}
+		return result;
+	}
+
 	private void addEmptyLeftLine() {
-		AbstractField newShip = new Ship();
-		newShip.setUninitializedCells(new Coordinate(getFieldMaxYCoordinate(), 0), FieldType.EMPTY);
+		Ship newShip = new Ship();
+		newShip.setUninitializedCells(new Coordinate(getFieldMaxYCoordinate(),
+				0), FieldType.EMPTY);
 		newShip.addFieldToPosition(field, new Coordinate(0, 1));
 		field = newShip.getField();
 	}
@@ -216,17 +250,18 @@ public abstract class AbstractField {
 	}
 
 	private void addEmptyTopLine() {
-		AbstractField newShip = new Ship();
-		newShip.setUninitializedCells(new Coordinate(0, getFieldMaxXCoordinate()), FieldType.EMPTY);
+		Ship newShip = new Ship();
+		newShip.setUninitializedCells(new Coordinate(0,
+				getFieldMaxXCoordinate()), FieldType.EMPTY);
 		newShip.addFieldToPosition(field, new Coordinate(1, 0));
 		field = newShip.getField();
 	}
 
-	public List<List<FieldType>> getField() {
-		return field;
-	}
-
 	private boolean isTopLineEmpty() {
 		return !field.get(0).contains(FieldType.SHIP_PART);
+	}
+
+	public List<List<FieldType>> getField() {
+		return field;
 	}
 }

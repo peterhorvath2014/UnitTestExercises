@@ -1,11 +1,11 @@
 package com.epam.torpedo.field.battlefield;
 
 import com.epam.torpedo.config.GameConfiguration;
-import com.epam.torpedo.field.AbstractField;
 import com.epam.torpedo.field.Coordinate;
+import com.epam.torpedo.field.Field;
 import com.epam.torpedo.field.FieldType;
 
-public class OwnedBattleField extends AbstractField {
+public class OwnedBattleField extends Field {
 	
 	protected void fillField() {
 		fillField(FieldType.EMPTY, GameConfiguration.DEFAULT_BATTLE_FIELD_SIDE_LENGTH);
