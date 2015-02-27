@@ -41,10 +41,13 @@ public abstract class Field {
 	}
 
 	public int getSideLengthX() {
-		if (field.get(0).isEmpty()) {
-
+		int sideLength = 0;
+		if (field.size() != 0) {
+			if (!field.get(0).isEmpty()) {
+				field.get(0).size();
+			}
 		}
-		return field.size();
+		return sideLength;
 	}
 
 	public int getSideLengthY() {
@@ -112,8 +115,10 @@ public abstract class Field {
 		if ((field.size() < 1)
 				|| (coordinate.getY() > getFieldMaxYCoordinate())
 				|| (coordinate.getX() > getFieldMaxXCoordinate())) {
-			throw new IllegalArgumentException("Coordinate is out of bounds: (" + coordinate.getY() + "," + coordinate.getX() + 
-					"). Max: (" + getFieldMaxYCoordinate() + "," + getFieldMaxXCoordinate() + ")");
+			throw new IllegalArgumentException("Coordinate is out of bounds: ("
+					+ coordinate.getY() + "," + coordinate.getX() + "). Max: ("
+					+ getFieldMaxYCoordinate() + "," + getFieldMaxXCoordinate()
+					+ ")");
 		}
 		return field.get(coordinate.getY()).get(coordinate.getX());
 	}
