@@ -1,16 +1,19 @@
 package com.epam.torpedo.field.battlefield;
 
 import com.epam.torpedo.config.GameConfiguration;
-import com.epam.torpedo.field.Field;
 import com.epam.torpedo.field.Cell;
+import com.epam.torpedo.field.Field;
 
 public class GuessedBattleField extends Field {
 
-	@Override
-	protected void fillField() {
-		fillField(Cell.UNKNOWN, GameConfiguration.DEFAULT_BATTLE_FIELD_SIDE_LENGTH);
+	public GuessedBattleField() {
+		super();
 	}
-
+	
+	public GuessedBattleField(GameConfiguration gameConfiguration) {
+		super(gameConfiguration);
+	}
+	
 	@Override
 	protected Cell getDefaultFillingType() {
 		return Cell.UNKNOWN;

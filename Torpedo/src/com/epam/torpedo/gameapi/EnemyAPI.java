@@ -1,14 +1,20 @@
 package com.epam.torpedo.gameapi;
 
+import com.epam.torpedo.config.GameConfiguration;
+import com.epam.torpedo.field.Cell;
 import com.epam.torpedo.field.Coordinate;
-import com.epam.torpedo.util.Utility;
 
 public class EnemyAPI implements GameAPI {
 
 	@Override
-	public boolean isShipPart(Coordinate coordinate) {
-		//TODO reach enemy
-		return Utility.RANDOM.nextBoolean();
+	public Cell shoot(Coordinate coordinate) {
+		return null;
+	}
+
+	@Override
+	public GameConfiguration hello() {
+		//TODO check if result is null
+		return new GameConfiguration(10, 10);
 	}
 
 }

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.epam.torpedo.config.GameConfiguration;
 import com.epam.torpedo.field.ship.Ship;
+import com.epam.torpedo.util.Utility;
 
 public abstract class Field {
 
@@ -12,39 +14,26 @@ public abstract class Field {
 
 	protected static Random random = new Random();
 
-	protected int numberOfLiveShipParts;
-
 	public Field() {
 		field = new ArrayList<List<Cell>>();
 	}
 
-	public Field(int numberOfLiveShipParts) {
+	public Field(GameConfiguration gameConfiguration) {
 		this();
-		this.numberOfLiveShipParts = numberOfLiveShipParts;
-		fillField();
-	}
-
-	protected abstract void fillField();
-
-	protected void fillField(Cell type, int sideLength) {
-		for (int i = 0; i < sideLength; i++) {
-			List<Cell> row = new ArrayList<Cell>();
-			for (int j = 0; j < sideLength; j++) {
-				row.add(type);
-			}
-			field.add(row);
-		}
+		Utility.isParameterNull(gameConfiguration);
+		setUninitializedCells(new Coordinate(gameConfiguration.height - 1,
+				gameConfiguration.width - 1), getDefaultFillingType());
 	}
 
 	public int getNumberOfLiveShipParts() {
-		return numberOfLiveShipParts;
+		return count(Cell.SHIP_PART) + count(Cell.HIT) + count(Cell.SUNK);
 	}
 
 	public int getSideLengthX() {
 		int sideLength = 0;
 		if (field.size() != 0) {
 			if (!field.get(0).isEmpty()) {
-				field.get(0).size();
+				sideLength = field.get(0).size();
 			}
 		}
 		return sideLength;
@@ -76,7 +65,6 @@ public abstract class Field {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((field == null) ? 0 : field.hashCode());
-		result = prime * result + numberOfLiveShipParts;
 		return result;
 	}
 
@@ -93,8 +81,6 @@ public abstract class Field {
 			if (other.field != null)
 				return false;
 		} else if (!field.equals(other.field))
-			return false;
-		if (numberOfLiveShipParts != other.numberOfLiveShipParts)
 			return false;
 		return true;
 	}
@@ -123,24 +109,58 @@ public abstract class Field {
 		return field.get(coordinate.getY()).get(coordinate.getX());
 	}
 
-	public void setCellFieldType(Coordinate coordinate, Cell type) {
+	public void setCellRectangle(Coordinate topLeft, Coordinate bottomRight,
+			Cell type) {
+		setUninitializedCells(bottomRight, getDefaultFillingType());
+		for (int i = topLeft.getY(); i <= bottomRight.getY(); i++) {
+			for (int j = topLeft.getX(); j <= bottomRight.getX(); j++) {
+				setCell(new Coordinate(i, j), type);
+			}
+		}
+
+	}
+
+	public void setCell(Coordinate coordinate, Cell type) {
+		// TODO check if necessary to call setUnitializedCells
 		setUninitializedCells(coordinate, getDefaultFillingType());
 		field.get(coordinate.getY()).set(coordinate.getX(), type);
+	}
+
+	public void changeAllConnectedHitToSunk(Coordinate coordinate) {
+		setCell(coordinate, Cell.SUNK);
+		// recursive call to all surrounding cell which has HIT on it
+		for (int i = coordinate.getY() - 1; i <= coordinate.getY() + 1; i++) {
+			for (int j = coordinate.getX() - 1; j <= coordinate.getX() + 1; j++) {
+				Coordinate connectedCoordinate = new Coordinate(i, j);
+				if (!isCoordinateOutOfBounds(connectedCoordinate)) {
+					if (isHit(connectedCoordinate)) {
+						changeAllConnectedHitToSunk(connectedCoordinate);
+					}
+				}
+			}
+		}
+	}
+
+	private boolean isCoordinateOutOfBounds(Coordinate connectedCoordinate) {
+		return (connectedCoordinate.getX() < 0
+				|| connectedCoordinate.getY() < 0
+				|| connectedCoordinate.getX() > getFieldMaxXCoordinate() || connectedCoordinate
+				.getY() > getFieldMaxYCoordinate());
 	}
 
 	protected abstract Cell getDefaultFillingType();
 
 	public void setUninitializedCells(Coordinate coordinate,
-			Cell defaultFillingFieldType) {
+			Cell defaultFillingCell) {
 		// the field size is dynamic, so if we want to set a cell, which is out
 		// of bounds, then we increasing the size of the field, and fill it with
-		// the default FieldType
+		// the default Cell
 		for (int i = 0; i <= coordinate.getY(); i++) {
 			if (isFieldHasThisRowIndex(coordinate)) {
 				field.add(new ArrayList<Cell>());
 			}
 			while (isRowHasThisColumnIndex(i, coordinate)) {
-				field.get(i).add(defaultFillingFieldType);
+				field.get(i).add(defaultFillingCell);
 			}
 		}
 	}
@@ -164,8 +184,8 @@ public abstract class Field {
 		return field.size() <= coordinate.getY();
 	}
 
-	public boolean isDone() {
-		return count(Cell.HIT) == numberOfLiveShipParts;
+	public boolean isDone(int numberOfLiveShipParts) {
+		return getNumberOfLiveShipParts() == numberOfLiveShipParts;
 	}
 
 	public void addFieldToPosition(List<List<Cell>> field, Coordinate coordinate) {
@@ -174,7 +194,7 @@ public abstract class Field {
 
 		for (List<Cell> row : field) {
 			for (Cell cell : row) {
-				this.setCellFieldType(new Coordinate(y, x), cell);
+				this.setCell(new Coordinate(y, x), cell);
 				x++;
 			}
 			x = coordinate.getX();
@@ -207,7 +227,7 @@ public abstract class Field {
 	private void setDeniedCell(int i, int j) {
 		Coordinate shouldBeDeniedCell = new Coordinate(i, j);
 		if (getCellFieldType(shouldBeDeniedCell) != Cell.SHIP_PART) {
-			setCellFieldType(shouldBeDeniedCell, Cell.DENIED);
+			setCell(shouldBeDeniedCell, Cell.DENIED);
 		}
 	}
 
@@ -284,5 +304,17 @@ public abstract class Field {
 
 	public List<List<Cell>> getField() {
 		return field;
+	}
+
+	protected void createShipPart(Coordinate coordinate) {
+		setCell(coordinate, Cell.SHIP_PART);
+	}
+
+	public boolean isShipPart(Coordinate coordinate) {
+		return getCellFieldType(coordinate) == Cell.SHIP_PART;
+	}
+
+	public boolean isHit(Coordinate coordinate) {
+		return getCellFieldType(coordinate) == Cell.HIT;
 	}
 }

@@ -1,7 +1,7 @@
 package com.epam.torpedo.field;
 
 public enum Cell {
-	EMPTY("."), SHIP_PART("x"), DENIED("-"), UNKNOWN("U"), HIT("H"), MISSED("M");
+	EMPTY("."), SHIP_PART("x"), DENIED("-"), UNKNOWN("U"), HIT("H"), SUNK("S"), MISSED("M");
 
 	private final String readable;
 
@@ -23,6 +23,8 @@ public enum Cell {
 			return DENIED;
 		case "H":
 			return HIT;
+		case "S":
+			return SUNK;
 		case "M":
 			return MISSED;
 		default: 

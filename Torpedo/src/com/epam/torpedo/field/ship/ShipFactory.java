@@ -23,7 +23,7 @@ public class ShipFactory {
 				ship.addLine(line.trim().split(" "));
 			}
 		}
-		System.out.println(ships);
+		//System.out.println(ships);
 	}
 	
 	

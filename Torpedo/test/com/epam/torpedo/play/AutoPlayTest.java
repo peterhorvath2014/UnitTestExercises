@@ -7,8 +7,9 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.torpedo.field.Coordinate;
+import com.epam.torpedo.config.GameConfiguration;
 import com.epam.torpedo.field.Cell;
+import com.epam.torpedo.field.Coordinate;
 import com.epam.torpedo.field.battlefield.GuessedBattleField;
 import com.epam.torpedo.field.battlefield.OwnedBattleField;
 import com.epam.torpedo.gameapi.EnemyAPI;
@@ -19,13 +20,21 @@ public class AutoPlayTest {
 
 	@Mock
 	private EnemyAPI enemyAPI;
-	
-	@Mock
+
 	private OwnedBattleField ownedBattleField;
+
+	private GuessedBattleField guessedBattleField;
+
+	private GameConfiguration gameConfiguration;
 
 	@BeforeMethod
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
+		gameConfiguration = new GameConfiguration(10, 10);
+		ownedBattleField = new OwnedBattleField(gameConfiguration);
+		ownedBattleField.setCellRectangle(new Coordinate(0, 0), new Coordinate(
+				0, 9), Cell.SHIP_PART);
+		BDDMockito.given(enemyAPI.hello()).willReturn(gameConfiguration);
 		underTest = new AutoPlay(enemyAPI, ownedBattleField);
 	}
 
@@ -36,7 +45,7 @@ public class AutoPlayTest {
 		new AutoPlay(null, ownedBattleField);
 		// THEN throws Exception
 	}
-	
+
 	@Test(expectedExceptions = IllegalArgumentException.class)
 	public void testAutoPlayCreationWhenOwnedBattleFieldParameterIsNullThenThorwsException() {
 		// GIVEN in setup
@@ -45,31 +54,59 @@ public class AutoPlayTest {
 		// THEN throws Exception
 	}
 
+	private void setBasicPlay() {
+		BDDMockito.given(enemyAPI.shoot(BDDMockito.any(Coordinate.class)))
+				.willReturn(Cell.MISSED, Cell.MISSED, Cell.HIT, Cell.HIT,
+						Cell.HIT, Cell.HIT, Cell.HIT, Cell.HIT, Cell.HIT,
+						Cell.HIT, Cell.MISSED, Cell.MISSED, Cell.HIT, Cell.SUNK);
+	}
+
 	@Test
-	public void testFireAllWhenSuccessfulThenGameStateChanges() {
+	public void testFireAllWhenSuccessfulThenWonOfGameStateIsTrue() {
 		// GIVEN in setup
-		BDDMockito.given(
-				enemyAPI.isShipPart(BDDMockito.any(Coordinate.class)))
-				.willReturn(false, false, true);
-		GuessedBattleField guessedBattleField = new GuessedBattleField();
-		guessedBattleField.setCellFieldType(new Coordinate(0,2), Cell.HIT);
-		guessedBattleField.setCellFieldType(new Coordinate(0,3), Cell.HIT);
-		guessedBattleField.setCellFieldType(new Coordinate(0,4), Cell.HIT);
-		guessedBattleField.setCellFieldType(new Coordinate(0,5), Cell.HIT);
-		guessedBattleField.setCellFieldType(new Coordinate(0,6), Cell.HIT);
-		guessedBattleField.setCellFieldType(new Coordinate(0,7), Cell.HIT);
-		guessedBattleField.setCellFieldType(new Coordinate(0,8), Cell.HIT);
-		guessedBattleField.setCellFieldType(new Coordinate(0,9), Cell.HIT);
-		guessedBattleField.setCellFieldType(new Coordinate(1,0), Cell.HIT);
-		guessedBattleField.setCellFieldType(new Coordinate(1,1), Cell.HIT);
-		System.out.println(guessedBattleField);
+		setBasicPlay();
 		// WHEN
 		GameState result = underTest.fireAll();
 		// THEN
 		Assert.assertTrue(result.isWon());
-		//Assert.assertEquals(result.getAttackCount(), 12);
-		
-		System.out.println(result.getGuessedBattleField());
-		//Assert.assertEquals(result.getGuessedBattleField(), guessedBattleField);
+	}
+
+	@Test
+	public void testFireAllWhenSuccessfulThenAttackCountOfGameStateIs12() {
+		// GIVEN in setup
+		setBasicPlay();
+		// WHEN
+		GameState result = underTest.fireAll();
+		// THEN
+		Assert.assertEquals(result.getAttackCount(), 14);
+	}
+
+	@Test
+	public void testFireAllWhenSuccessfulThenGuessedBattleFieldIsFilledCorrectly() {
+		// GIVEN in setup
+		setBasicPlay();
+		setBasicGuessedBattleField();
+		// WHEN
+		GameState result = underTest.fireAll();
+		// THEN
+		Assert.assertEquals(result.getGuessedBattleField(), guessedBattleField);
+	}
+
+	private void setBasicGuessedBattleField() {
+		guessedBattleField = new GuessedBattleField(gameConfiguration);
+		guessedBattleField.setCell(new Coordinate(0, 0), Cell.MISSED);
+		guessedBattleField.setCell(new Coordinate(0, 1), Cell.MISSED);
+		guessedBattleField.setCell(new Coordinate(0, 2), Cell.SUNK);
+		guessedBattleField.setCell(new Coordinate(0, 3), Cell.SUNK);
+		guessedBattleField.setCell(new Coordinate(0, 4), Cell.SUNK);
+		guessedBattleField.setCell(new Coordinate(0, 5), Cell.SUNK);
+		guessedBattleField.setCell(new Coordinate(0, 6), Cell.SUNK);
+		guessedBattleField.setCell(new Coordinate(0, 7), Cell.SUNK);
+		guessedBattleField.setCell(new Coordinate(0, 8), Cell.SUNK);
+		guessedBattleField.setCell(new Coordinate(0, 9), Cell.SUNK);
+		guessedBattleField.setCell(new Coordinate(1, 0), Cell.MISSED);
+		guessedBattleField.setCell(new Coordinate(1, 1), Cell.MISSED);
+		guessedBattleField.setCell(new Coordinate(1, 2), Cell.SUNK);
+		guessedBattleField.setCell(new Coordinate(1, 3), Cell.SUNK);
 	}
 }

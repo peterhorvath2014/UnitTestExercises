@@ -22,7 +22,7 @@ public class GuessedBattleFieldTest {
 	public void testGuessedBattleFieldWhenSetUnknownToZeroCoordinateThenGetUnknown() {
 		// GIVEN in setup
 		Coordinate coordinate = new Coordinate(0,0);
-		underTest.setCellFieldType(coordinate, Cell.UNKNOWN);
+		underTest.setCell(coordinate, Cell.UNKNOWN);
 		// WHEN
 		Cell result = underTest.getCellFieldType(coordinate);
 		// THEN throws Exception
@@ -33,7 +33,7 @@ public class GuessedBattleFieldTest {
 	public void testGuessedBattleFieldWhenSetUnknownToDifferentCoordinateThenGetUnknown() {
 		// GIVEN in setup
 		Coordinate coordinate = new Coordinate(3,4);
-		underTest.setCellFieldType(coordinate, Cell.UNKNOWN);
+		underTest.setCell(coordinate, Cell.UNKNOWN);
 		// WHEN
 		Cell result = underTest.getCellFieldType(coordinate);
 		// THEN throws Exception

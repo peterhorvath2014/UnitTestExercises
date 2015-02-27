@@ -1,19 +1,26 @@
 package com.epam.torpedo.play;
 
-import com.epam.torpedo.field.Coordinate;
+import com.epam.torpedo.config.GameConfiguration;
 import com.epam.torpedo.field.Cell;
+import com.epam.torpedo.field.Coordinate;
+import com.epam.torpedo.field.Field;
 import com.epam.torpedo.field.battlefield.GuessedBattleField;
 import com.epam.torpedo.field.battlefield.OwnedBattleField;
 import com.epam.torpedo.util.Utility;
 
 public class GameState {
-	public GameState(OwnedBattleField ownedBattleField) {
-		this(false, 0, new GuessedBattleField(), ownedBattleField);
+
+	private boolean won;
+	private int attackCount;
+	private GuessedBattleField guessedBattleField;
+	private OwnedBattleField ownedBattleField;
+
+	public GameState(OwnedBattleField ownedBattleField, GameConfiguration gameConfiguration) {
+		this(false, 0, new GuessedBattleField(gameConfiguration), ownedBattleField);
 	}
 
 	private GameState(boolean won, int attackCount,
-			GuessedBattleField guessedBattleField,
-			OwnedBattleField ownedBattleField) {
+			GuessedBattleField guessedBattleField, OwnedBattleField ownedBattleField) {
 		Utility.isParameterNull(guessedBattleField);
 		Utility.isParameterNull(ownedBattleField);
 		this.won = won;
@@ -21,11 +28,6 @@ public class GameState {
 		this.guessedBattleField = guessedBattleField;
 		this.ownedBattleField = ownedBattleField;
 	}
-
-	private boolean won;
-	private int attackCount;
-	private GuessedBattleField guessedBattleField;
-	private OwnedBattleField ownedBattleField;
 
 	public boolean isWon() {
 		return won;
@@ -51,7 +53,7 @@ public class GameState {
 		this.guessedBattleField = guessedBattleField;
 	}
 
-	public OwnedBattleField getOwnedBattleField() {
+	public Field getOwnedBattleField() {
 		return ownedBattleField;
 	}
 
@@ -73,12 +75,17 @@ public class GameState {
 	public int getSideLengthX() {
 		return guessedBattleField.getSideLengthX();
 	}
+
 	public int getSideLengthY() {
-		return guessedBattleField.getSideLengthX();
+		return guessedBattleField.getSideLengthY();
 	}
 
-	public void foundShipPart(Coordinate coordinate) {
-		guessedBattleField.setCellFieldType(coordinate, Cell.HIT);
+	public void setGuessedBattleFieldCell(Coordinate coordinate, Cell type) {
+		if (type == Cell.SUNK) {
+			guessedBattleField.changeAllConnectedHitToSunk(coordinate);
+		} else {
+			guessedBattleField.setCell(coordinate, type);
+		}
 	}
 
 	public Cell getGuessedCellFieldType(Coordinate coordinate) {
