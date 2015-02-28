@@ -23,4 +23,12 @@ public class Utility {
 			Utility.isParameterNull(parameter);
 		}
 	}
+
+	public static void sleep(int i) {
+		try {
+			Thread.sleep(i);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 }
