@@ -1,5 +1,7 @@
-package com.epam.torpedo.communication;
+package com.epam.torpedo.main;
 
+import com.epam.torpedo.communication.ClientPlayer;
+import com.epam.torpedo.communication.ServerPlayer;
 import com.epam.torpedo.config.GameConfiguration;
 import com.epam.torpedo.util.Utility;
 
