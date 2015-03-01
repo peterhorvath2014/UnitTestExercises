@@ -1,4 +1,4 @@
-package com.epam.torpedo.main;
+package com.epam.torpedo.communication.main;
 
 import java.io.BufferedReader;
 import java.io.IOException;

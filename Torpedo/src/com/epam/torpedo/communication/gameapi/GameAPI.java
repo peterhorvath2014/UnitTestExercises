@@ -1,4 +1,4 @@
-package com.epam.torpedo.gameapi;
+package com.epam.torpedo.communication.gameapi;
 
 import com.epam.torpedo.config.GameConfiguration;
 import com.epam.torpedo.field.Cell;

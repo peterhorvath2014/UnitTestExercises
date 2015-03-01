@@ -6,11 +6,11 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import com.epam.torpedo.communication.gameapi.EnemyAPI;
 import com.epam.torpedo.config.GameConfiguration;
 import com.epam.torpedo.field.Cell;
 import com.epam.torpedo.field.Coordinate;
 import com.epam.torpedo.field.battlefield.OwnedBattleField;
-import com.epam.torpedo.gameapi.EnemyAPI;
 
 public class GameStateTest {
 	private GameState underTest;

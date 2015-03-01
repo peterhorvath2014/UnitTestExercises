@@ -1,4 +1,4 @@
-package com.epam.torpedo.main;
+package com.epam.torpedo.communication.main;
 
 import java.io.IOException;
 import java.io.PrintWriter;

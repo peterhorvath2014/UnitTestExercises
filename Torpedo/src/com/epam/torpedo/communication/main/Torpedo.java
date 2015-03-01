@@ -1,4 +1,4 @@
-package com.epam.torpedo.main;
+package com.epam.torpedo.communication.main;
 
 import com.epam.torpedo.util.Utility;
 
