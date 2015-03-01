@@ -1,4 +1,4 @@
-package com.epam.torpedo.play;
+package com.epam.torpedo.game;
 
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -23,7 +23,7 @@ public class GameStateTest {
 	@BeforeMethod
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
-		gameConfiguration = new GameConfiguration(10, 10);
+		gameConfiguration = new GameConfiguration(10, 10, "127.0.0.1", 4321);
 		underTest = new GameState(ownedBattleField, gameConfiguration);
 	}
 

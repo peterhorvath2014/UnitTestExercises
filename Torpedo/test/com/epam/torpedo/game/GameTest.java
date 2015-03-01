@@ -1,24 +1,8 @@
-package com.epam.torpedo.play;
+package com.epam.torpedo.game;
 
-import org.mockito.BDDMockito;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+public class GameTest {
 
-import com.epam.torpedo.config.GameConfiguration;
-import com.epam.torpedo.field.Cell;
-import com.epam.torpedo.field.Coordinate;
-import com.epam.torpedo.field.battlefield.GuessedBattleField;
-import com.epam.torpedo.field.battlefield.OwnedBattleField;
-import com.epam.torpedo.game.GameState;
-import com.epam.torpedo.strategies.ShootEveryCellOneByOne;
-import com.epam.torpedo.strategies.Strategy;
-
-public class AutoPlayTest {
-
-	private Strategy underTest;
+	/*private Strategy underTest;
 
 	private OwnedBattleField ownedBattleField;
 
@@ -36,7 +20,7 @@ public class AutoPlayTest {
 		//BDDMockito.given(clientAPI.hello()).willReturn(gameConfiguration);
 		underTest = new ShootEveryCellOneByOne(gameConfiguration);
 	}
-/*
+
 	@Test(expectedExceptions = IllegalArgumentException.class)
 	public void testAutoPlayCreationWhenEnemyAPIParameterIsNullThenThorwsException() {
 		// GIVEN in setup
