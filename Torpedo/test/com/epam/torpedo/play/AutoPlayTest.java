@@ -7,19 +7,18 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.torpedo.communication.gameapi.EnemyAPI;
 import com.epam.torpedo.config.GameConfiguration;
 import com.epam.torpedo.field.Cell;
 import com.epam.torpedo.field.Coordinate;
 import com.epam.torpedo.field.battlefield.GuessedBattleField;
 import com.epam.torpedo.field.battlefield.OwnedBattleField;
+import com.epam.torpedo.game.GameState;
+import com.epam.torpedo.strategies.ShootEveryCellOneByOne;
+import com.epam.torpedo.strategies.Strategy;
 
 public class AutoPlayTest {
 
-	private AutoPlay underTest;
-
-	@Mock
-	private EnemyAPI enemyAPI;
+	private Strategy underTest;
 
 	private OwnedBattleField ownedBattleField;
 
@@ -34,15 +33,15 @@ public class AutoPlayTest {
 		ownedBattleField = new OwnedBattleField(gameConfiguration);
 		ownedBattleField.setCellRectangle(new Coordinate(0, 0), new Coordinate(
 				0, 9), Cell.SHIP_PART);
-		BDDMockito.given(enemyAPI.hello()).willReturn(gameConfiguration);
-		underTest = new AutoPlay(enemyAPI, ownedBattleField);
+		//BDDMockito.given(clientAPI.hello()).willReturn(gameConfiguration);
+		underTest = new ShootEveryCellOneByOne(gameConfiguration);
 	}
-
+/*
 	@Test(expectedExceptions = IllegalArgumentException.class)
 	public void testAutoPlayCreationWhenEnemyAPIParameterIsNullThenThorwsException() {
 		// GIVEN in setup
 		// WHEN
-		new AutoPlay(null, ownedBattleField);
+		new ShootEveryCellOneByOne(null, ownedBattleField);
 		// THEN throws Exception
 	}
 
@@ -50,12 +49,12 @@ public class AutoPlayTest {
 	public void testAutoPlayCreationWhenOwnedBattleFieldParameterIsNullThenThorwsException() {
 		// GIVEN in setup
 		// WHEN
-		new AutoPlay(enemyAPI, null);
+		new ShootEveryCellOneByOne(clientAPI, null);
 		// THEN throws Exception
 	}
 
 	private void setBasicPlay() {
-		BDDMockito.given(enemyAPI.shoot(BDDMockito.any(Coordinate.class)))
+		BDDMockito.given(clientAPI.shoot(BDDMockito.any(Coordinate.class)))
 				.willReturn(Cell.MISSED, Cell.MISSED, Cell.HIT, Cell.HIT,
 						Cell.HIT, Cell.HIT, Cell.HIT, Cell.HIT, Cell.HIT,
 						Cell.HIT, Cell.MISSED, Cell.MISSED, Cell.HIT, Cell.SUNK);
@@ -108,5 +107,5 @@ public class AutoPlayTest {
 		guessedBattleField.setCell(new Coordinate(1, 1), Cell.MISSED);
 		guessedBattleField.setCell(new Coordinate(1, 2), Cell.SUNK);
 		guessedBattleField.setCell(new Coordinate(1, 3), Cell.SUNK);
-	}
+	}*/
 }

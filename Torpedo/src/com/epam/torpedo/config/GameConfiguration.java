@@ -1,6 +1,11 @@
 package com.epam.torpedo.config;
 
 public class GameConfiguration {
+	@Override
+	public String toString() {
+		return "GameConfiguration [width=" + width + ", height=" + height + "]";
+	}
+
 	public final int width;
 	public final int height;
 

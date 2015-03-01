@@ -1,4 +1,4 @@
-package com.epam.torpedo.communication.main;
+package com.epam.torpedo.communication;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,7 +7,11 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class ClientThread implements Runnable {
+import com.epam.torpedo.config.GameConfiguration;
+import com.epam.torpedo.game.Game;
+
+public class ClientPlayer extends Player implements Runnable {
+
 	@Override
 	public void run() {
 		log("STARTED");
@@ -34,18 +38,20 @@ public class ClientThread implements Runnable {
 		}
 
 		try {
-			log("From server: " + in.readLine());
+			String serverAnswer = in.readLine();
+			log("Config from server: " + serverAnswer);
+			String[] configs = serverAnswer.split(" ");
+			gameAPI = new Game(new GameConfiguration(Integer.valueOf(configs[1]), Integer.valueOf(configs[2])));
+			
 			out.close();
 			in.close();
 			echoSocket.close();
+			
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		log(gameAPI.toString());
 		log("GAME OVER");
-	}
-
-	public void log(String logMessage) {
-		System.out.println("Client: " + logMessage);
 	}
 }

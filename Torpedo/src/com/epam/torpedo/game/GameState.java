@@ -1,4 +1,4 @@
-package com.epam.torpedo.play;
+package com.epam.torpedo.game;
 
 import com.epam.torpedo.config.GameConfiguration;
 import com.epam.torpedo.field.Cell;
@@ -90,6 +90,10 @@ public class GameState {
 
 	public Cell getGuessedCellFieldType(Coordinate coordinate) {
 		return guessedBattleField.getCellFieldType(coordinate);
+	}
+
+	public boolean isDone() {
+		return guessedBattleField.isDone(ownedBattleField.getNumberOfLiveShipParts());
 	}
 
 }

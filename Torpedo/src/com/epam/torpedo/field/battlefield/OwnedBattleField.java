@@ -12,6 +12,7 @@ public class OwnedBattleField extends Field {
 
 	public OwnedBattleField(GameConfiguration gameConfiguration) {
 		super(gameConfiguration);
+		//fillFieldWithShipsFromFileOnRandomPosition();
 	}
 
 	@Override

@@ -1,11 +1,18 @@
-package com.epam.torpedo.communication.main;
+package com.epam.torpedo.communication;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class ServerThread implements Runnable {
+import com.epam.torpedo.config.GameConfiguration;
+
+public class ServerPlayer extends Player implements Runnable {
+
+	public ServerPlayer(GameConfiguration gameConfiguration) {
+		super(gameConfiguration);
+	}
+
 	@Override
 	public void run() {
 		log("STARTED");
@@ -35,21 +42,24 @@ public class ServerThread implements Runnable {
 		try {
 			out = new PrintWriter(clientSocket.getOutputStream(), true);
 
-			String inputLine = "HELLO 100 100";
+			// TODO parser class
+			String inputLine = "HELLO " + gameAPI.getBattleFieldWidth() + " "
+					+ gameAPI.getBattleFieldHeight();
 			log("Server: " + inputLine);
 			out.println(inputLine);
 
+			// Fire
+			// Coordinate nextAttackingCoordinate =
+			// strategy.getNextAttackingCoordinate(attackHistory);
+			// attackHistory.add(nextAttackingCoordinate);
 			out.close();
 			clientSocket.close();
 			serverSocket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		
+		log(gameAPI.toString());
 		log("GAME OVER");
-	}
-	
-	public void log(String logMessage) {
-		System.out.println("Server: " + logMessage);
 	}
 }
