@@ -194,6 +194,7 @@ public abstract class Field {
 
 		for (List<Cell> row : field) {
 			for (Cell cell : row) {
+				// TODO check EMPTY and DENIED, EMTPY cannot override DENIED
 				this.setCell(new Coordinate(y, x), cell);
 				x++;
 			}

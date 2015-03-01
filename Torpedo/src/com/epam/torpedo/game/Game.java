@@ -19,21 +19,32 @@ public class Game {
 		OwnedBattleField ownedBattleField = new OwnedBattleField(gameConfiguration);
 		gameState = new GameState(ownedBattleField, this.gameConfiguration);
 	}
-
+	
+	public String getServerHost() {
+		return gameConfiguration.serverHost;
+	}
+	public int getServerPort() {
+		return gameConfiguration.serverPort;
+	}
 	public int getBattleFieldWidth() {
 		return gameConfiguration.width;
 	}
 	public int getBattleFieldHeight() {
 		return gameConfiguration.height;
 	}
-	
-	@Override
-	public String toString() {
-		return "GameAPI [gameConfiguration=" + gameConfiguration
-				+ ", gameState=" + gameState + ", strategy=" + strategy
-				+ ", attackHistory=" + attackHistory + "]";
+	public void setBattleFieldWidth(int width) {
+		gameConfiguration.width = width;
+	}
+	public void setBattleFieldHeight(int height) {
+		gameConfiguration.height = height;
 	}
 
+	@Override
+	public String toString() {
+		return "Game [gameConfiguration=" + gameConfiguration + ", gameState="
+				+ gameState + ", strategy=" + strategy + ", attackHistory="
+				+ attackHistory + "]";
+	}
 	
 	/*public Cell shootNext() {
 		return null;

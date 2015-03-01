@@ -4,17 +4,14 @@ import com.epam.torpedo.config.GameConfiguration;
 import com.epam.torpedo.game.Game;
 
 public class Player {
-	protected Game gameAPI;
-
-	public Player() {
-	}
+	protected Game game;
 
 	public Player(GameConfiguration gameConfiguration) {
-		this.gameAPI = new Game(gameConfiguration);
+		this.game = new Game(gameConfiguration);
 	}
 
-	public void setGameAPI(Game gameAPI) {
-		this.gameAPI = gameAPI;
+	public void setGame(Game game) {
+		this.game = game;
 	}
 
 	public void log(String logMessage) {

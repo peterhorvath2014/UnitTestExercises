@@ -7,7 +7,7 @@ import com.epam.torpedo.file.FileHandler;
 
 public class ShipFactory {
 	
-	public void createShipsFromFile() {
+	public static List<Ship> createShipsFromFile() {
 		FileHandler fileHandler = new FileHandler();
 		ArrayList<String> fileLines = fileHandler.retrieveFileLines();
 		List<Ship> ships = new ArrayList<Ship>();
@@ -23,7 +23,7 @@ public class ShipFactory {
 				ship.addLine(line.trim().split(" "));
 			}
 		}
-		//System.out.println(ships);
+		return ships;
 	}
 	
 	
