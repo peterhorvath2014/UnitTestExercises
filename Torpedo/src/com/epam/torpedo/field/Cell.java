@@ -31,4 +31,17 @@ public enum Cell {
 			return UNKNOWN;
 		}
 	}
+	
+	public static Cell getFieldTypeByFieldName(String name) {
+		switch (name) {
+		case "HIT":
+			return HIT;
+		case "SUNK":
+			return SUNK;
+		case "MISSED":
+			return MISSED;
+		default: 
+			return UNKNOWN;
+		}
+	}
 }

@@ -1,11 +1,14 @@
 package com.epam.torpedo.communication;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 import com.epam.torpedo.config.GameConfiguration;
+import com.epam.torpedo.strategies.ShootEveryCellOneByOne;
 
 public class ServerPlayer extends Player implements Runnable {
 
@@ -16,32 +19,32 @@ public class ServerPlayer extends Player implements Runnable {
 	@Override
 	public void run() {
 		log("STARTED");
-		
+
 		ServerSocket serverSocket = createServer();
-		
+
 		Socket clientSocket = waitForClientToConnect(serverSocket);
-		
+
 		communicateWithClient(serverSocket, clientSocket);
-		
+
 		log("GAME OVER");
 	}
 
 	private void communicateWithClient(ServerSocket serverSocket,
 			Socket clientSocket) {
-		PrintWriter out;
+		PrintWriter out = null;
+		BufferedReader in = null;
 		try {
 			out = new PrintWriter(clientSocket.getOutputStream(), true);
+			in = new BufferedReader(new InputStreamReader(
+					clientSocket.getInputStream()));
 
-			// TODO parser class
-			String inputLine = "HELLO " + game.getBattleFieldWidth() + " "
-					+ game.getBattleFieldHeight();
-			log("Server: " + inputLine);
-			out.println(inputLine);
+			sendConfigToClient(out);
 
-			// Fire
-			// Coordinate nextAttackingCoordinate =
-			// strategy.getNextAttackingCoordinate(attackHistory);
-			// attackHistory.add(nextAttackingCoordinate);
+			game.setStrategy(new ShootEveryCellOneByOne(game
+					.getGameConfiguration()));
+
+			playGame(out, in);
+
 			out.close();
 			clientSocket.close();
 			serverSocket.close();
@@ -49,6 +52,29 @@ public class ServerPlayer extends Player implements Runnable {
 			e.printStackTrace();
 		}
 		log(game.toString());
+	}
+
+	private void playGame(PrintWriter out, BufferedReader in)
+			throws IOException {
+		String messageFromClient = "";
+		do {
+			messageFromClient = recieveFire(out, in);
+			// TODO send YOU WON, Exception will be solved
+			
+			messageFromClient = sendFire(out, in);
+
+			if (game.isDone()) {
+				messageFromClient = "YOU WON";
+			}
+			// TODO ERROR check
+		} while (!messageFromClient.equals("YOU WON"));
+	}
+
+	private void sendConfigToClient(PrintWriter out) {
+		// TODO parser class
+		String message = "HELLO " + game.getBattleFieldWidth() + " "
+				+ game.getBattleFieldHeight();
+		sendMessage(out, message);
 	}
 
 	private Socket waitForClientToConnect(ServerSocket serverSocket) {
@@ -71,7 +97,8 @@ public class ServerPlayer extends Player implements Runnable {
 		try {
 			serverSocket = new ServerSocket(game.getServerPort());
 		} catch (IOException e) {
-			System.err.println("Could not listen on port: " + game.getServerPort());
+			System.err.println("Could not listen on port: "
+					+ game.getServerPort());
 			System.exit(1);
 		}
 		return serverSocket;

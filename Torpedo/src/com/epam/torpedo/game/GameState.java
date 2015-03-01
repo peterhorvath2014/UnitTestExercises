@@ -93,7 +93,21 @@ public class GameState {
 	}
 
 	public boolean isDone() {
-		return guessedBattleField.isDone(ownedBattleField.getNumberOfLiveShipParts());
+		if (guessedBattleField.isDone(ownedBattleField.getNumberOfLiveShipParts())) {
+			won = true;
+		}
+		return won;
+	}
+
+	public Cell checkFire(Coordinate coordinate) {
+		Cell cell = ownedBattleField.getCellFieldType(coordinate);
+		Cell result = Cell.MISSED;
+		if (cell == Cell.SHIP_PART) {
+			result = Cell.HIT;
+		}
+		//TODO SUNK
+		return result;
+		
 	}
 
 }
