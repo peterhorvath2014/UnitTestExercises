@@ -20,7 +20,6 @@ public class GameState {
 	private HomeBattleField homeBattleField;
 
 	public GameState(HomeBattleField homeBattleField, GameConfiguration gameConfiguration) {
-		Utility.isParameterNull(guessedOpponentBattleField);
 		Utility.isParameterNull(homeBattleField);
 		this.won = false;
 		this.attackHistoryHome = new LinkedList<Coordinate>();
@@ -58,10 +57,6 @@ public class GameState {
 
 	public void setHomeBattleField(HomeBattleField homeBattleField) {
 		this.homeBattleField = homeBattleField;
-	}
-
-	public void increaseAttackCountHome() {
-		this.attackCountHome++;
 	}
 
 	@Override
@@ -115,6 +110,7 @@ public class GameState {
 
 	public void addAttackHistory(Coordinate coordinate) {
 		attackHistoryHome.add(coordinate);
+		attackCountHome++;
 	}
 
 	public LinkedList<Coordinate> getAttackHistory() {

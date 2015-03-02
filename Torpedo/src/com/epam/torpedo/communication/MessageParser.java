@@ -29,6 +29,6 @@ public class MessageParser {
 	}
 
 	public static boolean isGameOver(String messageFromOpponent) {
-		return (messageFromOpponent.equals("YOU WON") && !messageFromOpponent.equals("GAME OVER"));
+		return (messageFromOpponent.equals("YOU WON") || messageFromOpponent.equals("GAME OVER"));
 	}
 }
