@@ -97,7 +97,7 @@ public abstract class Field {
 		return count;
 	}
 
-	public Cell getCellFieldType(Coordinate coordinate) {
+	public Cell getCell(Coordinate coordinate) {
 		if ((field.size() < 1)
 				|| (coordinate.getY() > getFieldMaxYCoordinate())
 				|| (coordinate.getX() > getFieldMaxXCoordinate())) {
@@ -215,7 +215,7 @@ public abstract class Field {
 		this.autoAddEmptyBorder();
 		for (int i = 1; i < getFieldMaxYCoordinate(); i++) {
 			for (int j = 1; j < getFieldMaxXCoordinate(); j++) {
-				if (getCellFieldType(new Coordinate(i, j)) == Cell.SHIP_PART) {
+				if (getCell(new Coordinate(i, j)) == Cell.SHIP_PART) {
 					setDeniedCell(i - 1, j);
 					setDeniedCell(i + 1, j);
 					setDeniedCell(i, j - 1);
@@ -227,7 +227,7 @@ public abstract class Field {
 
 	private void setDeniedCell(int i, int j) {
 		Coordinate shouldBeDeniedCell = new Coordinate(i, j);
-		if (getCellFieldType(shouldBeDeniedCell) != Cell.SHIP_PART) {
+		if (getCell(shouldBeDeniedCell) != Cell.SHIP_PART) {
 			setCell(shouldBeDeniedCell, Cell.DENIED);
 		}
 	}
@@ -312,10 +312,10 @@ public abstract class Field {
 	}
 
 	public boolean isShipPart(Coordinate coordinate) {
-		return getCellFieldType(coordinate) == Cell.SHIP_PART;
+		return getCell(coordinate) == Cell.SHIP_PART;
 	}
 
 	public boolean isHit(Coordinate coordinate) {
-		return getCellFieldType(coordinate) == Cell.HIT;
+		return getCell(coordinate) == Cell.HIT;
 	}
 }

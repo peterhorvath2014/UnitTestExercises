@@ -9,9 +9,9 @@ import com.epam.torpedo.field.Field;
 import com.epam.torpedo.field.ship.Ship;
 import com.epam.torpedo.field.ship.ShipFactory;
 
-public class OwnedBattleField extends Field {
+public class HomeBattleField extends Field {
 
-	public OwnedBattleField(GameConfiguration gameConfiguration) {
+	public HomeBattleField(GameConfiguration gameConfiguration) {
 		super(gameConfiguration);
 		fillFieldWithShipsFromFileOnRandomPosition();
 	}

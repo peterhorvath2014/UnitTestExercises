@@ -1,14 +1,10 @@
 package com.epam.torpedo.communication;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 import com.epam.torpedo.config.GameConfiguration;
-import com.epam.torpedo.strategies.ShootEveryCellOneByOne;
 
 public class ServerPlayer extends Player implements Runnable {
 
@@ -18,80 +14,45 @@ public class ServerPlayer extends Player implements Runnable {
 
 	@Override
 	public void run() {
-		log("STARTED");
-
+		gameLog("STARTED");
 		ServerSocket serverSocket = createServer();
-
 		Socket clientSocket = waitForClientToConnect(serverSocket);
-
-		communicateWithClient(serverSocket, clientSocket);
-
-		log("GAME OVER");
+		communicateWithOpponent(clientSocket);
+		gameLog("GAME OVER");
 	}
 
-	private void communicateWithClient(ServerSocket serverSocket,
-			Socket clientSocket) {
-		PrintWriter out = null;
-		BufferedReader in = null;
-		try {
-			out = new PrintWriter(clientSocket.getOutputStream(), true);
-			in = new BufferedReader(new InputStreamReader(
-					clientSocket.getInputStream()));
-
-			sendConfigToClient(out);
-
-			game.setStrategy(new ShootEveryCellOneByOne(game
-					.getGameConfiguration()));
-
-			playGame(out, in);
-
-			out.close();
-			clientSocket.close();
-			serverSocket.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		log(game.toString());
+	@Override
+	protected String playRound(CommunicationResources communicationResources) throws IOException {
+		String messageFromOpponent;
+		messageFromOpponent = defend(communicationResources);
+		messageFromOpponent = fire(communicationResources);
+		messageFromOpponent = checkHomeDone(messageFromOpponent);
+		return messageFromOpponent;
 	}
 
-	private void playGame(PrintWriter out, BufferedReader in)
-			throws IOException {
-		String messageFromOpponent = "";
-		do {
-			messageFromOpponent = recieveFire(out, in);
-			
-			messageFromOpponent = sendFire(out, in);
-
-			if (game.isHomeDone()) {
-				messageFromOpponent = "YOU WON";
-			}
-			// TODO ERROR check
-		} while (!messageFromOpponent.equals("YOU WON") && !messageFromOpponent.equals("GAME OVER"));
-	}
-
-	private void sendConfigToClient(PrintWriter out) {
+	@Override
+	protected void configExchange(CommunicationResources communicationResources) {
 		// TODO parser class
 		String message = "HELLO " + game.getBattleFieldWidth() + " "
 				+ game.getBattleFieldHeight();
-		sendMessage(out, message);
+		sendMessage(communicationResources.getOut(), message);
 	}
 
 	private Socket waitForClientToConnect(ServerSocket serverSocket) {
 		Socket clientSocket = null;
-		log("Waiting for connection.....");
-
+		gameLog("Waiting for connection...");
 		try {
 			clientSocket = serverSocket.accept();
 		} catch (IOException e) {
 			System.err.println("Accept failed.");
 			System.exit(1);
 		}
-
-		log("Connection successful");
+		gameLog("Connection successful");
 		return clientSocket;
 	}
 
 	private ServerSocket createServer() {
+		gameLog("Create server on port " + game.getServerPort());
 		ServerSocket serverSocket = null;
 		try {
 			serverSocket = new ServerSocket(game.getServerPort());

@@ -10,12 +10,12 @@ import com.epam.torpedo.field.Cell;
 
 public class GuessedBattleFieldTest {
 	
-	private GuessedBattleField underTest;
+	private GuessedOpponentBattleField underTest;
 
 	@BeforeMethod
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
-		underTest = new GuessedBattleField();
+		underTest = new GuessedOpponentBattleField();
 	}
 	
 	@Test
@@ -24,7 +24,7 @@ public class GuessedBattleFieldTest {
 		Coordinate coordinate = new Coordinate(0,0);
 		underTest.setCell(coordinate, Cell.UNKNOWN);
 		// WHEN
-		Cell result = underTest.getCellFieldType(coordinate);
+		Cell result = underTest.getCell(coordinate);
 		// THEN throws Exception
 		Assert.assertEquals(result, Cell.UNKNOWN);
 	}
@@ -35,7 +35,7 @@ public class GuessedBattleFieldTest {
 		Coordinate coordinate = new Coordinate(3,4);
 		underTest.setCell(coordinate, Cell.UNKNOWN);
 		// WHEN
-		Cell result = underTest.getCellFieldType(coordinate);
+		Cell result = underTest.getCell(coordinate);
 		// THEN throws Exception
 		Assert.assertEquals(result, Cell.UNKNOWN);
 	}

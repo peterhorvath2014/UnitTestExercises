@@ -9,14 +9,14 @@ import org.testng.annotations.Test;
 import com.epam.torpedo.config.GameConfiguration;
 import com.epam.torpedo.field.Cell;
 import com.epam.torpedo.field.Coordinate;
-import com.epam.torpedo.field.battlefield.OwnedBattleField;
+import com.epam.torpedo.field.battlefield.HomeBattleField;
 import com.epam.torpedo.game.GameState;
 
 public class GameStateTest {
 	private GameState underTest;
 
 	@Mock
-	private OwnedBattleField ownedBattleField;
+	private HomeBattleField homeBattleField;
 	
 	private GameConfiguration gameConfiguration;
 
@@ -24,7 +24,7 @@ public class GameStateTest {
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 		gameConfiguration = new GameConfiguration(10, 10, "127.0.0.1", 4321);
-		underTest = new GameState(ownedBattleField, gameConfiguration);
+		underTest = new GameState(homeBattleField, gameConfiguration);
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
@@ -39,7 +39,7 @@ public class GameStateTest {
 	public void testGameStateCreationWhenGameConfigurationParameterIsNullThenThorwsException() {
 		// GIVEN in setup
 		// WHEN
-		 new GameState(ownedBattleField, null);
+		 new GameState(homeBattleField, null);
 		// THEN throws Exception
 	}
 	
@@ -48,9 +48,9 @@ public class GameStateTest {
 		// GIVEN in setup
 		Coordinate coordinate = new Coordinate(0,0);
 		// WHEN
-		underTest.setGuessedBattleFieldCell(coordinate, Cell.HIT);
+		underTest.setGuessedOpponentBattleFieldCell(coordinate, Cell.HIT);
 		// THEN throws Exception
-		Assert.assertEquals(underTest.getGuessedCellFieldType(coordinate), Cell.HIT);
+		Assert.assertEquals(underTest.getGuessedOpponentCell(coordinate), Cell.HIT);
 	}
 	
 }

@@ -8,7 +8,7 @@ import com.epam.torpedo.util.Utility;
 public class PlayTorpedoAlone {
 
 	public static void main(String[] args) {
-		int battleFieldWidth = 10;
+		int battleFieldWidth = 20;
 		int battleFieldHeight = 10;
 		String serverHostname = "127.0.0.1";
 		int serverPort = 4321;

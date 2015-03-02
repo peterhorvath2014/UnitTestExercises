@@ -1,15 +1,10 @@
 package com.epam.torpedo.communication;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
 import com.epam.torpedo.config.GameConfiguration;
-import com.epam.torpedo.game.Game;
-import com.epam.torpedo.strategies.ShootEveryCellOneByOne;
 
 public class ClientPlayer extends Player implements Runnable {
 
@@ -19,81 +14,46 @@ public class ClientPlayer extends Player implements Runnable {
 
 	@Override
 	public void run() {
-		log("STARTED");
-
-		Socket clientSocket = createClient(game.getServerHost(),
-				game.getServerPort());
-
-		communicateWithServer(clientSocket);
-
-		log("GAME OVER");
+		gameLog("STARTED");
+		Socket clientSocket = createClient(game.getServerHost(), game.getServerPort());
+		communicateWithOpponent(clientSocket);
+		gameLog("GAME OVER");
 	}
 
-	private void communicateWithServer(Socket clientSocket) {
-		PrintWriter out = null;
-		BufferedReader in = null;
-		try {
-			out = new PrintWriter(clientSocket.getOutputStream(), true);
-			in = new BufferedReader(new InputStreamReader(
-					clientSocket.getInputStream()));
-
-			recieveConfigFromServer(in);
-
-			game.setStrategy(new ShootEveryCellOneByOne(game
-					.getGameConfiguration()));
-
-			playGame(out, in);
-
-			out.close();
-			in.close();
-			clientSocket.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+	@Override
+	protected String playRound(CommunicationResources communicationResources) throws IOException {
+		String messageFromOpponent;
+		messageFromOpponent = fire(communicationResources);
+		messageFromOpponent = checkHomeDone(messageFromOpponent);
+		if (!MessageParser.isMessageYouWon(messageFromOpponent)) {
+			messageFromOpponent = defend(communicationResources);
 		}
-		log(game.toString());
+		return messageFromOpponent;
 	}
 
-	private void playGame(PrintWriter out, BufferedReader in)
-			throws IOException {
-		String messageFromOpponent = "";
-		do {
-			messageFromOpponent = sendFire(out, in);
-
-			if (game.isHomeDone()) {
-				messageFromOpponent = "YOU WON";
-			} else {
-				messageFromOpponent = recieveFire(out, in);
-			}
-
-			// TODO ERROR check
-		} while (!messageFromOpponent.equals("YOU WON") && !messageFromOpponent.equals("GAME OVER"));
-	}
-
-	private void recieveConfigFromServer(BufferedReader in) throws IOException {
-		String serverMessage = in.readLine();
-		log("Config from server: " + serverMessage);
+	@Override
+	protected void configExchange(CommunicationResources communicationResources) throws IOException {
+		String serverMessage = communicationResources.getIn().readLine();
+		gameLog("Config from server: " + serverMessage);
 		String[] configs = serverMessage.split(" ");
 		game.setBattleFieldWidth(Integer.valueOf(configs[1]));
 		game.setBattleFieldHeight(Integer.valueOf(configs[2]));
-		game = new Game(game.getGameConfiguration());
+		// Need to reset, because we have just got the battlefield size from server
+		game.resetGame();
 	}
 
 	private Socket createClient(String serverHostname, int serverPort) {
-		log("Attemping to connect to host " + serverHostname + " on port "
-				+ serverPort);
-
-		Socket serverSocket = null;
-
+		gameLog("Attemping to connect to host " + serverHostname + " on port " + serverPort);
+		Socket clientSocket = null;
 		try {
-			serverSocket = new Socket(serverHostname, serverPort);
+			clientSocket = new Socket(serverHostname, serverPort);
 		} catch (UnknownHostException e) {
 			System.err.println("Don't know about host: " + serverHostname);
 			System.exit(1);
 		} catch (IOException e) {
-			System.err.println("Couldn't get I/O for " + "the connection to: "
-					+ serverHostname);
+			System.err.println("Couldn't get I/O for " + "the connection to: " + serverHostname);
 			System.exit(1);
 		}
-		return serverSocket;
+		return clientSocket;
 	}
 }
