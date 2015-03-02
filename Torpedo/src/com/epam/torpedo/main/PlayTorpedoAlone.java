@@ -13,11 +13,15 @@ public class PlayTorpedoAlone {
 		String serverHostname = "127.0.0.1";
 		int serverPort = 4321;
 
-		GameConfiguration gameConfiguration = new GameConfiguration(battleFieldWidth, battleFieldHeight,
+		//TODO Should I separate gameConfiguration to server and game configuration?
+		GameConfiguration gameConfigurationServer = new GameConfiguration(battleFieldWidth, battleFieldHeight,
 				serverHostname, serverPort);
 		
-		Thread serverThread = new Thread(new ServerPlayer(gameConfiguration));
-		Thread clientThread = new Thread(new ClientPlayer(gameConfiguration));
+		GameConfiguration gameConfigurationClient = new GameConfiguration(0, 0,
+				serverHostname, serverPort);
+		
+		Thread serverThread = new Thread(new ServerPlayer(gameConfigurationServer));
+		Thread clientThread = new Thread(new ClientPlayer(gameConfigurationClient));
 
 		serverThread.start();
 

@@ -38,7 +38,11 @@ public class Player {
 			if (cell == Cell.HIT) {
 				message = "HIT";
 			} else if (cell == Cell.SUNK) {
-				message = "SUNK";
+				if (game.isOpponentDone()) {
+					message = "YOU WON";
+				} else {
+					message = "SUNK";
+				}
 			}
 			out.println(message);
 		}
@@ -54,16 +58,20 @@ public class Player {
 		sendMessage(out, message);
 		game.addAttackToHitory(attackCoordinate);
 		messageFromOpponent = in.readLine();
-		if (messageFromOpponent.equals("MISSED")
-				|| messageFromOpponent.equals("HIT")
-				|| messageFromOpponent.equals("SUNK")) {
-			game.setGuessedBattleFieldCell(attackCoordinate,
-					Cell.getFieldTypeByFieldName(messageFromOpponent));
-		} else if (messageFromOpponent.equals("YOU WON")) {
-			game.setGuessedBattleFieldCell(attackCoordinate, Cell.SUNK);
+		if (messageFromOpponent != null) {
+			if (messageFromOpponent.equals("MISSED")
+					|| messageFromOpponent.equals("HIT")
+					|| messageFromOpponent.equals("SUNK")) {
+				game.setGuessedBattleFieldCell(attackCoordinate,
+						Cell.getFieldTypeByFieldName(messageFromOpponent));
+			} else if (messageFromOpponent.equals("YOU WON")) {
+				game.setGuessedBattleFieldCell(attackCoordinate, Cell.SUNK);
+			} else {
+				throw new RuntimeException("Error from server: "
+						+ messageFromOpponent);
+			}
 		} else {
-			throw new RuntimeException("Error from server: "
-					+ messageFromOpponent);
+			messageFromOpponent = "GAME OVER";
 		}
 		return messageFromOpponent;
 	}

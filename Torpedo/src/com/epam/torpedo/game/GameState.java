@@ -11,7 +11,8 @@ import com.epam.torpedo.util.Utility;
 public class GameState {
 
 	private boolean won;
-	private int attackCount;
+	private int attackCountHome;
+	private int attackHitOpponent;
 	private GuessedBattleField guessedBattleField;
 	private OwnedBattleField ownedBattleField;
 
@@ -19,12 +20,12 @@ public class GameState {
 		this(false, 0, new GuessedBattleField(gameConfiguration), ownedBattleField);
 	}
 
-	private GameState(boolean won, int attackCount,
+	private GameState(boolean won, int attackCountHome,
 			GuessedBattleField guessedBattleField, OwnedBattleField ownedBattleField) {
 		Utility.isParameterNull(guessedBattleField);
 		Utility.isParameterNull(ownedBattleField);
 		this.won = won;
-		this.attackCount = attackCount;
+		this.attackCountHome = attackCountHome;
 		this.guessedBattleField = guessedBattleField;
 		this.ownedBattleField = ownedBattleField;
 	}
@@ -37,12 +38,12 @@ public class GameState {
 		this.won = won;
 	}
 
-	public int getAttackCount() {
-		return attackCount;
+	public int getAttackCountHome() {
+		return attackCountHome;
 	}
 
-	public void setAttackCount(int attackCount) {
-		this.attackCount = attackCount;
+	public void setAttackCountHome(int attackCountHome) {
+		this.attackCountHome = attackCountHome;
 	}
 
 	public GuessedBattleField getGuessedBattleField() {
@@ -61,13 +62,14 @@ public class GameState {
 		this.ownedBattleField = ownedBattleField;
 	}
 
-	public void increaseAttackCount() {
-		this.attackCount++;
+	public void increaseAttackCountHome() {
+		this.attackCountHome++;
 	}
 
 	@Override
 	public String toString() {
-		return "GameResult [won=" + won + ", attackCount=" + attackCount
+		return "GameState [won=" + won + ", attackCountHome=" + attackCountHome
+				+ ", attackHitOpponent=" + attackHitOpponent
 				+ ", guessedBattleField=" + guessedBattleField
 				+ ", ownedBattleField=" + ownedBattleField + "]";
 	}
@@ -92,7 +94,7 @@ public class GameState {
 		return guessedBattleField.getCellFieldType(coordinate);
 	}
 
-	public boolean isDone() {
+	public boolean isHomeDone() {
 		if (guessedBattleField.isDone(ownedBattleField.getNumberOfLiveShipParts())) {
 			won = true;
 		}
@@ -104,10 +106,15 @@ public class GameState {
 		Cell result = Cell.MISSED;
 		if (cell == Cell.SHIP_PART) {
 			result = Cell.HIT;
+			attackHitOpponent++;
 		}
 		//TODO SUNK
 		return result;
 		
+	}
+
+	public boolean isOpponentDone() {
+		return attackHitOpponent == ownedBattleField.getNumberOfLiveShipParts();
 	}
 
 }

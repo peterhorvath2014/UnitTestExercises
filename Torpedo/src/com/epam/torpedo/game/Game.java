@@ -77,8 +77,12 @@ public class Game {
 		return gameState.checkFire(coordinate);
 	}
 
-	public boolean isDone() {
-		return gameState.isDone();
+	public boolean isHomeDone() {
+		return gameState.isHomeDone();
+	}
+
+	public boolean isOpponentDone() {
+		return gameState.isOpponentDone();
 	}
 
 	/*

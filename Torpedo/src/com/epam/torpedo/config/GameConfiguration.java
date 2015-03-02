@@ -25,7 +25,7 @@ public class GameConfiguration {
 
 	private void validateParameters(int width, int height, String serverHost,
 			int serverPort) {
-		if ((width < 1) || (height < 1)) {
+		if ((width < 0) || (height < 0)) {
 			throw new IllegalArgumentException("Field size is invalid: ("
 					+ width + ", " + height + ")");
 		}

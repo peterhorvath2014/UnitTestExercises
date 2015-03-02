@@ -56,18 +56,17 @@ public class ServerPlayer extends Player implements Runnable {
 
 	private void playGame(PrintWriter out, BufferedReader in)
 			throws IOException {
-		String messageFromClient = "";
+		String messageFromOpponent = "";
 		do {
-			messageFromClient = recieveFire(out, in);
-			// TODO send YOU WON, Exception will be solved
+			messageFromOpponent = recieveFire(out, in);
 			
-			messageFromClient = sendFire(out, in);
+			messageFromOpponent = sendFire(out, in);
 
-			if (game.isDone()) {
-				messageFromClient = "YOU WON";
+			if (game.isHomeDone()) {
+				messageFromOpponent = "YOU WON";
 			}
 			// TODO ERROR check
-		} while (!messageFromClient.equals("YOU WON"));
+		} while (!messageFromOpponent.equals("YOU WON") && !messageFromOpponent.equals("GAME OVER"));
 	}
 
 	private void sendConfigToClient(PrintWriter out) {

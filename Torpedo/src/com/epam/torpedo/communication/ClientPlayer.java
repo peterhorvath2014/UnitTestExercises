@@ -55,19 +55,18 @@ public class ClientPlayer extends Player implements Runnable {
 
 	private void playGame(PrintWriter out, BufferedReader in)
 			throws IOException {
-		String messageFromServer = "";
+		String messageFromOpponent = "";
 		do {
-			messageFromServer = sendFire(out, in);
+			messageFromOpponent = sendFire(out, in);
 
-			// TODO send YOU WON
-			if (game.isDone()) {
-				messageFromServer = "YOU WON";
+			if (game.isHomeDone()) {
+				messageFromOpponent = "YOU WON";
 			} else {
-				messageFromServer = recieveFire(out, in);
+				messageFromOpponent = recieveFire(out, in);
 			}
 
 			// TODO ERROR check
-		} while (!messageFromServer.equals("YOU WON"));
+		} while (!messageFromOpponent.equals("YOU WON") && !messageFromOpponent.equals("GAME OVER"));
 	}
 
 	private void recieveConfigFromServer(BufferedReader in) throws IOException {
