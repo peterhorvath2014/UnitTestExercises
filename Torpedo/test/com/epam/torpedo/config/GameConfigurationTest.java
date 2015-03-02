@@ -4,18 +4,18 @@ import org.testng.annotations.Test;
 
 public class GameConfigurationTest {
 	@Test(expectedExceptions = IllegalArgumentException.class)
-	public void testGameConfigurationCreationWhenFieldSizeParameterWidthIsZeroThenThorwsException() {
+	public void testGameConfigurationCreationWhenFieldSizeParameterWidthIsLessThanZeroThenThorwsException() {
 		// GIVEN in setup
 		// WHEN
-		 new GameConfiguration(0, 10, "127.0.0.1", 4321);
+		 new GameConfiguration(-1, 10, "127.0.0.1", 4321);
 		// THEN throws Exception
 	}
 	
 	@Test(expectedExceptions = IllegalArgumentException.class)
-	public void testGameConfigurationCreationWhenFieldSizeParameterHeightIsZeroThenThorwsException() {
+	public void testGameConfigurationCreationWhenFieldSizeParameterHeightIsLessThanZeroThenThorwsException() {
 		// GIVEN in setup
 		// WHEN
-		new GameConfiguration(10, 0, "127.0.0.1", 4321);
+		new GameConfiguration(10, -1, "127.0.0.1", 4321);
 		// THEN throws Exception
 	}
 	

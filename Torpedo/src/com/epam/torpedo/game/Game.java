@@ -83,4 +83,8 @@ public class Game {
 	public boolean isOpponentDone() {
 		return gameState.isOpponentDone();
 	}
+
+	public boolean isWon() {
+		return gameState.isWon();
+	}
 }

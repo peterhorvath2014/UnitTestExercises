@@ -113,7 +113,7 @@ public abstract class Player {
 		}
 		
 		closeResources(clientSocket, communicationResources);
-		gameLog(game.toString());
+		gameLog(game.isWon() ? "I WON" : "I DID NOT WIN");
 	}
 
 	private CommunicationResources createResources(Socket clientSocket) {
