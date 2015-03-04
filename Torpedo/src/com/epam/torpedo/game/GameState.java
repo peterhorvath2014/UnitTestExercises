@@ -13,57 +13,83 @@ import com.epam.torpedo.util.Utility;
 public class GameState {
 
 	private boolean won;
-	private int attackCountHome;
-	protected LinkedList<Coordinate> attackHistoryHome;
-	private int hitCountOpponent;
-	private GuessedOpponentBattleField guessedOpponentBattleField;
+	private Field guessedOpponentBattleField;
 	private HomeBattleField homeBattleField;
 
 	public GameState(HomeBattleField homeBattleField, GameConfiguration gameConfiguration) {
 		Utility.isParameterNull(homeBattleField);
+		Utility.isParameterNull(gameConfiguration);
 		this.won = false;
-		this.attackHistoryHome = new LinkedList<Coordinate>();
-		this.guessedOpponentBattleField = new GuessedOpponentBattleField(gameConfiguration);
+		this.guessedOpponentBattleField = new GuessedOpponentBattleField();
 		this.homeBattleField = homeBattleField;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((guessedOpponentBattleField == null) ? 0 : guessedOpponentBattleField.hashCode());
+		result = prime * result + ((homeBattleField == null) ? 0 : homeBattleField.hashCode());
+		result = prime * result + (won ? 1231 : 1237);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		GameState other = (GameState) obj;
+		if (guessedOpponentBattleField == null) {
+			if (other.guessedOpponentBattleField != null)
+				return false;
+		} else if (!guessedOpponentBattleField.equals(other.guessedOpponentBattleField))
+			return false;
+		if (homeBattleField == null) {
+			if (other.homeBattleField != null)
+				return false;
+		} else if (!homeBattleField.equals(other.homeBattleField))
+			return false;
+		if (won != other.won)
+			return false;
+		return true;
 	}
 
 	public boolean isWon() {
 		return won;
 	}
 
-	public void setWon(boolean won) {
+	private void setWon(boolean won) {
 		this.won = won;
 	}
 
-	public int getAttackCountHome() {
-		return attackCountHome;
+	private int getAttackCountHome() {
+		return homeBattleField.getAttackHistoryLength();
 	}
 
-	public void setAttackCountHome(int attackCountHome) {
-		this.attackCountHome = attackCountHome;
-	}
-
-	public GuessedOpponentBattleField getGuessedBattleField() {
+	private Field getGuessedBattleField() {
 		return guessedOpponentBattleField;
 	}
 
-	public void setGuessedOpponentBattleField(GuessedOpponentBattleField guessedOpponentBattleField) {
+	private void setGuessedOpponentBattleField(Field guessedOpponentBattleField) {
 		this.guessedOpponentBattleField = guessedOpponentBattleField;
 	}
 
-	public Field gethomeBattleField() {
+	private Field gethomeBattleField() {
 		return homeBattleField;
 	}
 
-	public void setHomeBattleField(HomeBattleField homeBattleField) {
+	private void setHomeBattleField(HomeBattleField homeBattleField) {
 		this.homeBattleField = homeBattleField;
 	}
 
 	@Override
 	public String toString() {
-		return "GameState [won=" + won + ", attackCountHome=" + attackCountHome + ", attackHistoryHome="
-				+ attackHistoryHome + ", hitCountOpponent=" + hitCountOpponent + ", guessedOpponentBattleField="
-				+ guessedOpponentBattleField + ", homeBattleField=" + homeBattleField + "]";
+		return "GameState [won=" + won + ", guessedOpponentBattleField=" + guessedOpponentBattleField
+				+ ", homeBattleField=" + homeBattleField + "]";
 	}
 
 	public int getSideLengthX() {
@@ -94,26 +120,17 @@ public class GameState {
 	}
 
 	public Cell checkFireOnHome(Coordinate coordinate) {
-		Cell cell = homeBattleField.getCell(coordinate);
-		Cell result = Cell.MISSED;
-		if (cell == Cell.SHIP_PART) {
-			result = Cell.HIT;
-			// TODO SUNK
-			hitCountOpponent++;
-		}
+		Cell result = homeBattleField.checkFire(coordinate);
 		return result;
+
 	}
 
 	public boolean isOpponentDone() {
-		return hitCountOpponent == homeBattleField.getNumberOfLiveShipParts();
+		return homeBattleField.isEveryShipSunk();
 	}
 
-	public void addAttackHistory(Coordinate coordinate) {
-		attackHistoryHome.add(coordinate);
-		attackCountHome++;
+	public LinkedList<Coordinate> getOwnAttackHistory() {
+		return homeBattleField.getAttackHistory();
 	}
 
-	public LinkedList<Coordinate> getAttackHistory() {
-		return attackHistoryHome;
-	}
 }

@@ -4,8 +4,8 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.epam.torpedo.field.Coordinate;
 import com.epam.torpedo.field.Cell;
+import com.epam.torpedo.field.Coordinate;
 
 public class ShipTest {
 	private Ship underTest;
@@ -65,6 +65,7 @@ public class ShipTest {
 	public void testAutoAddEmptyBorderWhenLeftLineIsNotEmptyThenAddsEmtpyLeftLine() {
 		// GIVEN in setup
 		underTest.setUninitializedCells(new Coordinate(3, 3), Cell.EMPTY);
+		
 		underTest.setCell(new Coordinate(1, 0), Cell.SHIP_PART);
 		underTest.setCell(new Coordinate(2, 0), Cell.SHIP_PART);
 		underTest.setCell(new Coordinate(1, 1), Cell.SHIP_PART);
@@ -134,5 +135,61 @@ public class ShipTest {
 		underTest.generateDeniedCells();
 		// THEN
 		Assert.assertEquals(underTest, expected);
+	}
+	
+	@Test
+	public void testGuessedBattleFieldWhenSetUnknownToZeroCoordinateThenGetUnknown() {
+		// GIVEN 
+		underTest = new Ship();
+		Coordinate coordinate = new Coordinate(0,0);
+		underTest.setCell(coordinate, Cell.UNKNOWN);
+		// WHEN
+		Cell result = underTest.getCell(coordinate);
+		// THEN throws Exception
+		Assert.assertEquals(result, Cell.UNKNOWN);
+	}
+	
+	@Test
+	public void testGuessedBattleFieldWhenSetUnknownToDifferentCoordinateThenGetUnknown() {
+		// GIVEN 
+		underTest = new Ship();
+		Coordinate coordinate = new Coordinate(3,4);
+		underTest.setCell(coordinate, Cell.UNKNOWN);
+		// WHEN
+		Cell result = underTest.getCell(coordinate);
+		// THEN throws Exception
+		Assert.assertEquals(result, Cell.UNKNOWN);
+	}
+	
+	@Test
+	public void testSetUninitializedCellsWhenNewCoordinateYHigherXLowerThanBeforeThenFillsCellsHigherXThanNewCoordinate() {
+		// GIVEN 
+		underTest = new Ship();
+		Coordinate coordinate = new Coordinate(4,4);
+		Coordinate newCoordinate = new Coordinate(5,2);
+		Coordinate newBottomLeftCoordinate = new Coordinate(5,4);
+		Ship expectedField = new Ship();
+		expectedField.setUninitializedCells(newBottomLeftCoordinate, Cell.UNKNOWN);
+		// WHEN
+		underTest.setUninitializedCells(coordinate, Cell.UNKNOWN);
+		underTest.setUninitializedCells(newCoordinate, Cell.UNKNOWN);
+		// THEN throws Exception
+		Assert.assertEquals(underTest, expectedField);
+	}
+	
+	@Test
+	public void testSetUninitializedCellsWhenNewCoordinateXHigherYLowerThanBeforeThenFillsCellsHigherYThanNewCoordinate() {
+		// GIVEN 
+		underTest = new Ship();
+		Coordinate coordinate = new Coordinate(4,4);
+		Coordinate newCoordinate = new Coordinate(2,5);
+		Coordinate newBottomLeftCoordinate = new Coordinate(4,5);
+		Ship expectedField = new Ship();
+		expectedField.setUninitializedCells(newBottomLeftCoordinate, Cell.UNKNOWN);
+		// WHEN
+		underTest.setUninitializedCells(coordinate, Cell.UNKNOWN);
+		underTest.setUninitializedCells(newCoordinate, Cell.UNKNOWN);
+		// THEN throws Exception
+		Assert.assertEquals(underTest, expectedField);
 	}
 }

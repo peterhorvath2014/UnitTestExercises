@@ -15,6 +15,10 @@ import com.epam.torpedo.strategies.ShootEveryCellOneByOne;
 public abstract class Player {
 	protected Game game;
 
+	public Game getGame() {
+		return game;
+	}
+
 	public Player(GameConfiguration gameConfiguration) {
 		this.game = new Game(gameConfiguration);
 	}
@@ -93,7 +97,7 @@ public abstract class Player {
 	private Coordinate sendFire(PrintWriter out) {
 		Coordinate nextAttackingCoordinate = game.getNextAttackingCoordinate();
 		sendMessage(out, MessageParser.buildCommandFire(nextAttackingCoordinate));
-		game.addAttackToHitory(nextAttackingCoordinate);
+		game.addAttackToOwnHistory(nextAttackingCoordinate);
 		return nextAttackingCoordinate;
 	}
 
@@ -113,7 +117,7 @@ public abstract class Player {
 		}
 		
 		closeResources(clientSocket, communicationResources);
-		gameLog(game.isWon() ? "I WON" : "I DID NOT WIN");
+		gameLog(game.isWon() ? "I WON" : "I LOST");
 	}
 
 	private CommunicationResources createResources(Socket clientSocket) {

@@ -1,9 +1,9 @@
 package com.epam.torpedo.field.ship;
 
 import com.epam.torpedo.field.Cell;
-import com.epam.torpedo.field.Field;
+import com.epam.torpedo.field.RealField;
 
-public class Ship extends Field {
+public class Ship extends RealField {
 
 	public Ship() {
 		super();
