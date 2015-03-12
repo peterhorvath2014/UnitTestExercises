@@ -59,6 +59,14 @@ public class Lab1 {
 			createTables();
 			
 			selectEmployees();
+			
+			printEmployeeNumber();
+			
+			removeEmployeesBelowLimit(1000);
+			
+			printEmployeeNumber();
+			
+			raiseSalary(0.1);
 
 		} catch (ClassNotFoundException e) {
 			System.err.println("Cannot load MySQL JDBC driver: " + e.getMessage());
@@ -67,6 +75,34 @@ public class Lab1 {
 		} finally {
 			disconnect();
 		}
+	}
+
+	private void printEmployeeNumber() throws SQLException {
+		String selectSQL = "SELECT COUNT(*) AS count FROM employee";
+		PreparedStatement preparedStatement = connection.prepareStatement(selectSQL);
+		
+		resultSet = preparedStatement.executeQuery();
+
+		if  (resultSet.next()) {
+			System.out.println("Count: " + resultSet.getInt("count"));
+		}
+	}
+
+	private void raiseSalary(double rate) throws SQLException {
+		String updateSql = "UPDATE employee_position " +
+				"SET monthly_salary = monthly_salary * ?";
+		PreparedStatement preparedStatement = connection.prepareStatement(updateSql);
+		preparedStatement.setDouble(1, 1 + rate);
+		preparedStatement.executeUpdate();
+	}
+
+	private void removeEmployeesBelowLimit(int i) throws SQLException {
+		String deleteSql = "DELETE employee FROM employee " +
+				"LEFT JOIN employee_position ON (employee_position.position_name = employee.position) " +
+				"WHERE employee_position.monthly_salary < ?";
+		PreparedStatement preparedStatement = connection.prepareStatement(deleteSql);
+		preparedStatement.setInt(1, i);
+		preparedStatement.executeUpdate();
 	}
 
 	public void createTables() throws SQLException {
