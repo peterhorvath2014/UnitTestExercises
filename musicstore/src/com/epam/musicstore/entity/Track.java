@@ -27,4 +27,32 @@ public class Track {
 	private Song song;
 
 	private int trackNumber;
+
+	public Album getAlbum() {
+		return album;
+	}
+
+	public void setAlbum(Album album) {
+		this.album = album;
+	}
+
+	public Song getSong() {
+		return song;
+	}
+
+	public void setSong(Song song) {
+		this.song = song;
+	}
+
+	public int getTrackNumber() {
+		return trackNumber;
+	}
+
+	public void setTrackNumber(int trackNumber) {
+		this.trackNumber = trackNumber;
+	}
+
+	public Long getId() {
+		return id;
+	}
 }
