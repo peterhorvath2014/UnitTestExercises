@@ -11,6 +11,14 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "track")
 public class Track {
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Track [id=" + id + ", album=" + album.getTitle() + ", song=" + song + ", trackNumber=" + trackNumber + "]";
+	}
+
 	public Track() {
 	}
 

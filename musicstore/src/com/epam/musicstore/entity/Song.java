@@ -32,6 +32,15 @@ public class Song {
 	@JoinColumn(name = "genre_id")
 	private Genre genre;
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Song [id=" + id + ", title=" + title + ", length=" + length + ", genre=" + genre + ", author=" + author
+				+ "]";
+	}
+
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "author_id")
 	private Author author;

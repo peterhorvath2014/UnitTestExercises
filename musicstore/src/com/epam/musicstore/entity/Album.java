@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -16,6 +17,14 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "album")
 public class Album {
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Album [id=" + id + ", title=" + title + ", yearOfPublish=" + yearOfPublish + ", tracks=" + tracks + "]";
+	}
+
 	public Album() {
 	}
 
@@ -29,6 +38,7 @@ public class Album {
 	@Column(name = "year_of_public")
 	private int yearOfPublish;
 
+	@ElementCollection
 	@OneToMany(mappedBy = "album", fetch = FetchType.EAGER)
 	@OrderBy("trackNumber ASC")
 	private List<Track> tracks = new ArrayList<>();

@@ -8,17 +8,17 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "author")
-public class Author {
+@Table(name = "user")
+public class User {
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "Author [id=" + id + ", name=" + name + "]";
+		return "User [id=" + id + ", name=" + name + "]";
 	}
 
-	public Author() {
+	public User() {
 	}
 
 	@Id

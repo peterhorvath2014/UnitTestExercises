@@ -11,6 +11,14 @@ import javax.persistence.Table;
 @Table(name = "genre")
 public class Genre {
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Genre [id=" + id + ", name=" + name + "]";
+	}
+
 	public Genre() {
 	}
 	
