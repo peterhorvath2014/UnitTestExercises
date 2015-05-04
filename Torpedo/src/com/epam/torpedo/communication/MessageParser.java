@@ -8,6 +8,7 @@ public class MessageParser {
 	public static final String HIT = "HIT";
 	public static final String SUNK = "SUNK";
 	public static final String YOU_WON = "YOU WON";
+	public static final String ERROR = "ERROR";
 
 	public static Coordinate parseCommandFire(String fireMessage) {
 		String[] messageFromOpponentParts = fireMessage.split(" ");
@@ -30,5 +31,9 @@ public class MessageParser {
 
 	public static boolean isGameOver(String messageFromOpponent) {
 		return (messageFromOpponent.equals("YOU WON") || messageFromOpponent.equals("GAME OVER"));
+	}
+
+	public static String buildCommandError(String message) {
+		return ERROR + " " + message;
 	}
 }

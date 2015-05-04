@@ -1,5 +1,7 @@
 package com.epam.torpedo.game;
 
+import java.util.LinkedList;
+
 import com.epam.torpedo.config.GameConfiguration;
 import com.epam.torpedo.field.Cell;
 import com.epam.torpedo.field.Coordinate;
@@ -93,7 +95,7 @@ public class Game {
 	}
 
 	public Coordinate getNextAttackingCoordinate() {
-		return strategy.getNextAttackingCoordinate(gameState.getOwnAttackHistory());
+		return strategy.getNextAttackingCoordinate(gameState.getGuessedAttackHistory());
 	}
 
 	public void setGuessedOpponentBattleFieldCell(Coordinate coordinate, Cell cell) {
@@ -111,19 +113,36 @@ public class Game {
 	}
 
 	public boolean isHomeDone() {
-		return gameState.isHomeDone();
+		return gameState.isHomeWon();
 	}
 
 	public boolean isOpponentDone() {
-		return gameState.isOpponentDone();
+		return gameState.isOpponentWon();
 	}
 
 	public boolean isWon() {
 		return gameState.isWon();
 	}
 
-	public void addAttackToOwnHistory(Coordinate nextAttackingCoordinate) {
+	/*public void addAttackToOwnHistory(Coordinate nextAttackingCoordinate) {
+		gameState.addAttackToOwnHistory(nextAttackingCoordinate);
+	}*/
+	
+	public LinkedList<Coordinate> getOwnAttackHistory() {
+		return gameState.getOwnAttackHistory();
+	}
+	
+	public LinkedList<Coordinate> getGuessedAttackHistory() {
+		return gameState.getGuessedAttackHistory();
+	}
+
+	public void printHomeBattleField() {
+		gameState.printHomeBattleField();
+	}
+
+	/*public void addAttackToGuessedHistory(Coordinate nextAttackingCoordinate) {
 		// TODO Auto-generated method stub
 		
-	}
+	}*/
+
 }

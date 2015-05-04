@@ -11,6 +11,7 @@ import com.epam.torpedo.field.Cell;
 import com.epam.torpedo.field.Coordinate;
 import com.epam.torpedo.game.Game;
 import com.epam.torpedo.strategies.ShootEveryCellOneByOne;
+import com.epam.torpedo.util.Utility;
 
 public abstract class Player {
 	protected Game game;
@@ -63,6 +64,7 @@ public abstract class Player {
 		Coordinate nextAttackingCoordinate = sendFire(communicationResources.getOut());
 		String answerFromOpponent = retrieveMessage(communicationResources.getIn());
 		answerFromOpponent = evaluateAnswerOnFire(nextAttackingCoordinate, answerFromOpponent);
+		//printAttackHistory();
 		return answerFromOpponent;
 	}
 
@@ -73,6 +75,11 @@ public abstract class Player {
 			answerFromOpponent = "GAME OVER";
 		}
 		return answerFromOpponent;
+	}
+	
+	private void printAttackHistory() {
+		gameLog("OwnAttackHistory: " + game.getOwnAttackHistory().toString());
+		gameLog("GuessedAttackHistory: " + game.getGuessedAttackHistory().toString());
 	}
 
 	private void setGuessedOpponentBattleFieldBasedOnAnswer(Coordinate nextAttackingCoordinate, String answerFromOpponent) {
@@ -95,15 +102,22 @@ public abstract class Player {
 	}
 
 	private Coordinate sendFire(PrintWriter out) {
-		Coordinate nextAttackingCoordinate = game.getNextAttackingCoordinate();
-		sendMessage(out, MessageParser.buildCommandFire(nextAttackingCoordinate));
-		game.addAttackToOwnHistory(nextAttackingCoordinate);
-		return nextAttackingCoordinate;
+		Coordinate nextAttackingCoordinate;
+		try {
+			nextAttackingCoordinate = game.getNextAttackingCoordinate();
+			sendMessage(out, MessageParser.buildCommandFire(nextAttackingCoordinate));
+			return nextAttackingCoordinate;
+		} catch (Exception e) {
+			sendMessage(out, MessageParser.buildCommandError(e.getMessage()));
+			printAttackHistory();
+			throw e;
+		}
 	}
 
 	protected void sendMessage(PrintWriter out, String message) {
 		gameLog(message);
 		out.println(message);
+		//Utility.sleep(1000);
 	}
 
 	protected void communicateWithOpponent(Socket clientSocket) {
@@ -112,12 +126,12 @@ public abstract class Player {
 			configExchange(communicationResources);
 			game.setStrategy(new ShootEveryCellOneByOne(game.getGameConfiguration()));
 			playGame(communicationResources);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		closeResources(clientSocket, communicationResources);
-		gameLog(game.isWon() ? "I WON" : "I LOST");
+		gameLog(game.isWon() ? "I WON" : "I LOST OR ERROR");
 	}
 
 	private CommunicationResources createResources(Socket clientSocket) {

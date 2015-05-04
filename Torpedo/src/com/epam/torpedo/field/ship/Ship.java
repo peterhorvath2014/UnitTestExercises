@@ -14,4 +14,9 @@ public class Ship extends RealField {
 		return Cell.EMPTY;
 	}
 
+	@Override
+	public void printField() {
+		//TODO
+	}
+
 }

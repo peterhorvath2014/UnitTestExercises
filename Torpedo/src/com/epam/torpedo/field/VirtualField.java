@@ -3,11 +3,13 @@ package com.epam.torpedo.field;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.epam.torpedo.communication.MessageParser;
 import com.epam.torpedo.field.ship.Ship;
 
 public class VirtualField implements Field {
 	private List<Ship> ships = new LinkedList<Ship>();
-	protected LinkedList<Coordinate> attackHistory;
+	protected Coordinate maxCoordinate = new Coordinate(0, 0);
+	private LinkedList<Coordinate> attackHistory;
 
 	public List<Ship> getShips() {
 		return ships;
@@ -15,14 +17,6 @@ public class VirtualField implements Field {
 
 	public void setShips(List<Ship> ships) {
 		this.ships = ships;
-	}
-
-	public LinkedList<Coordinate> getAttackHistory() {
-		return attackHistory;
-	}
-
-	public void setAttackHistory(LinkedList<Coordinate> attackHistory) {
-		this.attackHistory = attackHistory;
 	}
 
 	@Override
@@ -68,15 +62,8 @@ public class VirtualField implements Field {
 	}
 
 	@Override
-	public int getSideLengthX() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int getSideLengthY() {
-		// TODO Auto-generated method stub
-		return 0;
+	public Coordinate getMaxCoordinate() {
+		return maxCoordinate;
 	}
 
 	@Override
@@ -88,7 +75,7 @@ public class VirtualField implements Field {
 	@Override
 	public void setCell(Coordinate coordinate, Cell type) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -106,7 +93,7 @@ public class VirtualField implements Field {
 	@Override
 	public void addLine(String[] cells) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -123,6 +110,16 @@ public class VirtualField implements Field {
 
 	@Override
 	public void changeAllConnectedHitToSunk(Coordinate coordinate) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void setMaxCoordinate(Coordinate maxCoordinate) {
+		this.maxCoordinate = maxCoordinate;
+	}
+
+	@Override
+	public void printField() {
 		// TODO Auto-generated method stub
 		
 	}

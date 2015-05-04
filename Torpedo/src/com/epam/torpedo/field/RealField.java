@@ -27,8 +27,7 @@ public abstract class RealField implements Field {
 		return count(new Cell[] { Cell.SHIP_PART, Cell.HIT, Cell.SUNK });
 	}
 
-	@Override
-	public int getSideLengthX() {
+	private int getMaxXCoordinate() {
 		int sideLength = 0;
 		if (field.size() != 0) {
 			if (!field.get(0).isEmpty()) {
@@ -38,9 +37,13 @@ public abstract class RealField implements Field {
 		return sideLength;
 	}
 
-	@Override
-	public int getSideLengthY() {
+	private int getMaxYCoordinate() {
 		return field.size();
+	}
+	
+	@Override
+	public Coordinate getMaxCoordinate() {
+		return new Coordinate(getMaxYCoordinate(), getMaxXCoordinate());
 	}
 
 	@Override
@@ -335,4 +338,5 @@ public abstract class RealField implements Field {
 			}
 		}
 	}
+
 }

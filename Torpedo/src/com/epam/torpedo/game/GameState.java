@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import com.epam.torpedo.config.GameConfiguration;
 import com.epam.torpedo.field.Cell;
 import com.epam.torpedo.field.Coordinate;
-import com.epam.torpedo.field.Field;
 import com.epam.torpedo.field.battlefield.GuessedOpponentBattleField;
 import com.epam.torpedo.field.battlefield.HomeBattleField;
 import com.epam.torpedo.util.Utility;
@@ -13,7 +12,7 @@ import com.epam.torpedo.util.Utility;
 public class GameState {
 
 	private boolean won;
-	private Field guessedOpponentBattleField;
+	private GuessedOpponentBattleField guessedOpponentBattleField;
 	private HomeBattleField homeBattleField;
 
 	public GameState(HomeBattleField homeBattleField, GameConfiguration gameConfiguration) {
@@ -21,6 +20,8 @@ public class GameState {
 		Utility.isParameterNull(gameConfiguration);
 		this.won = false;
 		this.guessedOpponentBattleField = new GuessedOpponentBattleField();
+		this.guessedOpponentBattleField.setMaxCoordinate(new Coordinate(gameConfiguration.height-1, gameConfiguration.width-1));
+		
 		this.homeBattleField = homeBattleField;
 	}
 
@@ -62,7 +63,7 @@ public class GameState {
 		return won;
 	}
 
-	private void setWon(boolean won) {
+	/*private void setWon(boolean won) {
 		this.won = won;
 	}
 
@@ -84,20 +85,12 @@ public class GameState {
 
 	private void setHomeBattleField(HomeBattleField homeBattleField) {
 		this.homeBattleField = homeBattleField;
-	}
+	}*/
 
 	@Override
 	public String toString() {
 		return "GameState [won=" + won + ", guessedOpponentBattleField=" + guessedOpponentBattleField
 				+ ", homeBattleField=" + homeBattleField + "]";
-	}
-
-	public int getSideLengthX() {
-		return guessedOpponentBattleField.getSideLengthX();
-	}
-
-	public int getSideLengthY() {
-		return guessedOpponentBattleField.getSideLengthY();
 	}
 
 	public void setGuessedOpponentBattleFieldCell(Coordinate coordinate, Cell type) {
@@ -106,13 +99,14 @@ public class GameState {
 		} else {
 			guessedOpponentBattleField.setCell(coordinate, type);
 		}
+		guessedOpponentBattleField.addAttackHistory(coordinate);
 	}
 
 	public Cell getGuessedOpponentCell(Coordinate coordinate) {
 		return guessedOpponentBattleField.getCell(coordinate);
 	}
 
-	public boolean isHomeDone() {
+	public boolean isHomeWon() {
 		if (guessedOpponentBattleField.isDone(homeBattleField.getNumberOfLiveShipParts())) {
 			won = true;
 		}
@@ -121,16 +115,29 @@ public class GameState {
 
 	public Cell checkFireOnHome(Coordinate coordinate) {
 		Cell result = homeBattleField.checkFire(coordinate);
+		homeBattleField.addAttackHistory(coordinate);
 		return result;
 
 	}
 
-	public boolean isOpponentDone() {
+	public boolean isOpponentWon() {
 		return homeBattleField.isEveryShipSunk();
 	}
 
 	public LinkedList<Coordinate> getOwnAttackHistory() {
 		return homeBattleField.getAttackHistory();
+	}
+
+	/*public void addAttackToOwnHistory(Coordinate coordinate) {
+		homeBattleField.addAttackHistory(coordinate);
+	}*/
+
+	public LinkedList<Coordinate> getGuessedAttackHistory() {
+		return guessedOpponentBattleField.getAttackHistory();
+	}
+
+	public void printHomeBattleField() {
+		homeBattleField.printField();
 	}
 
 }

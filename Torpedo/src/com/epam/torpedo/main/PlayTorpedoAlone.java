@@ -9,8 +9,8 @@ public class PlayTorpedoAlone {
 
 	public static void main(String[] args) throws InterruptedException {
 		PlayTorpedoAlone playTorpedoAlone = new PlayTorpedoAlone();
-		int battleFieldWidth = 100;
-		int battleFieldHeight = 100;
+		int battleFieldWidth = 10;
+		int battleFieldHeight = 10;
 		String serverHostname = "127.0.0.1";
 		int serverPort = 4321;
 		playTorpedoAlone.play(battleFieldWidth, battleFieldHeight, serverHostname, serverPort);
