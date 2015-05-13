@@ -1,8 +1,9 @@
 package com.epam.torpedo.strategies;
 
-import java.util.LinkedList;
+import java.util.NavigableMap;
 
 import com.epam.torpedo.config.GameConfiguration;
+import com.epam.torpedo.field.Cell;
 import com.epam.torpedo.field.Coordinate;
 
 public abstract class Strategy {
@@ -13,5 +14,5 @@ public abstract class Strategy {
 		this.gameConfiguration = gameConfiguration;
 	}
 
-	public abstract Coordinate getNextAttackingCoordinate(LinkedList<Coordinate> attackHistory);
+	public abstract Coordinate getNextAttackingCoordinate(NavigableMap<Coordinate, Cell> attackHistory);
 }

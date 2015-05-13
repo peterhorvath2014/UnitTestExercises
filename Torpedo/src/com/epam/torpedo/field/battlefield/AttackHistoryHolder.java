@@ -1,13 +1,14 @@
 package com.epam.torpedo.field.battlefield;
 
-import java.util.LinkedList;
+import java.util.NavigableMap;
 
+import com.epam.torpedo.field.Cell;
 import com.epam.torpedo.field.Coordinate;
 
 public interface AttackHistoryHolder {
 
-	public LinkedList<Coordinate> getAttackHistory();
+	public NavigableMap<Coordinate, Cell> getAttackHistory();
 
-	public void addAttackHistory(Coordinate coordinate);
+	public void addAttackHistory(Coordinate coordinate, Cell cell);
 
 }

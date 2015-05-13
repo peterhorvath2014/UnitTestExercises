@@ -1,6 +1,6 @@
 package com.epam.torpedo.game;
 
-import java.util.LinkedList;
+import java.util.NavigableMap;
 
 import com.epam.torpedo.config.GameConfiguration;
 import com.epam.torpedo.field.Cell;
@@ -93,13 +93,13 @@ public class GameState {
 				+ ", homeBattleField=" + homeBattleField + "]";
 	}
 
-	public void setGuessedOpponentBattleFieldCell(Coordinate coordinate, Cell type) {
-		if (type == Cell.SUNK) {
+	public void setGuessedOpponentBattleFieldCell(Coordinate coordinate, Cell cell) {
+		if (cell == Cell.SUNK) {
 			guessedOpponentBattleField.changeAllConnectedHitToSunk(coordinate);
 		} else {
-			guessedOpponentBattleField.setCell(coordinate, type);
+			guessedOpponentBattleField.setCell(coordinate, cell);
 		}
-		guessedOpponentBattleField.addAttackHistory(coordinate);
+		guessedOpponentBattleField.addAttackHistory(coordinate, cell);
 	}
 
 	public Cell getGuessedOpponentCell(Coordinate coordinate) {
@@ -115,7 +115,7 @@ public class GameState {
 
 	public Cell checkFireOnHome(Coordinate coordinate) {
 		Cell result = homeBattleField.checkFire(coordinate);
-		homeBattleField.addAttackHistory(coordinate);
+		homeBattleField.addAttackHistory(coordinate, result);
 		return result;
 
 	}
@@ -124,7 +124,7 @@ public class GameState {
 		return homeBattleField.isEveryShipSunk();
 	}
 
-	public LinkedList<Coordinate> getOwnAttackHistory() {
+	public NavigableMap<Coordinate, Cell> getOwnAttackHistory() {
 		return homeBattleField.getAttackHistory();
 	}
 
@@ -132,12 +132,16 @@ public class GameState {
 		homeBattleField.addAttackHistory(coordinate);
 	}*/
 
-	public LinkedList<Coordinate> getGuessedAttackHistory() {
+	public NavigableMap<Coordinate, Cell> getGuessedAttackHistory() {
 		return guessedOpponentBattleField.getAttackHistory();
 	}
 
 	public void printHomeBattleField() {
 		homeBattleField.printField();
+	}
+	
+	public void printGuessedBattleField() {
+		guessedOpponentBattleField.printField();
 	}
 
 }

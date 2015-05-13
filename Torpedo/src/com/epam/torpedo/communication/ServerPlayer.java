@@ -19,6 +19,7 @@ public class ServerPlayer extends Player implements Runnable {
 		Socket clientSocket = waitForClientToConnect(serverSocket);
 		communicateWithOpponent(clientSocket);
 		game.printHomeBattleField();
+		game.printGuessedBattleField();
 		gameLog("GAME OVER");
 	}
 

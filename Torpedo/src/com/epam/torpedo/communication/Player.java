@@ -11,7 +11,6 @@ import com.epam.torpedo.field.Cell;
 import com.epam.torpedo.field.Coordinate;
 import com.epam.torpedo.game.Game;
 import com.epam.torpedo.strategies.ShootEveryCellOneByOne;
-import com.epam.torpedo.util.Utility;
 
 public abstract class Player {
 	protected Game game;

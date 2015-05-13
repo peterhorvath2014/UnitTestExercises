@@ -1,6 +1,6 @@
 package com.epam.torpedo.game;
 
-import java.util.LinkedList;
+import java.util.NavigableMap;
 
 import com.epam.torpedo.config.GameConfiguration;
 import com.epam.torpedo.field.Cell;
@@ -128,16 +128,20 @@ public class Game {
 		gameState.addAttackToOwnHistory(nextAttackingCoordinate);
 	}*/
 	
-	public LinkedList<Coordinate> getOwnAttackHistory() {
+	public NavigableMap<Coordinate, Cell> getOwnAttackHistory() {
 		return gameState.getOwnAttackHistory();
 	}
 	
-	public LinkedList<Coordinate> getGuessedAttackHistory() {
+	public NavigableMap<Coordinate, Cell> getGuessedAttackHistory() {
 		return gameState.getGuessedAttackHistory();
 	}
 
 	public void printHomeBattleField() {
 		gameState.printHomeBattleField();
+	}
+	
+	public void printGuessedBattleField() {
+		gameState.printGuessedBattleField();
 	}
 
 	/*public void addAttackToGuessedHistory(Coordinate nextAttackingCoordinate) {

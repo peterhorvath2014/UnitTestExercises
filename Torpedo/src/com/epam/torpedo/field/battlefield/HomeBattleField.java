@@ -1,9 +1,8 @@
 package com.epam.torpedo.field.battlefield;
 
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
+import java.util.NavigableMap;
+import java.util.TreeMap;
 
 import com.epam.torpedo.config.GameConfiguration;
 import com.epam.torpedo.field.Cell;
@@ -13,8 +12,9 @@ import com.epam.torpedo.field.ship.Ship;
 import com.epam.torpedo.field.ship.ShipFactory;
 
 public class HomeBattleField extends RealField implements AttackHistoryHolder {
-	private LinkedList<Coordinate> attackHistory = new LinkedList<Coordinate>();
-
+	
+	private NavigableMap<Coordinate, Cell> attackHistory = new TreeMap<Coordinate, Cell>();
+	
 	public HomeBattleField(GameConfiguration gameConfiguration) {
 		super(gameConfiguration);
 		fillFieldWithShipsFromFileOnRandomPosition();
@@ -38,13 +38,13 @@ public class HomeBattleField extends RealField implements AttackHistoryHolder {
 	}
 	
 	@Override
-	public LinkedList<Coordinate> getAttackHistory() {
+	public NavigableMap<Coordinate, Cell> getAttackHistory() {
 		return attackHistory;
 	}
 
 	@Override
-	public void addAttackHistory(Coordinate coordinate) {
-		attackHistory.add(coordinate);
+	public void addAttackHistory(Coordinate coordinate, Cell cell) {
+		attackHistory.put(coordinate, cell);
 	}
 	
 	@Override

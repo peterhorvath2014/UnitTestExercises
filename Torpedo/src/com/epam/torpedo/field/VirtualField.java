@@ -3,13 +3,11 @@ package com.epam.torpedo.field;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.epam.torpedo.communication.MessageParser;
 import com.epam.torpedo.field.ship.Ship;
 
 public class VirtualField implements Field {
 	private List<Ship> ships = new LinkedList<Ship>();
 	protected Coordinate maxCoordinate = new Coordinate(0, 0);
-	private LinkedList<Coordinate> attackHistory;
 
 	public List<Ship> getShips() {
 		return ships;
@@ -19,41 +17,6 @@ public class VirtualField implements Field {
 		this.ships = ships;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((attackHistory == null) ? 0 : attackHistory.hashCode());
-		result = prime * result + ((ships == null) ? 0 : ships.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		VirtualField other = (VirtualField) obj;
-		if (attackHistory == null) {
-			if (other.attackHistory != null)
-				return false;
-		} else if (!attackHistory.equals(other.attackHistory))
-			return false;
-		if (ships == null) {
-			if (other.ships != null)
-				return false;
-		} else if (!ships.equals(other.ships))
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "VirtualField [ships=" + ships + ", attackHistory=" + attackHistory + "]";
-	}
 
 	@Override
 	public int getNumberOfLiveShipParts() {
@@ -68,7 +31,8 @@ public class VirtualField implements Field {
 
 	@Override
 	public Cell getCell(Coordinate coordinate) {
-		// TODO Auto-generated method stub
+		//TODO
+		
 		return null;
 	}
 
@@ -120,8 +84,14 @@ public class VirtualField implements Field {
 
 	@Override
 	public void printField() {
-		// TODO Auto-generated method stub
-		
+		System.out.println("maxCoordinate: " + maxCoordinate);
+		for (int i = 0; i < maxCoordinate.getX(); i++) {
+			for (int j = 0; j < maxCoordinate.getY(); j++) {
+				System.out.print(getCell(new Coordinate(i,j)));
+			}
+			System.out.println();
+		}
+
 	}
 
 }
