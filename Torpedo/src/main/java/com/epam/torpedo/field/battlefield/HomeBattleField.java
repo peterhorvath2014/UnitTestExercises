@@ -1,5 +1,6 @@
 package com.epam.torpedo.field.battlefield;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import com.epam.torpedo.field.Coordinate;
 import com.epam.torpedo.field.RealField;
 import com.epam.torpedo.field.ship.Ship;
 import com.epam.torpedo.field.ship.ShipFactory;
+import com.epam.torpedo.util.Utility;
 
 public class HomeBattleField extends RealField implements AttackHistoryHolder {
 	private static final Logger logger = LogManager.getLogger();
@@ -22,24 +24,83 @@ public class HomeBattleField extends RealField implements AttackHistoryHolder {
 
 	public HomeBattleField(GameConfiguration gameConfiguration) {
 		super(gameConfiguration);
-		fillFieldWithShipsFromFileOnRandomPosition();
+		if (!field.isEmpty()) {
+			int tryAgain = 0;
+			int maxTrial = 10;
+			while (tryAgain < maxTrial) {
+				try {
+					fillFieldWithShipsFromFileOnRandomPosition();
+					logger.debug("Needed " + (tryAgain + 1) + " trial to put ships on home field." + this.toString());
+					tryAgain = maxTrial;
+				} catch (IllegalArgumentException ex) {
+					field = new ArrayList<List<Cell>>();
+					setUninitializedCells(new Coordinate(gameConfiguration.height - 1, gameConfiguration.width - 1),
+							getDefaultFillingType());
+					tryAgain++;
+				}
+			}
+		}
 	}
 
 	private void fillFieldWithShipsFromFileOnRandomPosition() {
+		logger.debug("Field: " + toString());
 		List<Ship> ships = ShipFactory.createShipsFromFile();
-		// TODO check if ships fit to battleField
-		// TODO make it random
-		Coordinate coordinate = new Coordinate(0, 0);
 		for (Ship ship : ships) {
-			addFieldToPosition(ship.getField(), coordinate);
-			int newX = coordinate.getX() + 5;
-			int newY = coordinate.getY();
-			if (newX > 5) {
-				newX = 0;
-				newY = 5;
+			Coordinate shipMaxCoordinate = ship.getMaxCoordinate();
+			boolean successfulPlacement = false;
+			while (!successfulPlacement) {
+				Coordinate coordinate = getRandomCoordinate(shipMaxCoordinate);
+				logger.debug("Trying to place ship: " + ship.toString() + " on Coordinate: " + coordinate
+						+ "on Battlefield: " + this.toString());
+				if (!isShipOutOfBounds(coordinate, shipMaxCoordinate)
+						&& isFieldsOverwritable(coordinate, shipMaxCoordinate)) {
+					addFieldToPosition(ship.getField(), coordinate);
+					successfulPlacement = true;
+					logger.debug("Successful placement of ship: " + ship.toString() + " on Coordinate: " + coordinate
+							+ "on Battlefield: " + this.toString());
+				} else {
+					logger.debug("Unsuccessful placement of ship: " + ship.toString() + " on Coordinate: " + coordinate
+							+ "on Battlefield: " + this.toString());
+				}
 			}
-			coordinate = new Coordinate(newY, newX);
 		}
+	}
+
+	private boolean isFieldsOverwritable(Coordinate coordinate, Coordinate shipMaxCoordinate) {
+		for (int i = 0; i < shipMaxCoordinate.getY(); i++) {
+			for (int j = 0; j < shipMaxCoordinate.getX(); j++) {
+				Cell actualCell = getCell(new Coordinate(coordinate.getY() + i, coordinate.getX() + j));
+				if (!isCellOverwritable(actualCell)) {
+					return (false);
+				}
+			}
+		}
+		return true;
+	}
+
+	private boolean isCellOverwritable(Cell actualCell) {
+		return actualCell != Cell.SHIP_PART && actualCell != Cell.DENIED;
+	}
+
+	private boolean isShipOutOfBounds(Coordinate coordinate, Coordinate shipMaxCoordinate) {
+		return getMaxCoordinate().getX() - shipMaxCoordinate.getX() - coordinate.getX() < 0
+				|| getMaxCoordinate().getY() - shipMaxCoordinate.getY() - coordinate.getY() < 0;
+	}
+
+	private Coordinate getRandomCoordinate(Coordinate shipMaxCoordinate) {
+		List<Coordinate> possiblePlaces = new ArrayList<Coordinate>();
+		for (int i = 0; i < getMaxCoordinate().getY() - shipMaxCoordinate.getY(); i++) {
+			for (int j = 0; j < getMaxCoordinate().getX() - shipMaxCoordinate.getX(); j++) {
+				Coordinate possibleCoordinate = new Coordinate(i, j);
+				Cell cell = getCell(possibleCoordinate);
+				if (cell == Cell.EMPTY) {
+					if (isFieldsOverwritable(possibleCoordinate, shipMaxCoordinate)) {
+						possiblePlaces.add(possibleCoordinate);
+					}
+				}
+			}
+		}
+		return possiblePlaces.get(Utility.RANDOM.nextInt(possiblePlaces.size()));
 	}
 
 	@Override
@@ -78,7 +139,7 @@ public class HomeBattleField extends RealField implements AttackHistoryHolder {
 		logger.debug(connectedCells);
 		return !connectedCells.containsValue(Cell.SHIP_PART);
 	}
-	
+
 	private void getConnectedCells(Coordinate coordinate, Map<Coordinate, Cell> connectedCells) {
 		for (int i = coordinate.getY() - 1; i <= coordinate.getY() + 1; i++) {
 			for (int j = coordinate.getX() - 1; j <= coordinate.getX() + 1; j++) {
@@ -89,7 +150,7 @@ public class HomeBattleField extends RealField implements AttackHistoryHolder {
 							connectedCells.put(connectedCoordinate, getCell(connectedCoordinate));
 							getConnectedCells(connectedCoordinate, connectedCells);
 						}
-					} 
+					}
 				}
 			}
 		}

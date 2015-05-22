@@ -4,9 +4,13 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.epam.torpedo.config.GameConfiguration;
 
 public class ClientPlayer extends Player implements Runnable {
+	private static final Logger logger = LogManager.getLogger();
 
 	public ClientPlayer(GameConfiguration gameConfiguration) {
 		super(gameConfiguration);
@@ -38,7 +42,9 @@ public class ClientPlayer extends Player implements Runnable {
 		String[] configs = serverMessage.split(" ");
 		game.setBattleFieldWidth(Integer.valueOf(configs[1]));
 		game.setBattleFieldHeight(Integer.valueOf(configs[2]));
-		// Need to reset, because we have just got the battlefield size from server
+		// Need to reset, because we have just got the battlefield size from
+		// server
+		logger.debug("configExchange");
 		game.resetGame();
 	}
 
