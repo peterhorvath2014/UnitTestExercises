@@ -43,9 +43,13 @@ public class GuessedOpponentBattleField extends VirtualField implements AttackHi
 				for (int j = 0; j <= maxCoordinate.getY(); j++) {
 					Cell cell = attackHistory.get(new Coordinate(i, j));
 					if (cell == null) {
-						sb.append(". ");
+						sb.append(".. ");
 					} else {
-						sb.append(cell.name().substring(0, 1) + " ");
+						String displayString = cell.name().substring(0, 2);
+						if (displayString.equals("MI")) {
+							displayString = displayString.toLowerCase();
+						}
+						sb.append(displayString + " ");
 					}
 				}
 				sb.append("\n");

@@ -1,6 +1,8 @@
 package com.epam.torpedo.field.battlefield;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
@@ -70,33 +72,38 @@ public class HomeBattleField extends RealField implements AttackHistoryHolder {
 	}
 
 	private boolean isSunk(Coordinate coordinate) {
-		boolean result = true;
-		setCell(coordinate, Cell.SUNK);
+		HashMap<Coordinate, Cell> connectedCells = new HashMap<Coordinate, Cell>();
+		getConnectedCells(coordinate, connectedCells);
+		connectedCells.remove(coordinate);
+		logger.debug(connectedCells);
+		return !connectedCells.containsValue(Cell.SHIP_PART);
+	}
+	
+	private void getConnectedCells(Coordinate coordinate, Map<Coordinate, Cell> connectedCells) {
 		for (int i = coordinate.getY() - 1; i <= coordinate.getY() + 1; i++) {
 			for (int j = coordinate.getX() - 1; j <= coordinate.getX() + 1; j++) {
 				Coordinate connectedCoordinate = new Coordinate(i, j);
 				if (!isCoordinateOutOfBounds(connectedCoordinate)) {
-					if (isHit(connectedCoordinate)) {
-						result = isSunk(connectedCoordinate);
-						if (!result) {
-							logger.info("coordinate: " + coordinate + " not isSunk");
-							return false;
+					if (isHit(connectedCoordinate) || isShipPart(connectedCoordinate)) {
+						if (!connectedCells.containsKey(connectedCoordinate)) {
+							connectedCells.put(connectedCoordinate, getCell(connectedCoordinate));
+							getConnectedCells(connectedCoordinate, connectedCells);
 						}
-					} else if (isShipPart(connectedCoordinate)) {
-						setCell(coordinate, Cell.HIT);
-						logger.info("coordinate: " + coordinate + " not isSunk");
-						return false;
-					}
+					} 
 				}
 			}
 		}
-		logger.info("coordinate: " + coordinate + " isSunk");
-		return result;
 	}
 
 	public boolean isEveryShipSunk() {
-		// TODO Auto-generated method stub
-		return false;
+		for (List<Cell> row : field) {
+			for (Cell element : row) {
+				if (element == Cell.SHIP_PART) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	public String toString() {
@@ -104,11 +111,15 @@ public class HomeBattleField extends RealField implements AttackHistoryHolder {
 		sb.append("\n");
 		for (List<Cell> line : field) {
 			for (Cell cell : line) {
-				sb.append(cell.name().substring(0, 1) + " ");
+				String displayString = cell.name().substring(0, 2);
+				if (displayString.equals("SH") || displayString.equals("DE") || displayString.equals("EM")) {
+					displayString = displayString.toLowerCase();
+				}
+				sb.append(displayString + " ");
 			}
 			sb.append("\n");
 		}
 		return sb.toString();
 	}
-	
+
 }

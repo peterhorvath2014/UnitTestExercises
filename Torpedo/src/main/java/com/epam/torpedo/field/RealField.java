@@ -3,12 +3,15 @@ package com.epam.torpedo.field;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.epam.torpedo.config.GameConfiguration;
 import com.epam.torpedo.field.ship.Ship;
 import com.epam.torpedo.util.Utility;
 
 public abstract class RealField implements Field {
-
+	private static final Logger logger = LogManager.getLogger();
 	protected List<List<Cell>> field;
 
 	public RealField() {
@@ -39,7 +42,7 @@ public abstract class RealField implements Field {
 	private int getMaxYCoordinate() {
 		return field.size();
 	}
-	
+
 	@Override
 	public Coordinate getMaxCoordinate() {
 		return new Coordinate(getMaxYCoordinate(), getMaxXCoordinate());
@@ -317,6 +320,7 @@ public abstract class RealField implements Field {
 	}
 
 	public void changeAllConnectedHitToSunk(Coordinate coordinate) {
+		logger.debug("changeAllConnectedHitToSunk" + coordinate);
 		setCell(coordinate, Cell.SUNK);
 		// recursive call to all surrounding cell which has HIT on it
 		for (int i = coordinate.getY() - 1; i <= coordinate.getY() + 1; i++) {
