@@ -22,7 +22,6 @@ public abstract class RealField implements Field {
 				getDefaultFillingType());
 	}
 
-	@Override
 	public int getNumberOfLiveShipParts() {
 		return count(new Cell[] { Cell.SHIP_PART, Cell.HIT, Cell.SUNK });
 	}
@@ -103,7 +102,6 @@ public abstract class RealField implements Field {
 		return count;
 	}
 
-	@Override
 	public Cell getCell(Coordinate coordinate) {
 		Cell result = Cell.UNKNOWN;
 		if (!isCoordinateOutOfBounds(coordinate)) {
@@ -112,7 +110,8 @@ public abstract class RealField implements Field {
 		return result;
 	}
 
-	protected boolean isCoordinateOutOfBounds(Coordinate coordinate) {
+	@Override
+	public boolean isCoordinateOutOfBounds(Coordinate coordinate) {
 		return (field.isEmpty() || coordinate.getX() < 0 || coordinate.getY() < 0
 				|| coordinate.getX() > getFieldMaxCoordinateX() || coordinate.getY() > getFieldMaxCoordinateY());
 	}
@@ -127,7 +126,6 @@ public abstract class RealField implements Field {
 
 	}
 
-	@Override
 	public void setCell(Coordinate coordinate, Cell type) {
 		if (isCoordinateOutOfBounds(coordinate)) {
 			setUninitializedCells(coordinate, getDefaultFillingType());
@@ -176,7 +174,6 @@ public abstract class RealField implements Field {
 		return field.size() <= coordinateY;
 	}
 
-	@Override
 	public boolean isDone(int numberOfLiveShipParts) {
 		return getNumberOfLiveShipParts() == numberOfLiveShipParts;
 	}
@@ -198,7 +195,6 @@ public abstract class RealField implements Field {
 		}
 	}
 
-	@Override
 	public boolean isCellOverwritable(Cell newCell, Coordinate actualCoordinate) {
 		Cell cell = null;
 		boolean isNonNullCellOverwritable = true;
@@ -212,7 +208,6 @@ public abstract class RealField implements Field {
 		return isNonNullCellOverwritable;
 	}
 
-	@Override
 	public void addLine(String[] cells) {
 		List<Cell> row = new ArrayList<Cell>();
 		for (String cell : cells) {
@@ -313,17 +308,14 @@ public abstract class RealField implements Field {
 		return field;
 	}
 
-	@Override
 	public boolean isShipPart(Coordinate coordinate) {
 		return getCell(coordinate) == Cell.SHIP_PART;
 	}
 
-	@Override
 	public boolean isHit(Coordinate coordinate) {
 		return getCell(coordinate) == Cell.HIT;
 	}
 
-	@Override
 	public void changeAllConnectedHitToSunk(Coordinate coordinate) {
 		setCell(coordinate, Cell.SUNK);
 		// recursive call to all surrounding cell which has HIT on it
@@ -338,5 +330,4 @@ public abstract class RealField implements Field {
 			}
 		}
 	}
-
 }

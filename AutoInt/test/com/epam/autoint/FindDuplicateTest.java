@@ -39,7 +39,16 @@ public class FindDuplicateTest {
 		//THEN
 	}
 	
-	@Test
+	@Test(expectedExceptions = IllegalArgumentException.class)
+  public void findDuplicateWhenRegularNumbersThrowsExceptionTest() {
+    //GIVEN
+    int[] inputArray = {1,2,3};
+    //WHEN
+    underTest.findDuplicate(inputArray);
+    //THEN
+  }
+	
+	@Test(enabled = false)
 	public void findDuplicateWhenNoDuplicationTest() {
 		//GIVEN
 		int[] inputArray = {1,3,4};
@@ -49,7 +58,7 @@ public class FindDuplicateTest {
 		Assert.assertEquals(result, 0);
 	}
 	
-	@Test
+	@Test(enabled = false)
 	public void findDuplicateWhenNoMissingTest() {
 		//GIVEN
 		int[] inputArray = {1,2,3,3,4};
@@ -59,7 +68,7 @@ public class FindDuplicateTest {
 		Assert.assertEquals(result, 0);
 	}
 	
-	@Test
+	@Test(enabled = false)
 	public void findDuplicateWhenMoreMissingTest() {
 		//GIVEN
 		int[] inputArray = {3,3,4};
@@ -69,7 +78,7 @@ public class FindDuplicateTest {
 		Assert.assertEquals(result, 0);
 	}
 	
-	@Test
+	@Test(enabled = false)
 	public void findDuplicateWhenMoreDuplicationTest() {
 		//GIVEN
 		int[] inputArray = {2,2,3,3,4};

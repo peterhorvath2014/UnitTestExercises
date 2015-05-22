@@ -24,8 +24,8 @@ public class PlayTorpedoAlone {
 
 		GameConfiguration gameConfigurationClient = new GameConfiguration(0, 0, serverHostname, serverPort);
 
-		Thread serverThread = new Thread(new ServerPlayer(gameConfigurationServer));
-		Thread clientThread = new Thread(new ClientPlayer(gameConfigurationClient));
+		Thread serverThread = new Thread(new ServerPlayer(gameConfigurationServer), "Server");
+		Thread clientThread = new Thread(new ClientPlayer(gameConfigurationClient), "Client");
 
 		serverThread.start();
 
