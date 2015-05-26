@@ -17,8 +17,6 @@ public class PlayTorpedoAlone {
 	}
 
 	public void play(int battleFieldWidth, int battleFieldHeight, String serverHostname, int serverPort) throws InterruptedException {
-		// TODO Should I separate gameConfiguration to server and game
-		// configuration?
 		GameConfiguration gameConfigurationServer = new GameConfiguration(battleFieldWidth, battleFieldHeight,
 				serverHostname, serverPort);
 
