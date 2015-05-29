@@ -1,18 +1,24 @@
 package com.epam.suhuj5.trender.repository;
 
+import java.io.Serializable;
+
+import org.joda.time.DateTime;
+import org.joda.time.Period;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class WorkingHours {
+public class WorkingHours implements Serializable {
+
+	private static final long serialVersionUID = -9065813650746697619L;
 
 	@Id
 	private String id;
-	private String date;
-	private String inoffice;
-	private String outofoffice;
-	private String daystart;
-	private String dayend;
+	private DateTime date;
+	private Period inoffice;
+	private Period outofoffice;
+	private DateTime daystart;
+	private DateTime dayend;
 	private String kind;
 
 	/**
@@ -33,7 +39,7 @@ public class WorkingHours {
 	/**
 	 * @return the date
 	 */
-	public String getDate() {
+	public DateTime getDate() {
 		return date;
 	}
 
@@ -41,14 +47,14 @@ public class WorkingHours {
 	 * @param date
 	 *            the date to set
 	 */
-	public void setDate(String date) {
+	public void setDate(DateTime date) {
 		this.date = date;
 	}
 
 	/**
 	 * @return the inoffice
 	 */
-	public String getInoffice() {
+	public Period getInoffice() {
 		return inoffice;
 	}
 
@@ -56,14 +62,14 @@ public class WorkingHours {
 	 * @param inoffice
 	 *            the inoffice to set
 	 */
-	public void setInoffice(String inoffice) {
+	public void setInoffice(Period inoffice) {
 		this.inoffice = inoffice;
 	}
 
 	/**
 	 * @return the outofoffice
 	 */
-	public String getOutofoffice() {
+	public Period getOutofoffice() {
 		return outofoffice;
 	}
 
@@ -71,14 +77,14 @@ public class WorkingHours {
 	 * @param outofoffice
 	 *            the outofoffice to set
 	 */
-	public void setOutofoffice(String outofoffice) {
+	public void setOutofoffice(Period outofoffice) {
 		this.outofoffice = outofoffice;
 	}
 
 	/**
 	 * @return the daystart
 	 */
-	public String getDaystart() {
+	public DateTime getDaystart() {
 		return daystart;
 	}
 
@@ -86,14 +92,14 @@ public class WorkingHours {
 	 * @param daystart
 	 *            the daystart to set
 	 */
-	public void setDaystart(String daystart) {
+	public void setDaystart(DateTime daystart) {
 		this.daystart = daystart;
 	}
 
 	/**
 	 * @return the dayend
 	 */
-	public String getDayend() {
+	public DateTime getDayend() {
 		return dayend;
 	}
 
@@ -101,7 +107,7 @@ public class WorkingHours {
 	 * @param dayend
 	 *            the dayend to set
 	 */
-	public void setDayend(String dayend) {
+	public void setDayend(DateTime dayend) {
 		this.dayend = dayend;
 	}
 
@@ -119,4 +125,11 @@ public class WorkingHours {
 	public void setKind(String kind) {
 		this.kind = kind;
 	}
+
+	@Override
+	public String toString() {
+		return "WorkingHours [id=" + id + ", date=" + date + ", inoffice=" + inoffice + ", outofoffice=" + outofoffice
+				+ ", daystart=" + daystart + ", dayend=" + dayend + ", kind=" + kind + "]";
+	}
+
 }

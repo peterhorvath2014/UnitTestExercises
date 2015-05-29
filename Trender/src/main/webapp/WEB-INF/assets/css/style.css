@@ -1,0 +1,13 @@
+  .chart {
+    font-family: Calibri, Arial, sans-serif;
+    font-size: 12px;
+  }
+
+  .axis path, .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+
+  .bar {
+  }

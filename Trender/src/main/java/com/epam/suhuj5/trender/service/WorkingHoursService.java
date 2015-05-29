@@ -5,8 +5,6 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import com.epam.suhuj5.trender.repository.WorkingHours;
@@ -31,12 +29,6 @@ public class WorkingHoursService {
         return mongoTemplate.findAll(WorkingHours.class, COLLECTION_NAME);
     }
     
-    public WorkingHours getWorkingHours() {
-        WorkingHours workingHours = new WorkingHours();
-        workingHours.setDate("2015-03-02");
-		return workingHours;
-    }
-     
     public void deleteWorkingHours(WorkingHours workingHours) {
         mongoTemplate.remove(workingHours, COLLECTION_NAME);
     }

@@ -1,5 +1,9 @@
 package com.epam.suhuj5.trender.controller;
 
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -10,15 +14,15 @@ import com.epam.suhuj5.trender.service.WorkingHoursService;
 
 @RestController
 public class WorkingHoursController {
-
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private WorkingHoursService workingHoursService;
 
 	@RequestMapping(value = "/wh", method = RequestMethod.GET, produces = "application/json")
-	public WorkingHours getWorkingHoursList() {
-		WorkingHours workingHours = workingHoursService.getWorkingHours();
-		System.out.println("workingHours: " + workingHours);
-		return workingHours;
+	public List<WorkingHours> getWorkingHoursList() {
+		List<WorkingHours> listWorkingHours = workingHoursService.listWorkingHours();
+		log.debug("listWorkingHours: " + listWorkingHours);
+		return listWorkingHours;
 	}
 
 	/*
