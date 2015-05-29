@@ -1,3 +1,7 @@
+function removeChart() {
+	d3.select('svg').remove();
+}
+
 function drawChart(data) {
 	var formatCount = d3.format(",.0f"), formatMinutes = function(d) {
 		return formatTime(new Date(2012, 0, 1, 0, d));
@@ -22,7 +26,7 @@ function drawChart(data) {
 		right : 40,
 		bottom : 40,
 		left : 40
-	}, width = 600, height = 500;
+	}, width = 1300, height = 500;
 
 	var x = d3.time.scale()
 			.domain(
@@ -42,7 +46,7 @@ function drawChart(data) {
 	var yAxis = d3.svg.axis().scale(y).orient('left').tickFormat(formatMinutes)
 			.ticks(9, "s");
 
-	var svg = d3.select('body').append('svg').attr('class', 'chart').attr(
+	var svg = d3.select('#chartContainer').append('svg').attr('class', 'chart').attr(
 			'width', width).attr('height', height).append('g').attr(
 			'transform', 'translate(' + margin.left + ', ' + margin.top + ')');
 

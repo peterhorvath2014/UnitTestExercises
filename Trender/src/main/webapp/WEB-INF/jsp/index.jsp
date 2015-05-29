@@ -11,7 +11,11 @@
 <script src="<c:url value="/assets/js/chart.js" />"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value="/assets/css/style.css" />" />
 </head>
-<body>
-	<div ng-controller="whController" />
+<body data-ng-controller="whController">
+	<div id="chartContainer"></div>
+	<div>
+		<textarea id="import" data-ng-model="import"></textarea><br/>
+		<button data-ng-click="addWorkingHours()">Add working period</button>
+	</div>
 </body>
 </html>
