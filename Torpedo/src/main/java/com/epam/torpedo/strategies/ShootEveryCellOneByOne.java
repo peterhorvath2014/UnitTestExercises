@@ -1,11 +1,10 @@
 package com.epam.torpedo.strategies;
 
-import java.util.NavigableMap;
 import java.util.NoSuchElementException;
 
 import com.epam.torpedo.config.GameConfiguration;
-import com.epam.torpedo.field.Cell;
 import com.epam.torpedo.field.Coordinate;
+import com.epam.torpedo.field.battlefield.GuessedOpponentBattleField;
 
 public class ShootEveryCellOneByOne extends Strategy {
 
@@ -13,10 +12,10 @@ public class ShootEveryCellOneByOne extends Strategy {
 		super(gameConfiguration);
 	}
 
-	public Coordinate getNextAttackingCoordinate(NavigableMap<Coordinate, Cell> attackHistory) {
+	public Coordinate getNextAttackingCoordinate(GuessedOpponentBattleField guessedOpponentBattleField) {
 		Coordinate nextAttackingCoordinate;
 		try {
-			Coordinate lastAttackedCoordinate = attackHistory.lastKey();
+			Coordinate lastAttackedCoordinate = guessedOpponentBattleField.getAttackHistory().lastKey();
 			nextAttackingCoordinate = incrementCoordinate(lastAttackedCoordinate);
 		} catch (NoSuchElementException ex) {
 			nextAttackingCoordinate = new Coordinate(0, 0);

@@ -18,10 +18,10 @@ public class ClientPlayer extends Player implements Runnable {
 
 	@Override
 	public void run() {
-		gameLog("STARTED");
+		logger.info("STARTED");
 		Socket clientSocket = createClient(game.getServerHost(), game.getServerPort());
 		communicateWithOpponent(clientSocket);
-		gameLog("GAME OVER");
+		logger.info("GAME OVER");
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class ClientPlayer extends Player implements Runnable {
 	@Override
 	protected void configExchange(CommunicationResources communicationResources) throws IOException {
 		String serverMessage = communicationResources.getIn().readLine();
-		gameLog("Config from server: " + serverMessage);
+		logger.info("Config from server: " + serverMessage);
 		String[] configs = serverMessage.split(" ");
 		game.setBattleFieldWidth(Integer.valueOf(configs[1]));
 		game.setBattleFieldHeight(Integer.valueOf(configs[2]));
@@ -49,7 +49,7 @@ public class ClientPlayer extends Player implements Runnable {
 	}
 
 	private Socket createClient(String serverHostname, int serverPort) {
-		gameLog("Attemping to connect to host " + serverHostname + " on port " + serverPort);
+		logger.info("Attemping to connect to host " + serverHostname + " on port " + serverPort);
 		Socket clientSocket = null;
 		try {
 			clientSocket = new Socket(serverHostname, serverPort);

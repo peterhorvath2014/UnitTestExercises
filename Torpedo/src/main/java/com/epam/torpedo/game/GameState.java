@@ -1,7 +1,6 @@
 package com.epam.torpedo.game;
 
-import java.util.NavigableMap;
-
+import org.apache.commons.collections4.map.LinkedMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,7 +25,6 @@ public class GameState {
 		this.guessedOpponentBattleField = new GuessedOpponentBattleField();
 		this.guessedOpponentBattleField.setMaxCoordinate(new Coordinate(gameConfiguration.height - 1,
 				gameConfiguration.width - 1));
-
 		this.homeBattleField = homeBattleField;
 	}
 
@@ -62,6 +60,10 @@ public class GameState {
 		if (won != other.won)
 			return false;
 		return true;
+	}
+
+	public GuessedOpponentBattleField getGuessedOpponentBattleField() {
+		return guessedOpponentBattleField;
 	}
 
 	public boolean isWon() {
@@ -103,7 +105,7 @@ public class GameState {
 		return homeBattleField.isEveryShipSunk();
 	}
 
-	public NavigableMap<Coordinate, Cell> getGuessedAttackHistory() {
+	public LinkedMap<Coordinate, Cell> getGuessedAttackHistory() {
 		return guessedOpponentBattleField.getAttackHistory();
 	}
 

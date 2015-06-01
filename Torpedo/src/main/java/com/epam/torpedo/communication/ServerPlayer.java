@@ -4,9 +4,13 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.epam.torpedo.config.GameConfiguration;
 
 public class ServerPlayer extends Player implements Runnable {
+	private static final Logger logger = LogManager.getLogger();
 
 	public ServerPlayer(GameConfiguration gameConfiguration) {
 		super(gameConfiguration);
@@ -14,11 +18,11 @@ public class ServerPlayer extends Player implements Runnable {
 
 	@Override
 	public void run() {
-		gameLog("STARTED");
+		logger.info("STARTED");
 		ServerSocket serverSocket = createServer();
 		Socket clientSocket = waitForClientToConnect(serverSocket);
 		communicateWithOpponent(clientSocket);
-		gameLog("GAME OVER");
+		logger.info("GAME OVER");
 	}
 
 	@Override
@@ -40,19 +44,19 @@ public class ServerPlayer extends Player implements Runnable {
 
 	private Socket waitForClientToConnect(ServerSocket serverSocket) {
 		Socket clientSocket = null;
-		gameLog("Waiting for connection...");
+		logger.info("Waiting for connection...");
 		try {
 			clientSocket = serverSocket.accept();
 		} catch (IOException e) {
 			System.err.println("Accept failed.");
 			System.exit(1);
 		}
-		gameLog("Connection successful");
+		logger.info("Connection successful");
 		return clientSocket;
 	}
 
 	private ServerSocket createServer() {
-		gameLog("Create server on port " + game.getServerPort());
+		logger.info("Create server on port " + game.getServerPort());
 		ServerSocket serverSocket = null;
 		try {
 			serverSocket = new ServerSocket(game.getServerPort());

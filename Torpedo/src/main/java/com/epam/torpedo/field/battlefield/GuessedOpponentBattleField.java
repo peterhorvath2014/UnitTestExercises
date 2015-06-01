@@ -1,15 +1,42 @@
 package com.epam.torpedo.field.battlefield;
 
+import org.apache.commons.collections4.map.LinkedMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.epam.torpedo.field.Cell;
 import com.epam.torpedo.field.Coordinate;
-import com.epam.torpedo.field.VirtualField;
+import com.epam.torpedo.field.Field;
 
-public class GuessedOpponentBattleField extends VirtualField {
+public class GuessedOpponentBattleField implements Field {
 	private static final Logger logger = LogManager.getLogger();
+	protected Coordinate maxCoordinate = new Coordinate(0, 0);
+	protected LinkedMap<Coordinate, Cell> attackHistory = new LinkedMap<Coordinate, Cell>();
 
+	public LinkedMap<Coordinate, Cell> getAttackHistory() {
+		return attackHistory;
+	}
+
+	public void addAttackHistory(Coordinate coordinate, Cell cell) {
+		attackHistory.put(coordinate, cell);
+		if (cell.equals(Cell.HIT)) {
+			logger.debug(this.toString());
+		}
+	}
+	@Override
+	public Coordinate getMaxCoordinate() {
+		return maxCoordinate;
+	}
+
+	public void setMaxCoordinate(Coordinate maxCoordinate) {
+		this.maxCoordinate = maxCoordinate;
+	}
+
+	public boolean isCoordinateOutOfBounds(Coordinate coordinate) {
+		return (maxCoordinate.getY() < coordinate.getY() || maxCoordinate.getX() < coordinate.getX()
+				|| coordinate.getY() < 0 || coordinate.getX() < 0);
+	}
+	
 	public boolean isHit(Coordinate coordinate) {
 		return getCell(coordinate) == Cell.HIT;
 	}
@@ -73,5 +100,4 @@ public class GuessedOpponentBattleField extends VirtualField {
 		}
 		return numberOfLiveShipParts;
 	}
-
 }

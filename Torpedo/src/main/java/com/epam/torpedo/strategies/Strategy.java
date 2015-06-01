@@ -1,10 +1,8 @@
 package com.epam.torpedo.strategies;
 
-import java.util.NavigableMap;
-
 import com.epam.torpedo.config.GameConfiguration;
-import com.epam.torpedo.field.Cell;
 import com.epam.torpedo.field.Coordinate;
+import com.epam.torpedo.field.battlefield.GuessedOpponentBattleField;
 
 public abstract class Strategy {
 
@@ -14,5 +12,5 @@ public abstract class Strategy {
 		this.gameConfiguration = gameConfiguration;
 	}
 
-	public abstract Coordinate getNextAttackingCoordinate(NavigableMap<Coordinate, Cell> attackHistory);
+	public abstract Coordinate getNextAttackingCoordinate(GuessedOpponentBattleField guessedopponentBattleField);
 }

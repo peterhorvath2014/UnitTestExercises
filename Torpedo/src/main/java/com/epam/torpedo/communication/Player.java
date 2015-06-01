@@ -13,7 +13,7 @@ import com.epam.torpedo.config.GameConfiguration;
 import com.epam.torpedo.field.Cell;
 import com.epam.torpedo.field.Coordinate;
 import com.epam.torpedo.game.Game;
-import com.epam.torpedo.strategies.ShootRandom;
+import com.epam.torpedo.strategies.ShootRandomThenAround;
 
 public abstract class Player {
 	private static final Logger logger = LogManager.getLogger();
@@ -29,10 +29,6 @@ public abstract class Player {
 
 	public void setGame(Game game) {
 		this.game = game;
-	}
-
-	public void gameLog(String logMessage) {
-		logger.debug(this.getClass().getSimpleName() + ": " + logMessage);
 	}
 
 	protected String defend(CommunicationResources communicationResources) throws IOException {
@@ -114,7 +110,7 @@ public abstract class Player {
 	}
 
 	protected void sendMessage(PrintWriter out, String message) {
-		gameLog(message);
+		logger.debug(message);
 		out.println(message);
 	}
 
@@ -122,14 +118,14 @@ public abstract class Player {
 		CommunicationResources communicationResources = createResources(clientSocket);
 		try {
 			configExchange(communicationResources);
-			game.setStrategy(new ShootRandom(game.getGameConfiguration()));
+			game.setStrategy(new ShootRandomThenAround(game.getGameConfiguration()));
 			playGame(communicationResources);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		closeResources(clientSocket, communicationResources);
-		gameLog(game.isWon() ? "I WON" : "I LOST OR ERROR");
+		logger.debug(game.isWon() ? "I WON" : "I LOST OR ERROR");
 	}
 
 	private CommunicationResources createResources(Socket clientSocket) {
