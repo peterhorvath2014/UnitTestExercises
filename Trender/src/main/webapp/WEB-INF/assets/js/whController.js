@@ -1,7 +1,9 @@
 whApp.controller('whController', function($scope, whFactory) {
 	var promise = whFactory.getWorkingHours();
 	promise.then(function(data) {
-		drawChart(data);
+		drawChartD3(data);
+		drawChartC3(data);
+		drawChartChart(data);
 		$scope.autoExpand('import');
 	}, function(error) {
 		console.log('failure loading data', error);
@@ -17,7 +19,9 @@ whApp.controller('whController', function($scope, whFactory) {
     	var promise = whFactory.postImport($scope.import);
     	promise.then(function(data) {
     		removeChart();
-    		drawChart(data);
+    		drawChartD3(data);
+    		drawChartC3(data);
+    		drawChartChart(data);
     	}, function(error) {
     		console.log('failure loading data', error);
     	});

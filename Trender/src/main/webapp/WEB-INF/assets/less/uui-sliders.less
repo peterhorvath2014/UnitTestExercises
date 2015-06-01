@@ -1,0 +1,148 @@
+@import 'uui-fonts.less';
+
+.uui-new-style {
+    @blue: #39c2d7;
+    @blue_dark: #1a9cb0;
+    @red: #eb6a5a;
+    @green_dark: #7f993a;
+    @green_lime: #a3c644;
+    @gray_dark: #464547;
+    @gray_medium: #666666;
+    @gray: #999999;
+    @gray_light: #cccccc;
+    @white: #ffffff;
+    @violet: #937ebd;
+    @turquoise: #39b7ac;
+    @yellow: #ecc134;
+    @orange: #f0ad4d;
+    @raspberry: #b32746;
+    @plum: #8e244d;
+    @black: #000000;
+
+    .uui-slider {
+        margin: 10px 0;
+
+        &.ui-slider-horizontal {
+            height: 8px;
+
+            .ui-slider-handle {
+                top: -0.57em;
+                cursor: default;
+                height: 1.6em;
+                position: absolute;
+                width: 1.6em;
+                z-index: 2;
+            }
+        }
+
+        &.ui-slider-vertical {
+            width: 8px;
+            height: 200px;
+
+            .ui-slider-handle {
+                left: -0.5em !important;
+                cursor: default;
+                height: 1.6em;
+                position: absolute;
+                width: 1.6em;
+                z-index: 2;
+            }
+
+            .ui-slider-range {
+                width: 100% !important;
+            }
+        }
+
+        &.ui-widget-content {
+            border: none;
+            border-radius: 15px;
+            background: lighten(@gray, 25%);
+        }
+
+        .ui-widget-header {
+            border-radius: 15px;
+            background: @gray;
+        }
+
+        .ui-state-default,
+        .ui-widget-content .ui-state-default,
+        .ui-widget-header .ui-state-default {
+            background: @white;
+            border: 3px solid @gray;
+            border-radius: 50%;
+        }
+    }
+}
+
+.uui-old-style {
+    @blue: #67cdf3;
+    @blue_dark: #2980ba;
+    @red: #ff6c60;
+    @green: #78cd51;
+    @green_lime: #aec785;
+    @gray_dark: #464547;
+    @gray_medium: #666666;
+    @gray: #999999;
+    @gray_light: #cccccc;
+    @gray_deep: #7087a3;
+    @white: #ffffff;
+    @violet: #ba8cc9;
+    @turquoise: #6ccac9;
+    @yellow: #f8d347;
+    @yellow_deep: #ffa621;
+    @black: #000000;
+
+    .uui-slider {
+        margin: 10px 0;
+
+        &.ui-slider-horizontal {
+            height: 8px;
+
+            .ui-slider-handle {
+                top: -0.57em;
+                cursor: default;
+                height: 1.6em;
+                position: absolute;
+                width: 1.6em;
+                z-index: 2;
+            }
+        }
+
+        &.ui-slider-vertical {
+            width: 8px;
+            height: 200px;
+
+            .ui-slider-handle {
+                left: -0.5em !important;
+                cursor: default;
+                height: 1.6em;
+                position: absolute;
+                width: 1.6em;
+                z-index: 2;
+            }
+
+            .ui-slider-range {
+                width: 100% !important;
+            }
+        }
+
+        &.ui-widget-content {
+            border: none;
+            border-radius: 15px;
+            background: lighten(@gray, 25%);
+        }
+
+        .ui-widget-header {
+            border-radius: 15px;
+            background: @gray;
+        }
+
+        .ui-state-default,
+        .ui-widget-content .ui-state-default,
+        .ui-widget-header .ui-state-default {
+            background: @white;
+            border: 3px solid @gray;
+            border-radius: 50%;
+        }
+    }
+}
