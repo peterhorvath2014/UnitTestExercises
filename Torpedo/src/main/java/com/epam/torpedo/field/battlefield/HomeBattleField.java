@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NavigableMap;
-import java.util.TreeMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,9 +16,8 @@ import com.epam.torpedo.field.ship.Ship;
 import com.epam.torpedo.field.ship.ShipFactory;
 import com.epam.torpedo.util.Utility;
 
-public class HomeBattleField extends RealField implements AttackHistoryHolder {
+public class HomeBattleField extends RealField {
 	private static final Logger logger = LogManager.getLogger();
-	private NavigableMap<Coordinate, Cell> attackHistory = new TreeMap<Coordinate, Cell>();
 
 	public HomeBattleField(GameConfiguration gameConfiguration) {
 		super(gameConfiguration);
@@ -101,17 +98,6 @@ public class HomeBattleField extends RealField implements AttackHistoryHolder {
 			}
 		}
 		return possiblePlaces.get(Utility.RANDOM.nextInt(possiblePlaces.size()));
-	}
-
-	@Override
-	public NavigableMap<Coordinate, Cell> getAttackHistory() {
-		return attackHistory;
-	}
-
-	@Override
-	public void addAttackHistory(Coordinate coordinate, Cell cell) {
-		attackHistory.put(coordinate, cell);
-		logger.debug(this.toString());
 	}
 
 	@Override

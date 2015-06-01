@@ -13,8 +13,7 @@ import com.epam.torpedo.config.GameConfiguration;
 import com.epam.torpedo.field.Cell;
 import com.epam.torpedo.field.Coordinate;
 import com.epam.torpedo.game.Game;
-import com.epam.torpedo.strategies.ShootEveryCellOneByOne;
-import com.epam.torpedo.util.Utility;
+import com.epam.torpedo.strategies.ShootRandom;
 
 public abstract class Player {
 	private static final Logger logger = LogManager.getLogger();
@@ -68,7 +67,7 @@ public abstract class Player {
 		Coordinate nextAttackingCoordinate = sendFire(communicationResources.getOut());
 		String answerFromOpponent = retrieveMessage(communicationResources.getIn());
 		answerFromOpponent = evaluateAnswerOnFire(nextAttackingCoordinate, answerFromOpponent);
-		Utility.sleep(100);
+		//Utility.sleep(100);
 		return answerFromOpponent;
 	}
 
@@ -123,7 +122,7 @@ public abstract class Player {
 		CommunicationResources communicationResources = createResources(clientSocket);
 		try {
 			configExchange(communicationResources);
-			game.setStrategy(new ShootEveryCellOneByOne(game.getGameConfiguration()));
+			game.setStrategy(new ShootRandom(game.getGameConfiguration()));
 			playGame(communicationResources);
 		} catch (Exception e) {
 			e.printStackTrace();

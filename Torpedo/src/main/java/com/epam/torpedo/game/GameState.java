@@ -68,25 +68,6 @@ public class GameState {
 		return won;
 	}
 
-	/*
-	 * private void setWon(boolean won) { this.won = won; }
-	 * 
-	 * private int getAttackCountHome() { return
-	 * homeBattleField.getAttackHistoryLength(); }
-	 * 
-	 * private Field getGuessedBattleField() { return
-	 * guessedOpponentBattleField; }
-	 * 
-	 * private void setGuessedOpponentBattleField(Field
-	 * guessedOpponentBattleField) { this.guessedOpponentBattleField =
-	 * guessedOpponentBattleField; }
-	 * 
-	 * private Field gethomeBattleField() { return homeBattleField; }
-	 * 
-	 * private void setHomeBattleField(HomeBattleField homeBattleField) {
-	 * this.homeBattleField = homeBattleField; }
-	 */
-
 	@Override
 	public String toString() {
 		return "GameState [won=" + won + ", guessedOpponentBattleField=" + guessedOpponentBattleField
@@ -115,29 +96,15 @@ public class GameState {
 
 	public Cell checkFireOnHome(Coordinate coordinate) {
 		Cell result = homeBattleField.checkFire(coordinate);
-		homeBattleField.addAttackHistory(coordinate, result);
 		return result;
-
 	}
 
 	public boolean isOpponentWon() {
 		return homeBattleField.isEveryShipSunk();
 	}
 
-	public NavigableMap<Coordinate, Cell> getOwnAttackHistory() {
-		return homeBattleField.getAttackHistory();
-	}
-
 	public NavigableMap<Coordinate, Cell> getGuessedAttackHistory() {
 		return guessedOpponentBattleField.getAttackHistory();
-	}
-
-	public void printHomeBattleField() {
-		logger.debug(homeBattleField.toString());
-	}
-
-	public void printGuessedBattleField() {
-		logger.debug(guessedOpponentBattleField.toString());
 	}
 
 }

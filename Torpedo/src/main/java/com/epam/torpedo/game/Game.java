@@ -124,29 +124,7 @@ public class Game {
 		return gameState.isWon();
 	}
 
-	/*public void addAttackToOwnHistory(Coordinate nextAttackingCoordinate) {
-		gameState.addAttackToOwnHistory(nextAttackingCoordinate);
-	}*/
-	
-	public NavigableMap<Coordinate, Cell> getOwnAttackHistory() {
-		return gameState.getOwnAttackHistory();
-	}
-	
 	public NavigableMap<Coordinate, Cell> getGuessedAttackHistory() {
 		return gameState.getGuessedAttackHistory();
 	}
-
-	public void printHomeBattleField() {
-		gameState.printHomeBattleField();
-	}
-	
-	public void printGuessedBattleField() {
-		gameState.printGuessedBattleField();
-	}
-
-	/*public void addAttackToGuessedHistory(Coordinate nextAttackingCoordinate) {
-		// TODO Auto-generated method stub
-		
-	}*/
-
 }
