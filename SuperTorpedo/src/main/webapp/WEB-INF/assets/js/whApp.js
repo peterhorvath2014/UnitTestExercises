@@ -1,1 +1,0 @@
-var whApp = angular.module('whApp', []);
