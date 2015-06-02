@@ -47,6 +47,7 @@ public class ShootRandomThenAround extends Strategy {
 			logger.debug("Random shooting mode.");
 			nextAttackingCoordinate = getNexRandomCoordinate(guessedOpponentBattleField.getAttackHistory());
 		}
+		logger.info("nextAttackingCoordinate: " + nextAttackingCoordinate);
 		return nextAttackingCoordinate;
 	}
 
@@ -72,7 +73,8 @@ public class ShootRandomThenAround extends Strategy {
 	private void validateGettingNextAttackingCoordinateSuccessful(Coordinate nextAttackingCoordinate,
 			Coordinate lastHitCoordinate) {
 		if (nextAttackingCoordinate == null) {
-			String errorMessage = "Couldn't find any unfired neighbor cell. Y = " + lastHitCoordinate.getY() + " X = " + lastHitCoordinate.getY();
+			String errorMessage = "Couldn't find any unfired neighbor cell. Y = " + lastHitCoordinate.getY() + " X = "
+					+ lastHitCoordinate.getY();
 			logger.debug(errorMessage);
 			throw new IllegalStateException(errorMessage);
 		}
@@ -87,7 +89,7 @@ public class ShootRandomThenAround extends Strategy {
 			Iterator<Coordinate> iterator = allNeighborHitCells.iterator();
 			while (iterator.hasNext() && nextAttackingCoordinate == null) {
 				Coordinate coordinate = iterator.next();
-				logger.debug("while: " + coordinate);
+				logger.debug("Next neighbor cell: " + coordinate);
 				nextAttackingCoordinate = getNextNeighborAttackingCoordinate(guessedOpponentBattleField, coordinate);
 			}
 		}
@@ -114,29 +116,28 @@ public class ShootRandomThenAround extends Strategy {
 				}
 			}
 		}
-
+		logger.debug("allNeighborHitCells: " + coordinate + " - " + allNeighborHitCells);
 		return allNeighborHitCells;
 	}
 
 	private Coordinate getNextNeighborAttackingCoordinate(GuessedOpponentBattleField guessedOpponentBattleField,
 			Coordinate lastHitCoordinate) {
-		int i = -1, j = -1;
 		Coordinate nextAttackingCoordinate = null;
-		while (nextAttackingCoordinate == null && j < 2) {
-			int possibleY = lastHitCoordinate.getY() + i;
-			int possibleX = lastHitCoordinate.getX() + j;
-			if (!isOutOfBounds(possibleY, possibleX)
-					&& (!guessedOpponentBattleField.getAttackHistory()
-							.containsKey(new Coordinate(possibleY, possibleX)))) {
-				nextAttackingCoordinate = new Coordinate(possibleY, possibleX);
-			} else {
-				i++;
-				if (i == 2) {
-					i = -1;
-					j++;
-				}
+
+		HashSet<Coordinate> connectedCoordinates = new HashSet<Coordinate>();
+		connectedCoordinates.add(new Coordinate(lastHitCoordinate.getY() - 1, lastHitCoordinate.getX()));
+		connectedCoordinates.add(new Coordinate(lastHitCoordinate.getY(), lastHitCoordinate.getX() - 1));
+		connectedCoordinates.add(new Coordinate(lastHitCoordinate.getY(), lastHitCoordinate.getX() + 1));
+		connectedCoordinates.add(new Coordinate(lastHitCoordinate.getY() + 1, lastHitCoordinate.getX()));
+
+		for (Coordinate connectedCoordinate : connectedCoordinates) {
+			if (!isOutOfBounds(connectedCoordinate.getY(), connectedCoordinate.getX())
+					&& (!guessedOpponentBattleField.getAttackHistory().containsKey(connectedCoordinate))) {
+				nextAttackingCoordinate = connectedCoordinate;
+				break;
 			}
 		}
+		logger.debug("nextAttackingCoordinate: " + nextAttackingCoordinate);
 		return nextAttackingCoordinate;
 	}
 

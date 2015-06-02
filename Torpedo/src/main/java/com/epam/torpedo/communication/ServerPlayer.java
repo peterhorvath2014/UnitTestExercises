@@ -29,14 +29,17 @@ public class ServerPlayer extends Player implements Runnable {
 	protected String playRound(CommunicationResources communicationResources) throws IOException {
 		String messageFromOpponent;
 		messageFromOpponent = defend(communicationResources);
-		messageFromOpponent = fire(communicationResources);
-		messageFromOpponent = checkHomeDone(messageFromOpponent);
+		logger.debug("messageFromOpponent: " + messageFromOpponent);
+		if (MessageParser.isGameStillAlive(messageFromOpponent)) {
+			messageFromOpponent = fire(communicationResources);
+			messageFromOpponent = checkHomeDone(messageFromOpponent);
+		}
+		logger.debug("playround result: " + messageFromOpponent);
 		return messageFromOpponent;
 	}
 
 	@Override
 	protected void configExchange(CommunicationResources communicationResources) {
-		// TODO parser class
 		String message = "HELLO " + game.getBattleFieldWidth() + " "
 				+ game.getBattleFieldHeight();
 		sendMessage(communicationResources.getOut(), message);
@@ -47,6 +50,7 @@ public class ServerPlayer extends Player implements Runnable {
 		logger.info("Waiting for connection...");
 		try {
 			clientSocket = serverSocket.accept();
+			clientSocket.setTcpNoDelay(true);
 		} catch (IOException e) {
 			System.err.println("Accept failed.");
 			System.exit(1);

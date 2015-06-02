@@ -28,10 +28,12 @@ public class ClientPlayer extends Player implements Runnable {
 	protected String playRound(CommunicationResources communicationResources) throws IOException {
 		String messageFromOpponent;
 		messageFromOpponent = fire(communicationResources);
+		logger.debug("messageFromOpponent: " + messageFromOpponent);
 		messageFromOpponent = checkHomeDone(messageFromOpponent);
-		if (!MessageParser.isMessageYouWon(messageFromOpponent)) {
+		if (MessageParser.isGameStillAlive(messageFromOpponent)) {
 			messageFromOpponent = defend(communicationResources);
 		}
+		logger.debug("playround result: " + messageFromOpponent);
 		return messageFromOpponent;
 	}
 

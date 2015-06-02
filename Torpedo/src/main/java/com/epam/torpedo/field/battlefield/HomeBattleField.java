@@ -106,7 +106,7 @@ public class HomeBattleField extends RealField {
 	}
 
 	public Cell checkFire(Coordinate coordinate) {
-		Cell result = Cell.MISSED;
+		Cell result = Cell.MISS;
 		if (isShipPart(coordinate)) {
 			result = Cell.HIT;
 		}

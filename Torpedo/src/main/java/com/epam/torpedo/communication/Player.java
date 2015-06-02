@@ -33,16 +33,18 @@ public abstract class Player {
 
 	protected String defend(CommunicationResources communicationResources) throws IOException {
 		String messageFromOpponent = retrieveMessage(communicationResources.getIn());
+		logger.info("messageFromOpponent: " + messageFromOpponent);
 		if (MessageParser.isMessageFire(messageFromOpponent)) {
 			Cell cell = game.checkFireOnHome(MessageParser.parseCommandFire(messageFromOpponent));
 			String answer = generateAnswer(cell);
 			sendMessage(communicationResources.getOut(), answer);
+			messageFromOpponent = answer;
 		}
 		return messageFromOpponent;
 	}
 
 	private String generateAnswer(Cell cell) {
-		String message = MessageParser.MISSED;
+		String message = MessageParser.MISS;
 		if (cell == Cell.HIT) {
 			message = MessageParser.HIT;
 		} else if (cell == Cell.SUNK) {
@@ -71,7 +73,7 @@ public abstract class Player {
 		if (answerFromOpponent != null) {
 			setGuessedOpponentBattleFieldBasedOnAnswer(nextAttackingCoordinate, answerFromOpponent);
 		} else {
-			answerFromOpponent = "GAME OVER";
+			answerFromOpponent = MessageParser.GAME_OVER;
 		}
 		return answerFromOpponent;
 	}
@@ -93,7 +95,7 @@ public abstract class Player {
 	}
 
 	private boolean isRegularAnswerOnFire(String answerFromOpponent) {
-		return answerFromOpponent.equals(MessageParser.MISSED) || answerFromOpponent.equals(MessageParser.HIT)
+		return answerFromOpponent.equals(MessageParser.MISS) || answerFromOpponent.equals(MessageParser.HIT)
 				|| answerFromOpponent.equals(MessageParser.SUNK);
 	}
 
@@ -125,7 +127,7 @@ public abstract class Player {
 		}
 
 		closeResources(clientSocket, communicationResources);
-		logger.debug(game.isWon() ? "I WON" : "I LOST OR ERROR");
+		logger.info(game.isWon() ? MessageParser.I_WON : MessageParser.I_LOST_OR_ERROR);
 	}
 
 	private CommunicationResources createResources(Socket clientSocket) {
@@ -154,14 +156,14 @@ public abstract class Player {
 		String messageFromOpponent = "";
 		do {
 			messageFromOpponent = playRound(communicationResources);
-		} while (!MessageParser.isGameOver(messageFromOpponent));
+		} while (MessageParser.isGameStillAlive(messageFromOpponent));
 	}
 
 	protected abstract String playRound(CommunicationResources communicationResources) throws IOException;
 
 	protected String checkHomeDone(String messageFromOpponent) {
-		if (game.isHomeDone() && !messageFromOpponent.equals("YOU WON")) {
-			messageFromOpponent = "YOU WON";
+		if (game.isHomeDone() && !messageFromOpponent.equals(MessageParser.YOU_WON)) {
+			messageFromOpponent = MessageParser.YOU_WON;
 		}
 		return messageFromOpponent;
 	}
