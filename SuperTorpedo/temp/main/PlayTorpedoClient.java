@@ -8,7 +8,7 @@ public class PlayTorpedoClient {
 		if (args.length != 2) {
 			System.out.println("Usage: PlayTorpedoClient <host> <port>");
 		}
-		GameConfiguration gameConfigurationClient = new GameConfiguration(0, 0, args[0], Integer.valueOf(args[1]));
+		GameConfiguration gameConfigurationClient = new GameConfiguration(0, 0, args[0], Integer.valueOf(args[1]), "/src/main/resources/ships.txt");
 		Thread clientThread = new Thread(new ClientPlayer(gameConfigurationClient), "Client");
 		clientThread.start();
 	}

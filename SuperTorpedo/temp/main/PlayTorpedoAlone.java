@@ -18,9 +18,9 @@ public class PlayTorpedoAlone {
 
 	public void play(int battleFieldWidth, int battleFieldHeight, String serverHostname, int serverPort) throws InterruptedException {
 		GameConfiguration gameConfigurationServer = new GameConfiguration(battleFieldWidth, battleFieldHeight,
-				serverHostname, serverPort);
+				serverHostname, serverPort, "/src/main/resources/ships.txt");
 
-		GameConfiguration gameConfigurationClient = new GameConfiguration(0, 0, serverHostname, serverPort);
+		GameConfiguration gameConfigurationClient = new GameConfiguration(0, 0, serverHostname, serverPort, "/src/main/resources/ships.txt");
 
 		Thread serverThread = new Thread(new ServerPlayer(gameConfigurationServer), "Server");
 		Thread clientThread = new Thread(new ClientPlayer(gameConfigurationClient), "Client");

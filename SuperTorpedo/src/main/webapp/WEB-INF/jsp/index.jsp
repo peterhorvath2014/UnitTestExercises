@@ -1,6 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!doctype html>
-<html ng-app="mainApp">
+<html data-ng-app="mainApp">
 <head>
 <title>SuperTorpedo</title>
 <script src="<c:url value="/assets/js/angular.min.js" />"></script>
@@ -57,11 +57,13 @@
 			type="text" data-ng-model="portServer"> 
 		Width:<input type="text" data-ng-model="width"> 
 		Height:<input type="text" data-ng-model="height">
+		Ships file path:<input type="text" data-ng-model="shipsFilePathServer">
 		<button data-ng-click="startServer()">Start Server</button>
 
 		<h2>Client</h2>
 		Host:Port<input type="text" data-ng-model="hostClient">:<input 
 			type="text" data-ng-model="portClient">
+		Ships file path:<input type="text" data-ng-model="shipsFilePathClient">
 		<button data-ng-click="startClient()">Start Client</button>
 	</div>
 </body>

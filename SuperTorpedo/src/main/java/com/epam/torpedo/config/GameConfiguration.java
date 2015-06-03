@@ -10,17 +10,20 @@ public class GameConfiguration {
 	public int serverPort;
 	public int width;
 	public int height;
+	public String shipsFilePath;
 
-	public GameConfiguration(int width, int height, String serverHost, int serverPort) {
-		validateParameters(width, height, serverHost, serverPort);
+	public GameConfiguration(int width, int height, String serverHost, int serverPort, String shipsFilePath) {
+		validateParameters(width, height, serverHost, serverPort, shipsFilePath);
 		this.width = width;
 		this.height = height;
 		this.serverHost = serverHost;
 		this.serverPort = serverPort;
+		this.shipsFilePath = shipsFilePath;
 	}
-	
-	public GameConfiguration() {}
-	
+
+	public GameConfiguration() {
+	}
+
 	/**
 	 * @return the serverHost
 	 */
@@ -81,7 +84,22 @@ public class GameConfiguration {
 		this.height = height;
 	}
 
-	private void validateParameters(int width, int height, String serverHost, int serverPort) {
+	/**
+	 * @return the shipsFilePath
+	 */
+	public String getShipsFilePath() {
+		return shipsFilePath;
+	}
+
+	/**
+	 * @param shipsFilePath
+	 *            the shipsFilePath to set
+	 */
+	public void setShipsFilePath(String shipsFilePath) {
+		this.shipsFilePath = shipsFilePath;
+	}
+
+	private void validateParameters(int width, int height, String serverHost, int serverPort, String shipsFilePath) {
 		if ((width < 0) || (height < 0)) {
 			throw new IllegalArgumentException("Field size is invalid: (" + width + ", " + height + ")");
 		}
@@ -92,16 +110,13 @@ public class GameConfiguration {
 		if (serverPort < 1025) {
 			throw new IllegalArgumentException("ServerPort must be greater than 1024");
 		}
+		Utility.isParameterNull(shipsFilePath);
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return "GameConfiguration [serverHost=" + serverHost + ", serverPort=" + serverPort + ", width=" + width
-				+ ", height=" + height + "]";
+				+ ", height=" + height + ", shipsFilePath=" + shipsFilePath + "]";
 	}
-	
-	
+
 }

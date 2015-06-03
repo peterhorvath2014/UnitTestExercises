@@ -11,7 +11,7 @@ public class PlayTorpedoServer {
 					.println("Usage: PlayTorpedoServer <serverHost> <serverPort> <battlefieldWidth> <battleFieldHeight>");
 		}
 		GameConfiguration gameConfigurationServer = new GameConfiguration(Integer.valueOf(args[2]),
-				Integer.valueOf(args[3]), args[0], Integer.valueOf(args[1]));
+				Integer.valueOf(args[3]), args[0], Integer.valueOf(args[1]), "/src/main/resources/ships.txt");
 		Thread serverThread = new Thread(new ServerPlayer(gameConfigurationServer), "Server");
 		serverThread.start();
 	}

@@ -7,9 +7,9 @@ import com.epam.torpedo.file.FileHandler;
 
 public class ShipFactory {
 	
-	public static List<Ship> createShipsFromFile() {
+	public static List<Ship> createShipsFromFile(String filePath) {
 		FileHandler fileHandler = new FileHandler();
-		ArrayList<String> fileLines = fileHandler.retrieveFileLines();
+		ArrayList<String> fileLines = fileHandler.retrieveFileLines(filePath);
 		List<Ship> ships = new ArrayList<Ship>();
 		Ship ship = new Ship();
 		for (String line: fileLines) {

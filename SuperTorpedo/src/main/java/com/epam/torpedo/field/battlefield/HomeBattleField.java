@@ -26,7 +26,7 @@ public class HomeBattleField extends RealField {
 			int maxTrial = 10;
 			while (tryAgain < maxTrial) {
 				try {
-					fillFieldWithShipsFromFileOnRandomPosition();
+					fillFieldWithShipsFromFileOnRandomPosition(gameConfiguration.getShipsFilePath());
 					logger.debug("Needed " + (tryAgain + 1) + " trial to put ships on home field." + this.toString());
 					tryAgain = maxTrial;
 				} catch (IllegalArgumentException ex) {
@@ -36,28 +36,33 @@ public class HomeBattleField extends RealField {
 					tryAgain++;
 				}
 			}
+			if (isEveryShipSunk()) {
+				String errorMessage = "There is no ship in fields";
+				logger.debug(errorMessage);
+				throw new IllegalArgumentException(errorMessage);
+			}
 		}
 	}
 
-	private void fillFieldWithShipsFromFileOnRandomPosition() {
+	private void fillFieldWithShipsFromFileOnRandomPosition(String filePath) {
 		logger.debug("Field: " + toString());
-		List<Ship> ships = ShipFactory.createShipsFromFile();
+		List<Ship> ships = ShipFactory.createShipsFromFile(filePath);
 		for (Ship ship : ships) {
 			Coordinate shipMaxCoordinate = ship.getMaxCoordinate();
 			boolean successfulPlacement = false;
 			while (!successfulPlacement) {
 				Coordinate coordinate = getRandomCoordinate(shipMaxCoordinate);
 				logger.debug("Trying to place ship: " + ship.toString() + " on Coordinate: " + coordinate
-						+ "on Battlefield: " + this.toString());
+						+ " on Battlefield: " + this.toString());
 				if (!isShipOutOfBounds(coordinate, shipMaxCoordinate)
 						&& isFieldsOverwritable(coordinate, shipMaxCoordinate)) {
 					addFieldToPosition(ship.getField(), coordinate);
 					successfulPlacement = true;
 					logger.debug("Successful placement of ship: " + ship.toString() + " on Coordinate: " + coordinate
-							+ "on Battlefield: " + this.toString());
+							+ " on Battlefield: " + this.toString());
 				} else {
 					logger.debug("Unsuccessful placement of ship: " + ship.toString() + " on Coordinate: " + coordinate
-							+ "on Battlefield: " + this.toString());
+							+ " on Battlefield: " + this.toString());
 				}
 			}
 		}

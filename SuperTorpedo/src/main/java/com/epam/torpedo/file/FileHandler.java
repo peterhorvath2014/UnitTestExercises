@@ -12,13 +12,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class FileHandler {
-  private static final Logger logger = LogManager.getLogger();
-	private static final String DEFAULT_FILE_NAME = "src/main/resources/ships.txt";
+	private static final Logger logger = LogManager.getLogger();
+	private static final String DEFAULT_FILE_NAME = "/ships.txt";
 
-	public ArrayList<String> retrieveFileLines() {
+	public ArrayList<String> retrieveFileLines(String filePath) {
+		logger.debug("filePath: " + filePath);
 		ArrayList<String> lines = new ArrayList<String>();
-
-		try (InputStream fis = new FileInputStream(DEFAULT_FILE_NAME);
+		String usedFilePath = !filePath.equals("") ? filePath : DEFAULT_FILE_NAME;
+		logger.debug("usedFilePath: " + usedFilePath);
+		try (InputStream fis = new FileInputStream(usedFilePath);
 				InputStreamReader inputStreamReader = new InputStreamReader(fis, Charset.forName("UTF-8"));
 				BufferedReader bufferedReader = new BufferedReader(inputStreamReader);) {
 			String line;
@@ -26,8 +28,10 @@ public class FileHandler {
 				lines.add(line);
 			}
 		} catch (IOException e) {
-		  logger.error("Exception during read from file. Filename: " + DEFAULT_FILE_NAME + "\n"
-					+ e.getLocalizedMessage());
+			String errorMessage = "Exception during read from file. Filename: " + usedFilePath + "\n"
+					+ e.getLocalizedMessage();
+			logger.error(errorMessage);
+			throw new IllegalArgumentException(errorMessage);
 		}
 		return lines;
 	}
